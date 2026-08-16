@@ -19,14 +19,12 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
         with:
+          submodules: recursive
           lfs: true
 
-      - name: Initialize submodules and Git LFS
+      - name: Pull Git LFS files
         run: |
-          git config --global url."https://github.com/".insteadOf "git@github.com:"
-          git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
           git lfs install --local
-          git submodule update --init --recursive
           git lfs pull
           git submodule foreach --recursive 'git lfs pull'
 
