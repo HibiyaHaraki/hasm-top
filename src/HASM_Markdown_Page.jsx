@@ -20,22 +20,20 @@ const hasmStyles = `
     line-height: 1.75;
   }
 
-  .sticky-container {
+  .scroll-pane {
     position: sticky;
     top: 0;
     height: 100vh;
-    display: flex;
-    align-items: center;
   }
 
-  .feature-step {
+  .feature-step-trigger {
     min-height: 80vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
   }
 
   .HASM_Markdown_Editor_Pane {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     border: 1px solid var(--theme-border);
     background: var(--theme-surface);
     box-shadow: 0 10px 30px rgba(20, 18, 15, 0.12);
@@ -43,8 +41,17 @@ const hasmStyles = `
   }
 
   .HASM_Markdown_Editor_ViewerCol_Viewer {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
     padding: 24px;
-    min-height: 380px;
+  }
+
+  .scroll-pane-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
   }
 
   .BackHomeLink {
@@ -229,7 +236,7 @@ const TypewriterText = ({ htmlContent }) => {
   const currentHtml = htmlContent.slice(0, displayedLength);
 
   return (
-    <div 
+    <div
       className="MarkdownSyntax_Input flex-grow-1"
       dangerouslySetInnerHTML={{ __html: currentHtml + '<span style="color:var(--theme-primary)">|</span>' }}
     />
@@ -275,57 +282,55 @@ export const HASM_Markdown_Page = ({ onNavigateHome }) => {
         <p className="small text-secondary mt-5">↓ {t.scrollHint}</p>
       </section>
 
-      {/* スティッキースクロール */}
+      {/* エディタとプレビューは画面いっぱいに固定し、スクロールに応じて中身だけを1つずつ切り替える */}
       <section className="container py-5">
         <div className="row g-4">
-          
-          {/* 左側: エディタ領域 */}
-          <div className="col-md-6" style={{ paddingBottom: '30vh' }}>
+
+          {/* 左側: エディタ（画面いっぱいに固定） */}
+          <div className="col-md-6">
+            <div className="scroll-pane">
+              <div className="HASM_Markdown_Editor_Pane">
+                <div className="HASM_Markdown_Editor_EditorCol_Title">
+                  <span>{t.editor}</span>
+                  <span style={{ fontSize: '0.65rem', color: 'var(--theme-accent-readable)' }}>note.md</span>
+                </div>
+                <div className="scroll-pane-body">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeTab}
+                      className="d-flex h-100"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <LineNumberGutter count={features[activeTab].markdownText.split('\n').length} />
+                      <TypewriterText htmlContent={highlightMarkdown(features[activeTab].markdownText)} />
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </div>
+            </div>
+
+            {/* 見えないスクロール検出用トリガー（スクロール量の確保とタブ切り替え） */}
             {features.map((feature, index) => (
               <motion.div
                 key={feature.id}
                 onViewportEnter={() => setActiveTab(index)}
                 viewport={{ amount: 0.6 }}
-                className="feature-step"
-                style={{
-                  opacity: activeTab === index ? 1 : 0.25,
-                  transition: 'opacity 0.4s ease'
-                }}
-              >
-                <div className="mb-2 fw-bold" style={{ color: 'var(--theme-accent-readable)', fontSize: '0.85rem' }}>
-                  {feature.question}
-                </div>
-                
-                <div className="HASM_Markdown_Editor_Pane">
-                  <div className="HASM_Markdown_Editor_EditorCol_Title">
-                    <span>{t.editor}</span>
-                    <span style={{ fontSize: '0.65rem', color: 'var(--theme-accent-readable)' }}>note_{index + 1}.md</span>
-                  </div>
-                  <div className="d-flex">
-                    <LineNumberGutter count={6} />
-                    {activeTab === index ? (
-                      <TypewriterText htmlContent={highlightMarkdown(feature.markdownText)} />
-                    ) : (
-                      <div 
-                        className="MarkdownSyntax_Input flex-grow-1"
-                        dangerouslySetInnerHTML={{ __html: highlightMarkdown(feature.markdownText) }}
-                      />
-                    )}
-                  </div>
-                </div>
-              </motion.div>
+                className="feature-step-trigger"
+              />
             ))}
           </div>
 
-          {/* 右側: プレビュー領域（画面固定） */}
+          {/* 右側: プレビュー（画面いっぱいに固定） */}
           <div className="col-md-6">
-            <div className="sticky-container">
-              <div className="w-100 HASM_Markdown_Editor_Pane">
+            <div className="scroll-pane">
+              <div className="HASM_Markdown_Editor_Pane">
                 <div className="HASM_Markdown_Editor_ViewerCol_Title">
                   <span>{t.preview}</span>
                   <span className="badge" style={{ background: 'var(--theme-primary)', color: 'var(--theme-on-accent)' }}>{t.live}</span>
                 </div>
-                
                 <div className="HASM_Markdown_Editor_ViewerCol_Viewer">
                   <AnimatePresence mode="wait">
                     <motion.div
