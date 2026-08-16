@@ -1,0 +1,15 @@
+[submodule "submodules/hasm"]
+	path = submodules/hasm
+	url = git@github.com:HibiyaHaraki/hasm.git
+[submodule "submodules/hasm_markdown"]
+	path = submodules/hasm_markdown
+	url = git@github.com:HibiyaHaraki/hasm_markdown.git
+[submodule "submodules/hasm_logo"]
+	path = submodules/hasm_logo
+	url = git@github.com:HibiyaHaraki/hasm_logo.git
+[submodule "src/hasm_logger"]
+	path = src/hasm_logger
+	url = git@github.com:HibiyaHaraki/hasm_logger.git
+[submodule "src/hasm_color_pattern"]
+	path = src/hasm_color_pattern
+	url = git@github.com:HibiyaHaraki/hasm_color_pattern.git
