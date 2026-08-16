@@ -6,6 +6,8 @@ import { highlightMarkdown } from './generated/markdownHighlight.js';
 import hasmLogo from './assets/logo/hasm_logo_transparent.png';
 import { useColorTheme } from './theme/useColorTheme.js';
 import ThemeSelector from './ThemeSelector.jsx';
+import LanguageSelector from './LanguageSelector.jsx';
+import { useLanguage } from './i18n.js';
 
 // レイアウト専用スタイル（配色・タイポ・エディタ/プレビューの見た目は generated/markdown-design-tokens.css 側で同期）
 const hasmStyles = `
@@ -61,45 +63,15 @@ const hasmStyles = `
     text-decoration: none;
   }
 
-  .ThemeSelector {
-    position: fixed;
-    top: 18px;
-    right: 18px;
-    z-index: 20;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 12px;
-    color: var(--theme-text);
-    background: var(--theme-surface);
-    border: 1px solid var(--theme-border);
-    box-shadow: 0 6px 18px rgba(20, 18, 15, 0.12);
-  }
-
-  .ThemeSelector_Label {
-    margin: 0;
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--theme-muted);
-  }
-
-  .ThemeSelector_Select {
-    padding: 4px 8px;
-    color: var(--theme-text);
-    background: var(--theme-input-bg);
-    border: 1px solid var(--theme-border);
-  }
 `;
 
 // 異なるPC・OSのイラストアニメーション（右側プレビュー用）
-const EnvironmentIllustrations = () => {
+const EnvironmentIllustrations = ({ t }) => {
   const [currentEnv, setCurrentEnv] = useState(0);
   const environments = [
-    { name: 'macOS (MacBook)', color: '#2d3748', icon: '🍎', border: '#e2e8f0' },
-    { name: 'Windows 11 (PC)', color: '#0f172a', icon: '🪟', border: '#38bdf8' },
-    { name: 'Ubuntu Linux', color: '#1c1917', icon: '🐧', border: '#f97316' }
+    { name: t.osNames[0], label: t.osLabels[0], color: '#2d3748', icon: 'mac', border: '#e2e8f0' },
+    { name: t.osNames[1], label: t.osLabels[1], color: '#0f172a', icon: 'win', border: '#38bdf8' },
+    { name: t.osNames[2], label: t.osLabels[2], color: '#1c1917', icon: 'linux', border: '#f97316' }
   ];
 
   useEffect(() => {
@@ -121,7 +93,7 @@ const EnvironmentIllustrations = () => {
             className={`badge px-2 py-1 ${idx === currentEnv ? 'bg-primary' : 'bg-secondary'}`}
             style={{ fontSize: '0.7rem', transition: 'all 0.3s' }}
           >
-            {e.icon} {e.name.split(' ')[0]}
+            {e.label}
           </span>
         ))}
       </div>
@@ -147,63 +119,62 @@ const EnvironmentIllustrations = () => {
             <span className="rounded-circle bg-success d-inline-block" style={{ width: 8, height: 8 }}></span>
           </div>
           <span className="font-monospace text-muted" style={{ fontSize: '0.65rem' }}>
-            {env.icon} HASM Editor — {env.name}
+            HASM Editor - {env.name}
           </span>
         </div>
 
         <div className="p-3 rounded" style={{ background: 'rgba(255,255,255,0.06)', fontSize: '0.85rem' }}>
-          <div className="fw-bold mb-1" style={{ color: 'var(--theme-primary)' }}>ポータブル動作中</div>
+          <div className="fw-bold mb-1" style={{ color: 'var(--theme-accent-readable)' }}>{t.portableStatus}</div>
           <p className="small text-light mb-2">
-            異なるユーザー環境やOSでも、依存ファイルを同一フォルダから自動読み込みして同一レンダリングを実現。
+            {t.portableDescription}
           </p>
           <div className="p-2 rounded font-monospace small" style={{ background: '#000', color: '#4ade80' }}>
-            [Loaded] asset:portable.mp4<br />
-            [Status] 100% Local & Portable
+            {t.loaded}<br />
+            {t.localStatus}
           </div>
         </div>
       </motion.div>
 
       <div className="mt-3 text-muted small" style={{ fontSize: '0.72rem' }}>
-        ※ USBメモリやクラウド同期フォルダからそのまま起動可能
+        {t.usbHint}
       </div>
     </div>
   );
 };
 
 // 各機能の入力テキスト・プレビュー定義
-const features = [
+const getFeatures = (t) => [
   {
     id: 'portable',
-    question: 'Q. 異なるPC・異なる人でもそのまま開ける？',
-    markdownText: `# クロスプラットフォームポータブル
+    question: t.portableQuestion,
+    markdownText: `# ${t.portableTitle}
 
-![動作デモ](asset:portable.mp4)
+![${t.portableAlt}](asset:portable.mp4)
 
-- USB1本でどこでもそのまま起動
-- OSや個人の環境差分を完全吸収
-- 設定ファイル(config.json)とアセットが一体化`,
-    renderPreview: () => <EnvironmentIllustrations />
+- ${t.portableLines[0]}
+- ${t.portableLines[1]}
+- ${t.portableLines[2]}`,
+    renderPreview: () => <EnvironmentIllustrations t={t} />
   },
   {
     id: 'asset',
-    question: 'Q. 画像やアセットの参照管理はどうなる？',
-    markdownText: `## アセット管理機能
+    question: t.assetQuestion,
+    markdownText: `## ${t.assetTitle}
 
-![図解](asset:architecture-diagram)
+![${t.assetAlt}](asset:architecture-diagram)
 
-同一フォルダ内のアセットをマニフェスト管理。
-パス崩れを防ぎ、安全に埋め込みできます。`,
+${t.assetDescription}`,
     renderPreview: () => (
       <div>
-        <h3 className="border-bottom pb-2 border-secondary">アセット管理機能</h3>
-        <p className="mt-3">同一フォルダ内のアセットをマニフェスト管理。パス崩れを防ぎ、安全に埋め込みできます。</p>
+        <h3 className="border-bottom pb-2 border-secondary">{t.assetTitle}</h3>
+        <p className="mt-3">{t.assetDescription}</p>
         
         <div className="alert alert-warning border-secondary mt-3 d-flex align-items-center gap-3">
           <div className="fs-3">◇</div>
           <div className="small">
             <strong>asset:architecture-diagram</strong>
             <br />
-            <span className="text-muted">マニフェスト経由で自動解決・正常参照中</span>
+            <span className="text-muted">{t.assetStatus}</span>
           </div>
         </div>
       </div>
@@ -211,24 +182,24 @@ const features = [
   },
   {
     id: 'privacy',
-    question: 'Q. 外部通信やトラッキングの心配は？',
-    markdownText: `### 完全ローカル・セキュリティ
+    question: t.privacyQuestion,
+    markdownText: `### ${t.privacyTitle}
 
-- 外部API依存 : ゼロ
-- 自動送信テレメトリ : なし
+  - ${t.externalApi}
+  - ${t.telemetry}
 
-オフライン環境でも100%動作を保証します。`,
+  ${t.offlineGuarantee}`,
     renderPreview: () => (
       <div>
-        <h4 className="border-bottom pb-2 border-secondary">完全ローカル・セキュリティ</h4>
+        <h4 className="border-bottom pb-2 border-secondary">{t.privacyTitle}</h4>
         <ul className="mt-3">
-          <li>外部API依存 : ゼロ</li>
-          <li>自動送信テレメトリ : なし</li>
+          <li>{t.externalApi}</li>
+          <li>{t.telemetry}</li>
         </ul>
         <div className="p-3 my-3 text-center border border-secondary rounded" style={{ background: 'var(--theme-surface)' }}>
           <div className="fs-2 mb-1">🛡️</div>
-          <div className="fw-bold">100% Offline & Local</div>
-          <div className="small text-muted">機密文書やプライベートな思考の記録にも安心</div>
+          <div className="fw-bold">{t.offlineLabel}</div>
+          <div className="small text-muted">{t.offlineDescription}</div>
         </div>
       </div>
     )
@@ -276,28 +247,31 @@ const LineNumberGutter = ({ count }) => (
 export const HASM_Markdown_Page = ({ onNavigateHome }) => {
   const [activeTab, setActiveTab] = useState(0);
   const { colorPattern, setColorPattern, patterns } = useColorTheme();
+  const { language, setLanguage, t } = useLanguage();
+  const features = getFeatures(t);
 
   return (
     <div className="hasm-lp-root EditorColor_light min-vh-100">
       <style>{hasmStyles}</style>
       {onNavigateHome && (
-        <button type="button" className="BackHomeLink" onClick={onNavigateHome}>&larr; HASM</button>
+        <button type="button" className="BackHomeLink" onClick={onNavigateHome}>&larr; {t.backHome}</button>
       )}
-      <ThemeSelector patterns={patterns} activePatternId={colorPattern} onChange={setColorPattern} />
+      <LanguageSelector language={language} onChange={setLanguage} label={t.language} />
+      <ThemeSelector patterns={patterns} activePatternId={colorPattern} onChange={setColorPattern} label={t.theme} />
 
       {/* ヒーローセクション */}
       <section className="min-vh-100 d-flex flex-column justify-content-center align-items-center text-center p-4">
         <img src={hasmLogo} alt="HASM" className="mb-3" style={{ width: 96, height: 96, objectFit: 'contain' }} />
-        <div className="mb-2 text-uppercase fw-bold" style={{ color: 'var(--theme-primary)', fontSize: '0.8rem', letterSpacing: '0.16em' }}>
-          HASM MARKDOWN EDITOR
+        <div className="mb-2 text-uppercase fw-bold" style={{ color: 'var(--theme-accent-readable)', fontSize: '0.8rem', letterSpacing: '0.16em' }}>
+          {t.markdownKicker}
         </div>
         <h1 className="display-4 fw-bold mb-3" style={{ fontFamily: 'Georgia, serif' }}>
-          思考をそのまま、どこへでも持ち運ぶ。
+          {t.markdownTitle}
         </h1>
         <p className="lead text-muted max-w-lg mb-4">
-          インストール不要・完全ローカル完結のポータブル・マークダウンエディタ。
+          {t.markdownDescription}
         </p>
-        <p className="small text-secondary mt-5">↓ スクロールして体験を見る</p>
+        <p className="small text-secondary mt-5">↓ {t.scrollHint}</p>
       </section>
 
       {/* スティッキースクロール */}
@@ -317,14 +291,14 @@ export const HASM_Markdown_Page = ({ onNavigateHome }) => {
                   transition: 'opacity 0.4s ease'
                 }}
               >
-                <div className="mb-2 fw-bold" style={{ color: 'var(--theme-primary)', fontSize: '0.85rem' }}>
+                <div className="mb-2 fw-bold" style={{ color: 'var(--theme-accent-readable)', fontSize: '0.85rem' }}>
                   {feature.question}
                 </div>
                 
                 <div className="HASM_Markdown_Editor_Pane">
                   <div className="HASM_Markdown_Editor_EditorCol_Title">
-                    <span>EDITOR</span>
-                    <span style={{ fontSize: '0.65rem', color: 'var(--theme-primary)' }}>note_{index + 1}.md</span>
+                    <span>{t.editor}</span>
+                    <span style={{ fontSize: '0.65rem', color: 'var(--theme-accent-readable)' }}>note_{index + 1}.md</span>
                   </div>
                   <div className="d-flex">
                     <LineNumberGutter count={6} />
@@ -347,8 +321,8 @@ export const HASM_Markdown_Page = ({ onNavigateHome }) => {
             <div className="sticky-container">
               <div className="w-100 HASM_Markdown_Editor_Pane">
                 <div className="HASM_Markdown_Editor_ViewerCol_Title">
-                  <span>PREVIEW</span>
-                  <span className="badge" style={{ background: 'var(--theme-primary)', color: '#fff' }}>LIVE</span>
+                  <span>{t.preview}</span>
+                  <span className="badge" style={{ background: 'var(--theme-primary)', color: 'var(--theme-on-accent)' }}>{t.live}</span>
                 </div>
                 
                 <div className="HASM_Markdown_Editor_ViewerCol_Viewer">
@@ -374,18 +348,18 @@ export const HASM_Markdown_Page = ({ onNavigateHome }) => {
       {/* フッター / ダウンロード */}
       <section className="py-5 text-center border-top" style={{ borderColor: 'var(--theme-border)' }}>
         <div className="container py-4">
-          <h2 className="fw-bold mb-3" style={{ fontFamily: 'Georgia, serif' }}>1ファイル・ゼロインストールで開始</h2>
-          <p className="text-muted mb-4">USBメモリや任意のディレクトリに解凍するだけで、理想の執筆環境が完成します。</p>
+          <h2 className="fw-bold mb-3" style={{ fontFamily: 'Georgia, serif' }}>{t.footerTitle}</h2>
+          <p className="text-muted mb-4">{t.footerDescription}</p>
           <button 
             className="btn btn-lg px-5 py-3 fw-bold"
             style={{ 
               background: 'var(--theme-primary)', 
-              color: 'var(--theme-surface)', 
+              color: 'var(--theme-on-accent)',
               border: '1px solid var(--theme-primary)',
               borderRadius: '0' 
             }}
           >
-            Download HASM Editor (.zip)
+            {t.download}
           </button>
         </div>
       </section>

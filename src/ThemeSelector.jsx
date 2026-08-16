@@ -1,10 +1,10 @@
 import React from 'react';
 
 // Fixed corner control letting visitors preview HASM's selectable color patterns.
-function ThemeSelector({ patterns, activePatternId, onChange }) {
+function ThemeSelector({ patterns, activePatternId, onChange, label = 'Theme' }) {
   return (
     <div className="ThemeSelector">
-      <label htmlFor="hasm-theme-select" className="ThemeSelector_Label">Theme</label>
+      <label htmlFor="hasm-theme-select" className="ThemeSelector_Label">{label}</label>
       <select
         id="hasm-theme-select"
         className="ThemeSelector_Select"

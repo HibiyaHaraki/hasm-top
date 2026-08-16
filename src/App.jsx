@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { HASM_Page } from './HASM_Page';
 import { HASM_Markdown_Page } from './HASM_Markdown_Page';
+import './shared-controls.css';
 
 function App() {
   const [page, setPage] = useState('home');

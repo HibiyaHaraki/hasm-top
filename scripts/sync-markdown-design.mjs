@@ -17,6 +17,9 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { createLogger } from "../src/hasm_logger/src/react/logger.js";
+
+const logger = createLogger("sync-markdown-design");
 
 const REPO_ROOT = path.resolve(fileURLToPath(import.meta.url), "..", "..");
 
@@ -73,6 +76,7 @@ function extractTopLevelBlocks(css) {
 }
 
 function extractDesignCss() {
+  // Preserve only the upstream selectors that define the editor's shared visual language.
   const css = readFileSync(SOURCE_CSS, "utf8");
   const blocks = extractTopLevelBlocks(css);
   const matched = blocks.filter(
@@ -82,6 +86,7 @@ function extractDesignCss() {
 }
 
 function extractHighlightFunction() {
+  // Copy the implementation rather than reimplementing syntax highlighting in the landing page.
   const source = readFileSync(SOURCE_EDITOR, "utf8");
   const startMatch = source.match(/function highlightMarkdown\([^)]*\)\s*{/);
   if (!startMatch) {
@@ -100,10 +105,11 @@ function extractHighlightFunction() {
 
 if (!existsSync(SOURCE_CSS) || !existsSync(SOURCE_EDITOR)) {
   // Submodule not checked out; keep whatever was previously generated instead of blocking dev/build.
-  console.warn("[sync-markdown-design] hasm_markdown submodule not found; skipping design sync.");
+  logger.warn("hasm_markdown source files not found; skipping design sync.", { sourceCss: SOURCE_CSS, sourceEditor: SOURCE_EDITOR });
   process.exit(0);
 }
 
+// Generated output is kept in one directory so Vite can import the synced design contract.
 mkdirSync(OUTPUT_DIR, { recursive: true });
 
 const header = (relSource) =>
@@ -121,4 +127,7 @@ writeFileSync(
     `export ${highlightFn}\n`,
 );
 
-console.log("[sync-markdown-design] Synced markdown design tokens and highlightMarkdown() from hasm_markdown.");
+logger.info("Synced markdown design tokens and highlightMarkdown() from hasm_markdown.", {
+  outputCss: OUTPUT_CSS,
+  outputJs: OUTPUT_JS,
+});

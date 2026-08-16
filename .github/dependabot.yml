@@ -1,0 +1,41 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      javascript-dependencies:
+        patterns:
+          - "*"
+
+  - package-ecosystem: npm
+    directory: "/submodules/hasm"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+
+  - package-ecosystem: npm
+    directory: "/submodules/hasm_markdown"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+
+  - package-ecosystem: cargo
+    directory: "/submodules/hasm/src-tauri"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+
+  - package-ecosystem: cargo
+    directory: "/submodules/hasm_markdown/src-tauri"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+
+  - package-ecosystem: pip
+    directory: "/submodules/hasm_logo"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3

@@ -1,0 +1,59 @@
+.ThemeSelector,
+.LanguageSelector {
+  box-sizing: border-box;
+  position: fixed;
+  top: 18px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  color: var(--theme-text);
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  box-shadow: 0 6px 18px rgba(20, 18, 15, 0.12);
+}
+
+.ThemeSelector {
+  right: 18px;
+}
+
+.LanguageSelector {
+  right: 250px;
+}
+
+.ThemeSelector_Label,
+.LanguageSelector_Label {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--theme-muted);
+}
+
+.ThemeSelector_Select,
+.LanguageSelector_Select {
+  min-width: 0;
+  max-width: 100%;
+  padding: 4px 8px;
+  color: var(--theme-text);
+  background: var(--theme-input-bg);
+  border: 1px solid var(--theme-border);
+}
+
+@media (max-width: 760px) {
+  .ThemeSelector,
+  .LanguageSelector {
+    right: 18px;
+    max-width: calc(100vw - 36px);
+  }
+
+  .LanguageSelector {
+    top: 18px;
+  }
+
+  .ThemeSelector {
+    top: 70px;
+  }
+}

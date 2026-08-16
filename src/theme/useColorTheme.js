@@ -7,8 +7,10 @@ import {
   getThemeVariables,
   isValidColorPattern,
 } from '../hasm_color_pattern/src/index.js';
+import { createLogger } from '../hasm_logger/src/react/logger.js';
 
 const STORAGE_KEY = 'hasm_theme_preference';
+const logger = createLogger('color-theme');
 
 function getRelativeLuminance(hexColor) {
   const hex = String(hexColor).replace('#', '');
@@ -29,9 +31,10 @@ function getContrastRatio(firstColor, secondColor) {
 // Derive readable accent/on-accent tokens so gutter & badge text stays legible on any pattern.
 function getReadableColors(colors) {
   const accent = getContrastRatio(colors.mainColor, colors.textBackgroundColor) >= 4.5 ? colors.mainColor : colors.textColor;
-  const onAccent = getContrastRatio(colors.textColor, colors.mainColor) >= getContrastRatio(colors.textBackgroundColor, colors.mainColor)
-    ? colors.textColor
-    : colors.textBackgroundColor;
+  const candidates = [colors.textColor, colors.textBackgroundColor, '#ffffff', '#000000'];
+  const onAccent = candidates.reduce((best, candidate) => (
+    getContrastRatio(candidate, colors.mainColor) > getContrastRatio(best, colors.mainColor) ? candidate : best
+  ));
   return { accent, onAccent };
 }
 
@@ -41,6 +44,7 @@ function buildRootVariables(patternId) {
   return {
     ...getThemeVariables(pattern.id),
     ...getMarkdownThemeVariables(pattern.id),
+    '--text-color': readable.onAccent,
     '--theme-accent-readable': readable.accent,
     '--theme-on-accent': readable.onAccent,
     '--theme-warning-background': pattern.id === 'high-contrast' ? '#ffffff' : pattern.colors.softColor,
@@ -59,15 +63,18 @@ export function useColorTheme() {
   });
 
   useEffect(() => {
+    // Apply the shared color-pattern contract at the document root for both pages.
     const variables = buildRootVariables(colorPattern);
     Object.entries(variables).forEach(([name, value]) => document.documentElement.style.setProperty(name, value));
     document.documentElement.dataset.theme = colorPattern;
+    logger.debug('Applied color pattern.', { colorPattern });
   }, [colorPattern]);
 
   const setColorPattern = useCallback((patternId) => {
     if (!isValidColorPattern(patternId)) return;
     setColorPatternState(patternId);
     window.localStorage.setItem(STORAGE_KEY, patternId);
+    logger.info('Selected color pattern.', { colorPattern: patternId });
   }, []);
 
   return { colorPattern, setColorPattern, patterns: COLOR_PATTERN_OPTIONS };
