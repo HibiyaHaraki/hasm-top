@@ -8,6 +8,7 @@ import { useColorTheme } from './theme/useColorTheme.js';
 import ThemeSelector from './ThemeSelector.jsx';
 import LanguageSelector from './LanguageSelector.jsx';
 import { useLanguage } from './i18n.js';
+import Footer from './Footer.jsx';
 
 // レイアウト専用スタイル（配色・タイポ・エディタ/プレビューの見た目は generated/markdown-design-tokens.css 側で同期）
 const hasmStyles = `
@@ -361,6 +362,7 @@ export const HASM_Markdown_Page = ({ onNavigateHome }) => {
           >
             {t.download}
           </button>
+          <Footer />
         </div>
       </section>
     </div>

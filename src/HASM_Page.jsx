@@ -4,6 +4,7 @@ import { useColorTheme } from './theme/useColorTheme.js';
 import ThemeSelector from './ThemeSelector.jsx';
 import LanguageSelector from './LanguageSelector.jsx';
 import { useLanguage } from './i18n.js';
+import Footer from './Footer.jsx';
 
 // HASM top-level landing page. The hasm desktop app itself has no UI yet, so this
 // stays intentionally minimal: brand mark, theme selection, and an entry point
@@ -14,14 +15,22 @@ const hasmPageStyles = `
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 20px;
     padding: 24px;
     text-align: center;
     font-family: "Yu Mincho", "游明朝", Georgia, serif;
     color: var(--theme-text);
     background-color: var(--theme-textbackground);
     letter-spacing: 0.03em;
+  }
+
+  .HASM_Page_Content {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
   }
 
   .HASM_Page_Kicker {
@@ -54,17 +63,20 @@ export const HASM_Page = ({ onNavigateToMarkdown }) => {
       <LanguageSelector language={language} onChange={setLanguage} label={t.language} />
       <ThemeSelector patterns={patterns} activePatternId={colorPattern} onChange={setColorPattern} label={t.theme} />
 
-      <img src={hasmLogo} alt="HASM" style={{ width: 120, height: 120, objectFit: 'contain' }} />
-      <div className="HASM_Page_Kicker">{t.homeKicker}</div>
-      <h1 className="display-4 fw-bold" style={{ fontFamily: 'Georgia, serif' }}>
-        {t.homeTitle}
-      </h1>
-      <p className="lead" style={{ color: 'var(--theme-muted)', maxWidth: '640px' }}>
-        {t.homeDescription}
-      </p>
-      <button type="button" className="HASM_Page_NavButton" onClick={onNavigateToMarkdown}>
-        {t.openMarkdown}
-      </button>
+      <div className="HASM_Page_Content">
+        <img src={hasmLogo} alt="HASM" style={{ width: 120, height: 120, objectFit: 'contain' }} />
+        <div className="HASM_Page_Kicker">{t.homeKicker}</div>
+        <h1 className="display-4 fw-bold" style={{ fontFamily: 'Georgia, serif' }}>
+          {t.homeTitle}
+        </h1>
+        <p className="lead" style={{ color: 'var(--theme-muted)', maxWidth: '640px' }}>
+          {t.homeDescription}
+        </p>
+        <button type="button" className="HASM_Page_NavButton" onClick={onNavigateToMarkdown}>
+          {t.openMarkdown}
+        </button>
+      </div>
+      <Footer />
     </div>
   );
 };

@@ -26,7 +26,7 @@ const TRANSLATIONS = {
     portableStatus: 'Portable mode active', portableDescription: 'Automatically load dependencies from one folder and render consistently across users and operating systems.',
     usbHint: 'Launch directly from a USB drive or cloud-synced folder', osNames: ['macOS (MacBook)', 'Windows 11 (PC)', 'Ubuntu Linux'],
     osLabels: ['macOS', 'Windows', 'Ubuntu'], loaded: '[Loaded] asset:portable.mp4', localStatus: '[Status] 100% Local & Portable',
-    externalApi: 'External API dependency: zero', telemetry: 'Automatic telemetry: none', offlineGuarantee: 'Works 100% offline.'
+    externalApi: 'External API dependency: zero', telemetry: 'Automatic telemetry: none', offlineGuarantee: 'Works 100% offline.', copyright: 'Copyright (c) 2026 Hibiya Haraki.'
   },
   ja: {
     theme: 'テーマ', language: '言語', homeKicker: 'HASM', homeTitle: 'Human Activity Structure Model',
@@ -40,7 +40,7 @@ const TRANSLATIONS = {
     footerTitle: '1ファイル・ゼロインストールで開始', footerDescription: 'USBメモリや任意のディレクトリに解凍するだけで、理想の執筆環境が完成します。', download: 'HASM Editor (.zip)をダウンロード',
     portableStatus: 'ポータブル動作中', portableDescription: '異なるユーザー環境やOSでも、依存ファイルを同一フォルダから自動読み込みして同一レンダリングを実現。', usbHint: 'USBメモリやクラウド同期フォルダからそのまま起動可能',
     osNames: ['macOS (MacBook)', 'Windows 11 (PC)', 'Ubuntu Linux'], osLabels: ['macOS', 'Windows', 'Ubuntu'], loaded: '[Loaded] asset:portable.mp4', localStatus: '[Status] 100% Local & Portable',
-    externalApi: '外部API依存 : ゼロ', telemetry: '自動送信テレメトリ : なし', offlineGuarantee: 'オフライン環境でも100%動作します。'
+    externalApi: '外部API依存 : ゼロ', telemetry: '自動送信テレメトリ : なし', offlineGuarantee: 'オフライン環境でも100%動作します。', copyright: 'Copyright (c) 2026 Hibiya Haraki.'
   }
 };
 
