@@ -53,7 +53,7 @@ const hasmPageStyles = `
 
 `;
 
-export const HASM_Page = ({ onNavigateToMarkdown }) => {
+export const HASM_Page = ({ onNavigateToMarkdown, onNavigateToColorPattern }) => {
   const { colorPattern, setColorPattern, patterns } = useColorTheme();
   const { language, setLanguage, t } = useLanguage();
 
@@ -72,9 +72,14 @@ export const HASM_Page = ({ onNavigateToMarkdown }) => {
         <p className="lead" style={{ color: 'var(--theme-muted)', maxWidth: '640px' }}>
           {t.homeDescription}
         </p>
-        <button type="button" className="HASM_Page_NavButton" onClick={onNavigateToMarkdown}>
-          {t.openMarkdown}
-        </button>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12 }}>
+          <button type="button" className="HASM_Page_NavButton" onClick={onNavigateToMarkdown}>
+            {t.openMarkdown}
+          </button>
+          <button type="button" className="HASM_Page_NavButton" onClick={onNavigateToColorPattern}>
+            {t.openColorPattern}
+          </button>
+        </div>
       </div>
       <Footer />
     </div>
