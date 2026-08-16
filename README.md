@@ -1,6 +1,6 @@
 # hasm-top
 
-The top-level marketing site for the HASM project family. It hosts:
+The top-level site for the HASM project family. It hosts:
 
 - **HASM** (`/` — [src/HASM_Page.jsx](src/HASM_Page.jsx)): the project index page. The HASM desktop app itself is not built yet, so this page is intentionally minimal — brand mark, color theme selector, and a link into the Markdown editor preview.
 - **HASM Markdown** ([src/HASM_Markdown_Page.jsx](src/HASM_Markdown_Page.jsx)): a landing page that previews the HASM Markdown editor's look, feel, and syntax highlighting.
