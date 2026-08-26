@@ -9,6 +9,7 @@ import ThemeSelector from './ThemeSelector.jsx';
 import LanguageSelector from './LanguageSelector.jsx';
 import { useLanguage } from './i18n.js';
 import Footer from './Footer.jsx';
+import OsDownloadSection from './OsDownloadSection.jsx';
 
 // レイアウト専用スタイル（配色・タイポ・エディタ/プレビューの見た目は generated/markdown-design-tokens.css 側で同期）
 const hasmStyles = `
@@ -352,21 +353,9 @@ export const HASM_Markdown_Page = ({ onNavigateHome }) => {
       </section>
 
       {/* フッター / ダウンロード */}
-      <section className="py-5 text-center border-top" style={{ borderColor: 'var(--theme-border)' }}>
-        <div className="container py-4">
-          <h2 className="fw-bold mb-3" style={{ fontFamily: 'Georgia, serif' }}>{t.footerTitle}</h2>
-          <p className="text-muted mb-4">{t.footerDescription}</p>
-          <button 
-            className="btn btn-lg px-5 py-3 fw-bold"
-            style={{ 
-              background: 'var(--theme-primary)', 
-              color: 'var(--theme-on-accent)',
-              border: '1px solid var(--theme-primary)',
-              borderRadius: '0' 
-            }}
-          >
-            {t.download}
-          </button>
+      <section className="py-5 border-top" style={{ borderColor: 'var(--theme-border)' }}>
+        <div className="container py-2">
+          <OsDownloadSection appType="hasm_markdown" />
           <Footer />
         </div>
       </section>
