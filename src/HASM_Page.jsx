@@ -6,6 +6,7 @@ import LanguageSelector from './LanguageSelector.jsx';
 import { useLanguage } from './i18n.js';
 import Footer from './Footer.jsx';
 import HasmVisualizerComponent from './HasmVisualizerComponent.jsx';
+import OsDownloadSection from './OsDownloadSection.jsx';
 import { createLogger } from './hasm_logger/src/react/logger.js';
 
 const logger = createLogger('hasm-page');
@@ -695,6 +696,9 @@ my-hasm-model/
               </div>
             </section>
           )}
+
+          {/* DOWNLOAD SECTION */}
+          <OsDownloadSection appType="hasm" />
 
           {/* ECOSYSTEM SUB APPS */}
           <section className="HASM_Page_Ecosystem">
