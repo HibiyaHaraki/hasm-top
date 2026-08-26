@@ -5,6 +5,7 @@ import ThemeSelector from './ThemeSelector.jsx';
 import LanguageSelector from './LanguageSelector.jsx';
 import { useLanguage } from './i18n.js';
 import Footer from './Footer.jsx';
+import HasmVisualizerComponent from './HasmVisualizerComponent.jsx';
 import { createLogger } from './hasm_logger/src/react/logger.js';
 
 const logger = createLogger('hasm-page');
@@ -555,6 +556,24 @@ export const HASM_Page = ({ onNavigateToMarkdown, onNavigateToColorPattern, onNa
                 <div className="HASM_Page_Kicker">{t.exampleKicker}</div>
                 <h2 className="HASM_Page_SectionTitle">{t.exampleTitle}</h2>
                 <p className="HASM_Page_SectionDesc">{t.exampleDescription}</p>
+              </div>
+
+              {/* LIVE 3D COMMIT GRAPH VISUALIZER */}
+              <div style={{ marginBottom: 32 }}>
+                <div className="HASM_Page_Kicker">{t.visualizerKicker}</div>
+                <h3 className="HASM_Page_SectionTitle" style={{ fontSize: '1.6rem', marginTop: 4 }}>
+                  {t.visualizerTitle}
+                </h3>
+                <p className="HASM_Page_SectionDesc" style={{ fontSize: '0.95rem' }}>
+                  {t.visualizerDescription}
+                </p>
+                <HasmVisualizerComponent
+                  labels={{
+                    sampleModel: t.sampleModel,
+                    timeScale: t.timeScale,
+                    zScale: t.zScale,
+                  }}
+                />
               </div>
 
               <div className="HASM_Page_TreeBox">

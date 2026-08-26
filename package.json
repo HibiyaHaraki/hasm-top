@@ -6,7 +6,8 @@
   "scripts": {
     "sync:logo": "node scripts/sync-logo.mjs",
     "sync:markdown-design": "node scripts/sync-markdown-design.mjs",
-    "sync": "npm run sync:logo && npm run sync:markdown-design",
+    "sync:visualizer": "node scripts/sync-hasm-visualizer.mjs",
+    "sync": "npm run sync:logo && npm run sync:markdown-design && npm run sync:visualizer",
     "predev": "npm run sync",
     "dev": "vite",
     "prebuild": "npm run sync",
@@ -18,7 +19,8 @@
   "dependencies": {
     "framer-motion": "^13.1.1",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@types/react": "^19.2.17",
