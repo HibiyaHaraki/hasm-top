@@ -569,6 +569,7 @@ export const HASM_Page = ({ onNavigateToMarkdown, onNavigateToColorPattern, onNa
                   {t.visualizerDescription}
                 </p>
                 <HasmVisualizerComponent
+                  colorPattern={colorPattern}
                   labels={{
                     sampleModel: t.sampleModel,
                     timeScale: t.timeScale,

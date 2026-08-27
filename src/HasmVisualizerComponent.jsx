@@ -10,10 +10,12 @@ import './generated/visualizer/visualizer-design.css';
 
 const logger = createLogger('hasm-3d-visualizer');
 
-export function HasmVisualizerComponent({ labels }) {
-  const { colorPattern } = useColorTheme();
+export function HasmVisualizerComponent({ colorPattern: colorPatternProp, labels }) {
+  const { colorPattern: activeContextPattern } = useColorTheme();
+  const colorPattern = colorPatternProp || activeContextPattern;
   const sceneRef = useRef(null);
   const disposeSceneRef = useRef(() => {});
+  const viewStateRef = useRef(null);
 
   const [selectedModelIndex, setSelectedModelIndex] = useState(0);
   const [filter, setFilter] = useState(DEFAULT_LAYOUT_FILTER);
@@ -37,6 +39,11 @@ export function HasmVisualizerComponent({ labels }) {
     // Get theme color palette
     const themeColors = getPatternById(colorPattern).colors;
 
+    // Capture previous camera view position/target before cleanup
+    if (typeof disposeSceneRef.current?.getViewState === 'function') {
+      viewStateRef.current = disposeSceneRef.current.getViewState();
+    }
+
     // Clean up previous Three.js instance
     disposeSceneRef.current();
 
@@ -55,10 +62,15 @@ export function HasmVisualizerComponent({ labels }) {
         } else {
           setHoveredNode(null);
         }
-      }
+      },
+      undefined,
+      viewStateRef.current
     );
 
     return () => {
+      if (typeof disposeSceneRef.current?.getViewState === 'function') {
+        viewStateRef.current = disposeSceneRef.current.getViewState();
+      }
       disposeSceneRef.current();
     };
   }, [selectedModelIndex, filter, colorPattern, currentSample]);
@@ -75,6 +87,7 @@ export function HasmVisualizerComponent({ labels }) {
               className="HasmVisualizer_Select"
               value={selectedModelIndex}
               onChange={(e) => {
+                viewStateRef.current = null;
                 setSelectedModelIndex(Number(e.target.value));
                 setSelectedNode(null);
               }}

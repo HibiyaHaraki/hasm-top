@@ -67,11 +67,46 @@ function extractVisualizerCss() {
 function syncFiles() {
   ensureDir(OUTPUT_DIR);
 
-  // 1. Sync threeCommitGraph.js with OrbitControls import fix for standard Vite module resolution
+  // 1. Sync threeCommitGraph.js with OrbitControls import fix and viewState preservation support
   let graphContent = readFileSync(SOURCE_GRAPH, "utf8");
   graphContent = graphContent.replace(
     'import { OrbitControls } from "three/addons/controls/OrbitControls.js";',
     'import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";'
+  );
+
+  // Support camera viewState parameter and getViewState() cleanup method
+  graphContent = graphContent.replace(
+    'export function createCommitGraph(container, payload, theme, onSelect, onHover, factDatesById) {',
+    'export function createCommitGraph(container, payload, theme, onSelect, onHover, factDatesById, initialViewState) {'
+  );
+  graphContent = graphContent.replace(
+    'camera.position.set(13, 11, 20);',
+    'if (initialViewState?.position) { camera.position.copy(initialViewState.position); } else { camera.position.set(13, 11, 20); }'
+  );
+  graphContent = graphContent.replace(
+    'camera.lookAt(0, 0, 5);',
+    'if (initialViewState?.quaternion) { camera.quaternion.copy(initialViewState.quaternion); } else { camera.lookAt(0, 0, 5); }'
+  );
+  graphContent = graphContent.replace(
+    'controls.target.set(0, 0, 5);',
+    'if (initialViewState?.target) { controls.target.copy(initialViewState.target); } else { controls.target.set(0, 0, 5); }'
+  );
+  graphContent = graphContent.replace(
+    'return () => {',
+    'const disposeFn = () => {'
+  );
+  graphContent = graphContent.replace(
+    /container\.removeChild\(renderer\.domElement\);\s*}\s*};\s*}/,
+    `container.removeChild(renderer.domElement);
+    }
+  };
+  disposeFn.getViewState = () => ({
+    position: camera.position.clone(),
+    quaternion: camera.quaternion.clone(),
+    target: controls.target.clone(),
+  });
+  return disposeFn;
+}`
   );
   writeFileSync(path.join(OUTPUT_DIR, "threeCommitGraph.js"), graphContent, "utf8");
 
