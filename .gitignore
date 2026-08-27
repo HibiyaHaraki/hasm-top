@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Generated 3D visualizer files synced from the HASM submodule
+src/generated/visualizer/
+
 # Env files
 .env
 .env.*

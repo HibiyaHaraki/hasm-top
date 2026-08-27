@@ -6,129 +6,9 @@ import { SAMPLE_HASM_MODELS } from './generated/visualizer/sampleModels.js';
 import { getPatternById } from './hasm_color_pattern/src/index.js';
 import { useColorTheme } from './theme/useColorTheme.js';
 import { createLogger } from './hasm_logger/src/react/logger.js';
+import './generated/visualizer/visualizer-design.css';
 
 const logger = createLogger('hasm-3d-visualizer');
-
-const visualizerStyles = `
-  .HasmVisualizer_Container {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-top: 24px;
-    padding: 24px;
-    background: var(--theme-surface);
-    border: 1px solid var(--theme-border);
-  }
-
-  .HasmVisualizer_Toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--theme-border);
-  }
-
-  .HasmVisualizer_ControlGroup {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .HasmVisualizer_Label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: var(--theme-text);
-  }
-
-  .HasmVisualizer_Select,
-  .HasmVisualizer_Input {
-    padding: 6px 12px;
-    font-size: 0.85rem;
-    font-family: inherit;
-    color: var(--theme-text);
-    background: var(--theme-input-bg, var(--theme-soft));
-    border: 1px solid var(--theme-border);
-  }
-
-  .HasmVisualizer_Stage {
-    position: relative;
-    width: 100%;
-    height: 480px;
-    background: var(--theme-textbackground);
-    border: 1px solid var(--theme-border);
-    overflow: hidden;
-  }
-
-  .HasmVisualizer_Canvas {
-    width: 100%;
-    height: 100%;
-  }
-
-  .HasmVisualizer_Tooltip {
-    position: fixed;
-    pointer-events: none;
-    z-index: 1000;
-    padding: 6px 12px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: var(--theme-on-accent);
-    background: var(--theme-primary);
-    border: 1px solid var(--theme-primary);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: translate(12px, 12px);
-  }
-
-  .HasmVisualizer_Legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    padding: 12px 16px;
-    background: var(--theme-soft);
-    border: 1px solid var(--theme-border);
-    font-size: 0.8rem;
-    font-weight: 700;
-  }
-
-  .HasmVisualizer_LegendItem {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .HasmVisualizer_LegendDot {
-    width: 12px;
-    height: 12px;
-    border-radius: 2px;
-  }
-
-  .HasmVisualizer_Inspector {
-    padding: 16px;
-    background: var(--theme-soft);
-    border: 1px solid var(--theme-border);
-    border-left: 4px solid var(--theme-primary);
-  }
-
-  .HasmVisualizer_InspectorTitle {
-    font-family: Georgia, serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin: 0 0 6px;
-  }
-
-  .HasmVisualizer_InspectorMeta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    font-size: 0.8rem;
-    color: var(--theme-muted);
-  }
-`;
 
 export function HasmVisualizerComponent({ labels }) {
   const { colorPattern } = useColorTheme();
@@ -184,11 +64,10 @@ export function HasmVisualizerComponent({ labels }) {
   }, [selectedModelIndex, filter, colorPattern, currentSample]);
 
   return (
-    <div className="HasmVisualizer_Container">
-      <style>{visualizerStyles}</style>
+    <main className="visualizer-page HasmVisualizer_Container">
 
       {/* TOOLBAR CONTROLS */}
-      <div className="HasmVisualizer_Toolbar">
+      <div className="visualizer-toolbar HasmVisualizer_Toolbar">
         <div className="HasmVisualizer_ControlGroup">
           <label className="HasmVisualizer_Label">
             {labels?.sampleModel || 'Example .hasm Package'}:
@@ -242,12 +121,12 @@ export function HasmVisualizerComponent({ labels }) {
       </div>
 
       {/* 3D GRAPH STAGE */}
-      <div className="HasmVisualizer_Stage" aria-label="3D Commit Graph">
-        <div className="HasmVisualizer_Canvas" ref={sceneRef} />
+      <div className="graph-stage HasmVisualizer_Stage" aria-label="3D Commit Graph">
+        <div className="graph-canvas HasmVisualizer_Canvas" ref={sceneRef} />
 
         {hoveredNode && (
           <div
-            className="HasmVisualizer_Tooltip"
+            className="graph-tooltip HasmVisualizer_Tooltip"
             style={{ left: hoveredNode.x, top: hoveredNode.y }}
           >
             [{hoveredNode.entityType}] {hoveredNode.label}
@@ -286,7 +165,7 @@ export function HasmVisualizerComponent({ labels }) {
           </div>
         </div>
       )}
-    </div>
+    </main>
   );
 }
 

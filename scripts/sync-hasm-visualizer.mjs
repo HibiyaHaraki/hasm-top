@@ -2,8 +2,9 @@
 // File Name : sync-hasm-visualizer.mjs
 // Purpose : Sync 3D commit graph visualizer logic from submodules/hasm
 //           and generate client-side layout calculation for landing page.
-// Description : Reads threeCommitGraph.js and layoutFilter.js from submodules/hasm,
-//               and outputs generated visualizer files into src/generated/visualizer/.
+// Description : Reads the visualizer engine, layout filter, and design rules from
+//               submodules/hasm, and outputs generated visualizer files into
+//               src/generated/visualizer/.
 // ###################################################
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
@@ -17,6 +18,7 @@ const REPO_ROOT = path.resolve(fileURLToPath(import.meta.url), "..", "..");
 
 const SOURCE_GRAPH = path.join(REPO_ROOT, "submodules", "hasm", "src", "features", "visualizer", "threeCommitGraph.js");
 const SOURCE_FILTER = path.join(REPO_ROOT, "submodules", "hasm", "src", "features", "visualizer", "layoutFilter.js");
+const SOURCE_CSS = path.join(REPO_ROOT, "submodules", "hasm", "src", "seq01.css");
 
 const OUTPUT_DIR = path.join(REPO_ROOT, "src", "generated", "visualizer");
 
@@ -24,6 +26,42 @@ function ensureDir(dir) {
   if (!existsSync(dir)) {
     mkdirSync(dir, { recursive: true });
   }
+}
+
+function extractTopLevelBlocks(css) {
+  const blocks = [];
+  let depth = 0;
+  let selectorStart = 0;
+  let blockStart = 0;
+  for (let index = 0; index < css.length; index += 1) {
+    if (css[index] === "{") {
+      if (depth === 0) blockStart = selectorStart;
+      depth += 1;
+    } else if (css[index] === "}") {
+      depth -= 1;
+      if (depth === 0) {
+        blocks.push(css.slice(blockStart, index + 1).trim());
+        selectorStart = index + 1;
+      }
+    }
+  }
+  return blocks;
+}
+
+function extractVisualizerCss() {
+  const visualizerSelectors = [
+    ".visualizer-page",
+    ".visualizer-toolbar",
+    ".graph-stage",
+    ".graph-canvas",
+    ".graph-progress",
+    ".graph-warning",
+    ".graph-notice",
+    ".graph-tooltip",
+  ];
+  return extractTopLevelBlocks(readFileSync(SOURCE_CSS, "utf8"))
+    .filter((block) => visualizerSelectors.some((selector) => block.startsWith(selector)))
+    .join("\n");
 }
 
 function syncFiles() {
@@ -41,7 +79,37 @@ function syncFiles() {
   const filterContent = readFileSync(SOURCE_FILTER, "utf8");
   writeFileSync(path.join(OUTPUT_DIR, "layoutFilter.js"), filterContent, "utf8");
 
-  // 3. Generate layoutCalculator.js matching Rust calculate_layout logic in visualizer_commands.rs
+  // 3. Sync the visualizer page design from the submodule.
+  const visualizerCss = extractVisualizerCss();
+  const adapterCss = `
+.HasmVisualizer_Container > .HasmVisualizer_Legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--theme-border);
+  background: var(--theme-soft);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.HasmVisualizer_Container .HasmVisualizer_LegendItem { display: flex; align-items: center; gap: 6px; }
+.HasmVisualizer_Container .HasmVisualizer_LegendDot { width: 12px; height: 12px; border-radius: 2px; }
+.HasmVisualizer_Container > .HasmVisualizer_Inspector {
+  padding: 16px;
+  border: 1px solid var(--theme-border);
+  border-left: 4px solid var(--theme-primary);
+  background: var(--theme-soft);
+}
+.HasmVisualizer_Container .HasmVisualizer_InspectorTitle { margin: 0 0 6px; font-family: Georgia, serif; font-size: 1.1rem; font-weight: 700; }
+.HasmVisualizer_Container .HasmVisualizer_InspectorMeta { display: flex; flex-wrap: wrap; gap: 12px; color: var(--theme-muted); font-size: 0.8rem; }
+`;
+  writeFileSync(
+    path.join(OUTPUT_DIR, "visualizer-design.css"),
+    `/* AUTO-GENERATED from submodules/hasm/src/seq01.css. */\n${visualizerCss}\n${adapterCss}`,
+    "utf8",
+  );
+
+  // 4. Generate layoutCalculator.js matching Rust calculate_layout logic in visualizer_commands.rs
   const calculatorContent = `// Generated 3D visualizer layout calculator matching HASM Rust backend (SEQ-03)
 export function computeVisualizerLayoutJS(model, filter) {
   const timeScaleMode = filter?.timeScaleMode || "Linear";
@@ -50,18 +118,13 @@ export function computeVisualizerLayoutJS(model, filter) {
   const zStepValue = getZStep(timeScaleMode, zScaleFactor);
   const nodes = [];
   const lines = [];
-  const branchPositions = new Map();
-  const firstCommitZ = new Map();
+  const experienceFactZs = new Map();
 
   const experiences = model?.experiences || [];
-  experiences.forEach((experience, index) => {
-    const x = index * 6.0;
-    const parentCount = Array.isArray(experience.parent_experience_ids)
-      ? experience.parent_experience_ids.length
-      : 0;
-    const y = parentCount * 2.0;
+  const branchPositions = calculateBranchPositions(experiences);
+  experiences.forEach((experience) => {
     const id = String(experience.experience_id || experience.id);
-    branchPositions.set(id, [x, y]);
+    const [x, y] = branchPositions.get(id) || [0.0, 0.0];
     nodes.push({
       id,
       entityType: "EXPERIENCE",
@@ -84,55 +147,69 @@ export function computeVisualizerLayoutJS(model, filter) {
   });
 
   const earliestTime = facts.length > 0 ? timeKey(facts[0].occurred_at || facts[0].occurredAt) : 0;
-  let maximumZ = zStepValue;
 
   facts.forEach((fact, index) => {
     const tKey = timeKey(fact.occurred_at || fact.occurredAt);
     const z = factZ(timeScaleMode, index, tKey, earliestTime, zStepValue);
-    maximumZ = Math.max(maximumZ, z);
 
     const expIds = fact.experience_ids || fact.experienceIds || [];
-    const branchId = expIds.length > 0 ? String(expIds[0]) : null;
-    const [x, y] = branchId && branchPositions.has(branchId) ? branchPositions.get(branchId) : [0.0, 0.0];
+    const reflectedExperiences = new Set();
+    expIds.forEach((experienceId) => collectExperienceAndAncestors(String(experienceId), experiences, reflectedExperiences));
+    const visibleBranches = reflectedExperiences.size > 0 ? reflectedExperiences : new Set([null]);
 
-    if (branchId && !firstCommitZ.has(branchId)) {
-      firstCommitZ.set(branchId, z);
-    }
-
-    nodes.push({
-      id: String(fact.fact_id || fact.id),
-      entityType: "FACT",
-      label: fact.fact_name || fact.name || "Fact",
-      x,
-      y,
-      z,
+    visibleBranches.forEach((branchId) => {
+      const [x, y] = branchId && branchPositions.has(branchId) ? branchPositions.get(branchId) : [0.0, 0.0];
+      if (branchId) {
+        experienceFactZs.set(branchId, [...(experienceFactZs.get(branchId) || []), z]);
+      }
+      nodes.push({
+        id: String(fact.fact_id || fact.id),
+        entityType: "FACT",
+        label: fact.fact_name || fact.name || "Fact",
+        x,
+        y,
+        z,
+      });
     });
   });
 
   experiences.forEach((experience) => {
     const expId = String(experience.experience_id || experience.id);
     const [x, y] = branchPositions.has(expId) ? branchPositions.get(expId) : [0.0, 0.0];
-    lines.push({
-      id: \`branch-\${expId}\`,
-      lineType: "BRANCH",
-      from: [x, y, 0.0],
-      to: [x, y, maximumZ + zStepValue],
-    });
+    const factZs = experienceFactZs.get(expId) || [];
+    if (factZs.length > 0) {
+      const firstFactZ = Math.min(...factZs);
+      const lastFactZ = Math.max(...factZs);
+      lines.push({
+        id: \`branch-\${expId}\`,
+        lineType: "BRANCH",
+        from: [x, y, firstFactZ],
+        to: [x, y, lastFactZ],
+      });
 
-    const joinZ = firstCommitZ.has(expId) ? firstCommitZ.get(expId) : zStepValue;
-    const parents = experience.parent_experience_ids || experience.parentExperienceIds || [];
-    parents.forEach((parentIdRaw) => {
-      const parentId = String(parentIdRaw);
-      if (branchPositions.has(parentId)) {
+      const parents = experience.parent_experience_ids || experience.parentExperienceIds || [];
+      parents.forEach((parentIdRaw) => {
+        const parentId = String(parentIdRaw);
+        if (!branchPositions.has(parentId)) return;
         const [parentX, parentY] = branchPositions.get(parentId);
+        const branchControl = midpointControl([parentX, parentY, firstFactZ], [x, y, firstFactZ]);
+        const mergeControl = midpointControl([x, y, lastFactZ], [parentX, parentY, lastFactZ]);
         lines.push({
-          id: \`join-\${parentId}-\${expId}\`,
-          lineType: "BRANCH_JOIN",
-          from: [parentX, parentY, joinZ],
-          to: [x, y, joinZ],
+          id: \`branch-\${parentId}-\${expId}\`,
+          lineType: "BRANCH_OUT",
+          from: [parentX, parentY, firstFactZ],
+          to: [x, y, firstFactZ],
+          controlPoints: [branchControl],
         });
-      }
-    });
+        lines.push({
+          id: \`merge-\${expId}-\${parentId}\`,
+          lineType: "BRANCH_MERGE",
+          from: [x, y, lastFactZ],
+          to: [parentX, parentY, lastFactZ],
+          controlPoints: [mergeControl],
+        });
+      });
+    }
   });
 
   const people = model?.people || [];
@@ -163,12 +240,100 @@ export function computeVisualizerLayoutJS(model, filter) {
   return { nodes3d: nodes, lines3d: lines, warnings: [] };
 }
 
+function midpointControl(from, to) {
+  const dx = to[0] - from[0];
+  const dy = to[1] - from[1];
+  return [
+    (from[0] + to[0]) / 2.0 - dy * 0.18,
+    (from[1] + to[1]) / 2.0 + dx * 0.18,
+    from[2],
+  ];
+}
+
 function timeKey(value) {
   if (!value) return 0;
   const parts = String(value).split(/[^0-9]+/).map(Number).filter((n) => !isNaN(n));
   if (parts.length < 3) return 0;
   const [year, month, day] = parts;
   return year * 372 + month * 31 + day;
+}
+
+function calculateBranchPositions(experiences) {
+  const generationGap = 6.0;
+  const siblingGap = 4.0;
+  const depths = new Map();
+
+  experiences.forEach((experience) => {
+    experienceDepth(String(experience.experience_id || experience.id), experiences, depths, new Set());
+  });
+
+  const orderedExperiences = [...experiences].sort((left, right) => {
+    const leftId = String(left.experience_id || left.id);
+    const rightId = String(right.experience_id || right.id);
+    return (depths.get(leftId) || 0) - (depths.get(rightId) || 0);
+  });
+  const positions = new Map();
+  const lanesByDepth = new Map();
+
+  orderedExperiences.forEach((experience) => {
+    const id = String(experience.experience_id || experience.id);
+    const depth = depths.get(id) || 0;
+    const parents = experience.parent_experience_ids || experience.parentExperienceIds || [];
+    const parentLanes = parents
+      .map((parentId) => positions.get(String(parentId)))
+      .filter(Boolean)
+      .map((position) => position[1]);
+    const parentCenter = parentLanes.length > 0
+      ? parentLanes.reduce((total, lane) => total + lane, 0) / parentLanes.length
+      : 0.0;
+    const siblingExperiences = experiences.filter((candidate) => {
+      const candidateParents = candidate.parent_experience_ids || candidate.parentExperienceIds || [];
+      return candidateParents.some((parentId) => parents.map(String).includes(String(parentId)));
+    });
+    const siblingIndex = Math.max(0, siblingExperiences.findIndex((candidate) => String(candidate.experience_id || candidate.id) === id));
+    const desiredY = parentCenter + (siblingIndex - (Math.max(0, siblingExperiences.length - 1) / 2.0)) * siblingGap;
+    const occupiedLanes = lanesByDepth.get(depth) || [];
+    const y = nearestAvailableLane(desiredY, occupiedLanes, siblingGap);
+    lanesByDepth.set(depth, occupiedLanes);
+    positions.set(id, [depth * generationGap, y]);
+  });
+
+  return positions;
+}
+
+function experienceDepth(experienceId, experiences, depths, visiting) {
+  if (depths.has(experienceId)) return depths.get(experienceId);
+  if (visiting.has(experienceId)) return 0;
+  visiting.add(experienceId);
+  const experience = experiences.find((candidate) => String(candidate.experience_id || candidate.id) === experienceId);
+  const parents = experience?.parent_experience_ids || experience?.parentExperienceIds || [];
+  const depth = experience
+    ? parents.reduce((maximum, parentId) => Math.max(maximum, experienceDepth(String(parentId), experiences, depths, visiting) + 1), 0)
+    : 0;
+  visiting.delete(experienceId);
+  depths.set(experienceId, depth);
+  return depth;
+}
+
+function collectExperienceAndAncestors(experienceId, experiences, collected) {
+  if (collected.has(experienceId)) return;
+  collected.add(experienceId);
+  const experience = experiences.find((candidate) => String(candidate.experience_id || candidate.id) === experienceId);
+  const parents = experience?.parent_experience_ids || experience?.parentExperienceIds || [];
+  parents.forEach((parentId) => collectExperienceAndAncestors(String(parentId), experiences, collected));
+}
+
+function nearestAvailableLane(desiredY, occupiedLanes, gap) {
+  for (let step = 0; step <= occupiedLanes.length; step += 1) {
+    const offset = step * gap;
+    for (const candidate of [desiredY + offset, desiredY - offset]) {
+      if (occupiedLanes.every((lane) => Math.abs(candidate - lane) >= gap)) {
+        occupiedLanes.push(candidate);
+        return candidate;
+      }
+    }
+  }
+  throw new Error("Unable to find an available EXPERIENCE lane");
 }
 
 function factZ(mode, index, time, earliestTime, zStepVal) {
@@ -197,7 +362,7 @@ function getZStep(mode, scale) {
 `;
   writeFileSync(path.join(OUTPUT_DIR, "layoutCalculator.js"), calculatorContent, "utf8");
 
-  // 4. Generate sampleModels.js representing .hasm packages
+  // 5. Generate sampleModels.js representing .hasm packages
   const sampleModelsContent = `// Sample .hasm model datasets for live 3D visualization
 export const SAMPLE_HASM_MODELS = [
   {
