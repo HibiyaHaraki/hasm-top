@@ -1,6 +1,8 @@
 import React from 'react';
 import { useLanguage } from './i18n.js';
 
+const DOWNLOADS_BASE = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/downloads`;
+
 const downloadSectionStyles = `
   .OsDownload_Section {
     margin-top: 48px;
@@ -167,14 +169,14 @@ export function OsDownloadSection({ appType = 'hasm' }) {
           </div>
           <div className="OsDownload_Buttons">
             <a
-              href={`/downloads/${folder}/${files.msi}`}
+              href={`${DOWNLOADS_BASE}/${folder}/${files.msi}`}
               download={files.msi}
               className="OsDownload_Btn OsDownload_BtnPrimary"
             >
               📥 {t.winMsi}
             </a>
             <a
-              href={`/downloads/${folder}/${files.zip}`}
+              href={`${DOWNLOADS_BASE}/${folder}/${files.zip}`}
               download={files.zip}
               className="OsDownload_Btn OsDownload_BtnSecondary"
             >
@@ -191,14 +193,14 @@ export function OsDownloadSection({ appType = 'hasm' }) {
           </div>
           <div className="OsDownload_Buttons">
             <a
-              href={`/downloads/${folder}/${files.dmg}`}
+              href={`${DOWNLOADS_BASE}/${folder}/${files.dmg}`}
               download={files.dmg}
               className="OsDownload_Btn OsDownload_BtnPrimary"
             >
               📥 {t.macDmg}
             </a>
             <a
-              href={`/downloads/${folder}/${files.dmg}`}
+              href={`${DOWNLOADS_BASE}/${folder}/${files.dmg}`}
               download={files.dmg}
               className="OsDownload_Btn OsDownload_BtnSecondary"
             >
@@ -215,14 +217,14 @@ export function OsDownloadSection({ appType = 'hasm' }) {
           </div>
           <div className="OsDownload_Buttons">
             <a
-              href={`/downloads/${folder}/${files.appImage}`}
+              href={`${DOWNLOADS_BASE}/${folder}/${files.appImage}`}
               download={files.appImage}
               className="OsDownload_Btn OsDownload_BtnPrimary"
             >
               📥 {t.linuxAppImage}
             </a>
             <a
-              href={`/downloads/${folder}/${files.deb}`}
+              href={`${DOWNLOADS_BASE}/${folder}/${files.deb}`}
               download={files.deb}
               className="OsDownload_Btn OsDownload_BtnSecondary"
             >

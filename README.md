@@ -64,3 +64,9 @@ npm run lint     # oxlint
 npm run preview  # preview a production build
 ```
 
+## GitHub Pages deployment
+
+Pushes to `main` run [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml), which checks out this repo with all submodules, builds the site, and publishes `dist/` to GitHub Pages. The site is served from `https://<owner>.github.io/hasm-top/`, so the production build sets `GITHUB_PAGES=true` to make Vite emit asset URLs prefixed with `/hasm-top/` (see [vite.config.js](vite.config.js)). Local `npm run dev` / `npm run build` are unaffected and stay rooted at `/`.
+
+In the repository settings, set **Settings → Pages → Source** to **GitHub Actions** so this workflow can deploy.
+
