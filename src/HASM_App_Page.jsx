@@ -104,10 +104,11 @@ const hasmAppPageStyles = `
   }
 
   .HASM_Page_HeroLead {
-    max-width: 720px;
+    max-width: 760px;
     color: var(--theme-muted);
     font-size: 1.1rem;
     margin: 0 0 32px;
+    line-height: 1.8;
   }
 
   .HASM_Page_TabNav {
@@ -144,7 +145,7 @@ const hasmAppPageStyles = `
   }
 
   .HASM_Page_Section {
-    padding: 40px 0;
+    padding: 44px 0;
     border-top: 1px solid var(--theme-border);
   }
 
@@ -156,13 +157,14 @@ const hasmAppPageStyles = `
     font-family: Georgia, serif;
     font-size: clamp(1.8rem, 3.5vw, 2.6rem);
     margin: 6px 0 12px;
-    line-height: 1.15;
+    line-height: 1.18;
   }
 
   .HASM_Page_SectionDesc {
-    max-width: 800px;
+    max-width: 820px;
     color: var(--theme-muted);
     font-size: 1.05rem;
+    line-height: 1.8;
   }
 
   .HASM_Page_EntityGrid {
@@ -173,9 +175,10 @@ const hasmAppPageStyles = `
   }
 
   .HASM_Page_EntityCard {
-    padding: 20px;
+    padding: 22px;
     background: var(--theme-surface);
     border: 1px solid var(--theme-border);
+    border-top: 3px solid var(--theme-primary);
   }
 
   .HASM_Page_EntityCardHeader {
@@ -186,8 +189,8 @@ const hasmAppPageStyles = `
   }
 
   .HASM_Page_EntityBadge {
-    padding: 2px 8px;
-    font-size: 0.7rem;
+    padding: 3px 9px;
+    font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     background: var(--theme-primary);
@@ -198,6 +201,103 @@ const hasmAppPageStyles = `
     margin: 0;
     color: var(--theme-muted);
     font-size: 0.92rem;
+    line-height: 1.65;
+  }
+
+  /* ONTOLOGY MATRIX TABLE */
+  .HASM_Page_TableBox {
+    margin: 32px 0;
+    overflow-x: auto;
+    border: 1px solid var(--theme-border);
+    background: var(--theme-surface);
+  }
+
+  .HASM_Page_OntologyTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .HASM_Page_OntologyTable th {
+    padding: 12px 16px;
+    background: var(--theme-soft);
+    border-bottom: 2px solid var(--theme-border);
+    font-family: Georgia, serif;
+    font-weight: 700;
+    color: var(--theme-text);
+  }
+
+  .HASM_Page_OntologyTable td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--theme-border);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .HASM_Page_OntologyTable tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* ROADMAP CALLOUT */
+  .HASM_Page_RoadmapNotice {
+    margin: 28px 0;
+    padding: 20px 24px;
+    background: var(--theme-soft);
+    border: 1px solid var(--theme-border);
+    border-left: 4px solid var(--theme-accent-readable);
+  }
+
+  .HASM_Page_RoadmapTitle {
+    font-family: Georgia, serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 6px;
+    color: var(--theme-text);
+  }
+
+  .HASM_Page_RoadmapDesc {
+    margin: 0;
+    color: var(--theme-muted);
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+
+  /* COORDINATE SPACE BOX */
+  .HASM_Page_CoordBox {
+    margin: 28px 0;
+    padding: 24px;
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-left: 4px solid var(--theme-primary);
+  }
+
+  .HASM_Page_CoordTitle {
+    font-family: Georgia, serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 14px;
+    color: var(--theme-text);
+  }
+
+  .HASM_Page_CoordList {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .HASM_Page_CoordItem {
+    padding: 10px 14px;
+    background: var(--theme-soft);
+    border: 1px solid var(--theme-border);
+    font-size: 0.9rem;
+    color: var(--theme-text);
+  }
+
+  .HASM_Page_CoordItem strong {
+    color: var(--theme-accent-readable);
   }
 
   .HASM_Page_FlowContainer {
@@ -307,10 +407,16 @@ const hasmAppPageStyles = `
     line-height: 1.5;
   }
 
-  .HASM_Page_BenefitsGrid,
-  .HASM_Page_UsecaseGrid {
+  .HASM_Page_BenefitsGrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-top: 24px;
+  }
+
+  .HASM_Page_UsecaseGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 20px;
     margin-top: 24px;
   }
@@ -320,6 +426,9 @@ const hasmAppPageStyles = `
     background: var(--theme-surface);
     border: 1px solid var(--theme-border);
     border-top: 3px solid var(--theme-primary);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .HASM_Page_FeatureTitle {
@@ -329,10 +438,18 @@ const hasmAppPageStyles = `
     margin: 0 0 10px;
   }
 
+  .HASM_Page_FeatureSubtitle {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--theme-accent-readable);
+    margin-bottom: 8px;
+  }
+
   .HASM_Page_FeatureDesc {
     margin: 0;
     color: var(--theme-muted);
     font-size: 0.92rem;
+    line-height: 1.65;
   }
 
   @media (max-width: 760px) {
@@ -398,7 +515,7 @@ export const HASM_App_Page = ({ onNavigateHome }) => {
                 aria-selected={activeTab === 'all'}
                 onClick={() => handleTabChange('all')}
               >
-                All Overview
+                {t.navAllOverview}
               </button>
               <button
                 type="button"
@@ -435,7 +552,7 @@ export const HASM_App_Page = ({ onNavigateHome }) => {
             </nav>
           </section>
 
-          {/* SECTION 1: WHAT IS HASM? (TECHNICAL INTRODUCTION) */}
+          {/* SECTION 1: WHAT IS HASM? (TECHNICAL INTRODUCTION & ONTOLOGY) */}
           {(activeTab === 'all' || activeTab === 'what-is-hasm') && (
             <section className="HASM_Page_Section" id="what-is-hasm">
               <div className="HASM_Page_SectionHeader">
@@ -444,6 +561,7 @@ export const HASM_App_Page = ({ onNavigateHome }) => {
                 <p className="HASM_Page_SectionDesc">{t.whatIsHasmDescription}</p>
               </div>
 
+              {/* CORE 4 ENTITIES GRID */}
               <div className="HASM_Page_EntityGrid">
                 <div className="HASM_Page_EntityCard">
                   <div className="HASM_Page_EntityCardHeader">
@@ -474,6 +592,56 @@ export const HASM_App_Page = ({ onNavigateHome }) => {
                 </div>
               </div>
 
+              {/* ONTOLOGY MATRIX TABLE */}
+              <div style={{ marginTop: 32 }}>
+                <div className="HASM_Page_Kicker">{t.ontTableTitle}</div>
+                <div className="HASM_Page_TableBox">
+                  <table className="HASM_Page_OntologyTable">
+                    <thead>
+                      <tr>
+                        <th style={{ width: '22%' }}>{t.ontColEntity}</th>
+                        <th style={{ width: '26%' }}>{t.ontColRole}</th>
+                        <th style={{ width: '28%' }}>{t.ontColConcept}</th>
+                        <th style={{ width: '24%' }}>{t.ontColDev}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>PERSON</strong></td>
+                        <td>Agent & Meaning Owner</td>
+                        <td>{t.ontRowPersonConcept}</td>
+                        <td>{t.ontRowPersonDev}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>EXPERIENCE</strong></td>
+                        <td>Perception Frame & Context</td>
+                        <td>{t.ontRowExpConcept}</td>
+                        <td>{t.ontRowExpDev}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>FACT / ACHIEVEMENT</strong></td>
+                        <td>Immutable Event / Record</td>
+                        <td>{t.ontRowFactConcept}</td>
+                        <td>{t.ontRowFactDev}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>LINK / NEXUS</strong></td>
+                        <td>Omnidirectional Bond & Relation</td>
+                        <td>{t.ontRowLinkConcept}</td>
+                        <td>{t.ontRowLinkDev}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* ROADMAP / ARCHITECTURAL DEVIATION NOTICE */}
+              <div className="HASM_Page_RoadmapNotice">
+                <div className="HASM_Page_RoadmapTitle">📌 {t.roadmapTitle}</div>
+                <p className="HASM_Page_RoadmapDesc">{t.roadmapDesc}</p>
+              </div>
+
+              {/* APP LIFECYCLE FLOW */}
               <div className="HASM_Page_FlowContainer">
                 <div className="HASM_Page_FlowTitle">{t.flowTitle}</div>
                 <div className="HASM_Page_FlowSteps">
@@ -498,7 +666,7 @@ export const HASM_App_Page = ({ onNavigateHome }) => {
             </section>
           )}
 
-          {/* SECTION 2: EXAMPLE */}
+          {/* SECTION 2: 3D COMMIT GRAPH & EXAMPLE */}
           {(activeTab === 'all' || activeTab === 'example') && (
             <section className="HASM_Page_Section" id="example">
               <div className="HASM_Page_SectionHeader">
@@ -526,6 +694,17 @@ export const HASM_App_Page = ({ onNavigateHome }) => {
                 />
               </div>
 
+              {/* 3D COORDINATE SPACE BREAKDOWN */}
+              <div className="HASM_Page_CoordBox">
+                <div className="HASM_Page_CoordTitle">{t.coordTitle}</div>
+                <ul className="HASM_Page_CoordList">
+                  <li className="HASM_Page_CoordItem">{t.coordZ}</li>
+                  <li className="HASM_Page_CoordItem">{t.coordX}</li>
+                  <li className="HASM_Page_CoordItem">{t.coordY}</li>
+                </ul>
+              </div>
+
+              {/* FILE SYSTEM STRUCTURE */}
               <div className="HASM_Page_TreeBox">
                 <strong>{t.exampleFolderTitle}:</strong>
                 {`
@@ -613,7 +792,7 @@ my-hasm-model/
             </section>
           )}
 
-          {/* SECTION 4: USECASE */}
+          {/* SECTION 4: 5 MAJOR USE CASES */}
           {(activeTab === 'all' || activeTab === 'usecase') && (
             <section className="HASM_Page_Section" id="usecase">
               <div className="HASM_Page_SectionHeader">
@@ -624,23 +803,43 @@ my-hasm-model/
 
               <div className="HASM_Page_UsecaseGrid">
                 <div className="HASM_Page_FeatureCard">
-                  <h3 className="HASM_Page_FeatureTitle">{t.usecase1Title}</h3>
+                  <div>
+                    <h3 className="HASM_Page_FeatureTitle">{t.usecase1Title}</h3>
+                    <div className="HASM_Page_FeatureSubtitle">{t.usecase1Subtitle}</div>
+                  </div>
                   <p className="HASM_Page_FeatureDesc">{t.usecase1Desc}</p>
                 </div>
 
                 <div className="HASM_Page_FeatureCard">
-                  <h3 className="HASM_Page_FeatureTitle">{t.usecase2Title}</h3>
+                  <div>
+                    <h3 className="HASM_Page_FeatureTitle">{t.usecase2Title}</h3>
+                    <div className="HASM_Page_FeatureSubtitle">{t.usecase2Subtitle}</div>
+                  </div>
                   <p className="HASM_Page_FeatureDesc">{t.usecase2Desc}</p>
                 </div>
 
                 <div className="HASM_Page_FeatureCard">
-                  <h3 className="HASM_Page_FeatureTitle">{t.usecase3Title}</h3>
+                  <div>
+                    <h3 className="HASM_Page_FeatureTitle">{t.usecase3Title}</h3>
+                    <div className="HASM_Page_FeatureSubtitle">{t.usecase3Subtitle}</div>
+                  </div>
                   <p className="HASM_Page_FeatureDesc">{t.usecase3Desc}</p>
                 </div>
 
                 <div className="HASM_Page_FeatureCard">
-                  <h3 className="HASM_Page_FeatureTitle">{t.usecase4Title}</h3>
+                  <div>
+                    <h3 className="HASM_Page_FeatureTitle">{t.usecase4Title}</h3>
+                    <div className="HASM_Page_FeatureSubtitle">{t.usecase4Subtitle}</div>
+                  </div>
                   <p className="HASM_Page_FeatureDesc">{t.usecase4Desc}</p>
+                </div>
+
+                <div className="HASM_Page_FeatureCard">
+                  <div>
+                    <h3 className="HASM_Page_FeatureTitle">{t.usecase5Title}</h3>
+                    <div className="HASM_Page_FeatureSubtitle">{t.usecase5Subtitle}</div>
+                  </div>
+                  <p className="HASM_Page_FeatureDesc">{t.usecase5Desc}</p>
                 </div>
               </div>
             </section>
