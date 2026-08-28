@@ -50,6 +50,12 @@
   letter-spacing: 0.04em;
 }
 
+.HASM_Footer_Tagline {
+  margin: 0 0 6px;
+  font-style: italic;
+  color: var(--theme-accent-readable);
+}
+
 @media (max-width: 760px) {
   .ThemeSelector,
   .LanguageSelector {

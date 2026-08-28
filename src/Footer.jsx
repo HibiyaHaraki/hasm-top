@@ -6,6 +6,7 @@ export const Footer = () => {
 
   return (
     <footer className="HASM_Footer">
+      <p className="HASM_Footer_Tagline">{t.footerTagline}</p>
       <small>{t.copyright}</small>
     </footer>
   );
