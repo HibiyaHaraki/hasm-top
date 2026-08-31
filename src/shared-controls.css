@@ -43,9 +43,17 @@
 }
 
 .HASM_Footer {
+  /* Full-bleed background regardless of the max-width container it renders inside. */
+  position: relative;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
   margin-top: auto;
-  padding-top: 28px;
+  padding: 24px 20px;
+  text-align: center;
   color: var(--theme-muted);
+  background: var(--theme-surface);
+  border-top: 1px solid var(--theme-border);
   font-size: 0.75rem;
   letter-spacing: 0.04em;
 }
