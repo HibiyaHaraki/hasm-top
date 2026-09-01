@@ -27,6 +27,9 @@ const creatorPageStyles = `
   .HASM_Creator_Page_Lead { max-width: 680px; margin: 0; color: var(--theme-muted); font-size: 1.08rem; }
   .HASM_Creator_Page_GitHub { display: inline-flex; align-items: center; margin-top: 24px; padding: 8px 14px; color: var(--theme-on-accent); background: var(--theme-primary); border: 1px solid var(--theme-primary); text-decoration: none; font-weight: 700; }
   .HASM_Creator_Page_GitHub:hover, .HASM_Creator_Page_GitHub:focus-visible { color: var(--theme-on-accent); filter: brightness(0.92); }
+  .HASM_Creator_Page_Links { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 24px; }
+  .HASM_Creator_Page_Links .HASM_Creator_Page_GitHub { margin-top: 0; }
+  .HASM_Creator_Page_Links a:not(.HASM_Creator_Page_GitHub) { color: var(--theme-accent-readable); font-weight: 700; text-underline-offset: 3px; }
   .HASM_Creator_Page_Logo { width: 38px; height: 38px; object-fit: contain; }
   @media (max-width: 760px) { .HASM_Creator_Page_Header { flex-direction: column; align-items: flex-start; } .HASM_Creator_Page_Content { grid-template-columns: 1fr; gap: 24px; padding: 48px 0; } .HASM_Creator_Page_Avatar { width: 128px; height: 128px; } }
 `;
@@ -52,7 +55,13 @@ export const HASM_Creator_Page = ({ onNavigateHome }) => {
             <div className="HASM_Creator_Page_Kicker">{t.creatorKicker}</div>
             <h1 className="HASM_Creator_Page_Title">HibiyaHaraki</h1>
             <p className="HASM_Creator_Page_Lead">{t.creatorLead}</p>
-            <a className="HASM_Creator_Page_GitHub" href="https://github.com/HibiyaHaraki" target="_blank" rel="noreferrer">{t.creatorGithubButton}</a>
+            <div className="HASM_Creator_Page_Links">
+              <a className="HASM_Creator_Page_GitHub" href="https://github.com/HibiyaHaraki" target="_blank" rel="noreferrer">{t.creatorGithubButton}</a>
+              <a href="https://www.linkedin.com/in/hibiyaharaki/" target="_blank" rel="noreferrer">LinkedIn</a>
+              <a href="https://qiita.com/Hibs" target="_blank" rel="noreferrer">Qiita</a>
+              <a href="https://note.com/_hibs_" target="_blank" rel="noreferrer">note</a>
+              <a href="#/blog">{t.creatorBlogButton}</a>
+            </div>
           </section>
         </main>
         <img className="HASM_Creator_Page_Logo" src={hasmLogo} alt="HASM" />

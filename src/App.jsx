@@ -6,6 +6,7 @@ import { HASM_Markdown_Page } from './HASM_Markdown_Page';
 import { HASM_Color_Pattern_Page } from './HASM_Color_Pattern_Page';
 import { HASM_Logo_Explanation_Page } from './HASM_Logo_Explanation_Page';
 import { HASM_Creator_Page } from './HASM_Creator_Page';
+import { HASM_Blog_Page } from './HASM_Blog_Page';
 import './shared-controls.css';
 
 function HomeRoute() {
@@ -34,6 +35,7 @@ function App() {
         <Route path="/color-pattern" element={<HomeLinkRoute Page={HASM_Color_Pattern_Page} />} />
         <Route path="/logo" element={<HomeLinkRoute Page={HASM_Logo_Explanation_Page} />} />
         <Route path="/creator" element={<HomeLinkRoute Page={HASM_Creator_Page} />} />
+        <Route path="/blog" element={<HomeLinkRoute Page={HASM_Blog_Page} />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </HashRouter>

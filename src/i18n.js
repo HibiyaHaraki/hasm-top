@@ -42,6 +42,28 @@ const TRANSLATIONS = {
     creatorLead: 'HibiyaHaraki creates the HASM project family and its tools for structured, local-first thinking.',
     creatorGithubLabel: 'GitHub account',
     creatorGithubButton: 'Visit HibiyaHaraki on GitHub',
+    creatorBlogButton: 'Read the development blog',
+    blogKicker: 'WRITING & DEVELOPMENT LOG',
+    blogTitle: 'HASM Blog',
+    blogLead: 'Essays and build notes tracing the ideas, research, and engineering behind HASM.',
+    blogNoteLabel: 'note essays',
+    blogQiitaLabel: 'Qiita technical posts',
+    blogReadArticle: 'Read the original article',
+    blogNoteArticles: [
+      ['Visualizing the value of life beyond a resume', 'The initial question behind HASM: preserve events, reasons, changing interpretations, and relationships so a personal history becomes a map for the future.', 'https://note.com/_hibs_/n/na6bf4c63017d'],
+      ['Solving communication gaps through shared experience', 'An interim research report on narrowing knowledge gaps with structured experience histories, drawing on common ground, boundary objects, reflection, and sensemaking.', 'https://note.com/_hibs_/n/nff73894e334d'],
+      ['HASM research map from a Miyakojima workation', 'Maps seven intersecting fields, from knowledge engineering and cognitive science to AI, CSCW, and management, and considers collective experience graphs.', 'https://note.com/_hibs_/n/n2787ba7bbba2'],
+      ['Building Tauri and React foundations alongside AI', 'A Jozankei workation log on a Markdown editor prototype, local file handling, autosave, and learning by understanding AI-assisted code.', 'https://note.com/_hibs_/n/n2d2661bce859'],
+      ['From writing to connecting: HASM architecture and roadmap', 'Explains the four core entities, a 3D timeline, Markdown-plus-SQLite storage, and a phased implementation plan for the project family.', 'https://note.com/_hibs_/n/n5948f803a5d0'],
+      ['Publishing the first HASM introduction page', 'Reflects on turning causal-semantic separation into a public introduction and identifies next challenges in interaction and practical use cases.', 'https://note.com/_hibs_/n/nbeb04391e892']
+    ],
+    blogQiitaArticles: [
+      ['Planning a learning roadmap for a life-log application', 'Defines the original goal and a practical learning sequence for React, Tauri, local storage, Three.js, and GitHub Actions.', 'https://qiita.com/Hibs/items/adde5e32a020a08fb92d'],
+      ['Life-log development #1: First steps with Tauri v2 and React', 'A beginner-oriented account of Windows setup, Rust installation, PowerShell issues, and creating the first desktop application.', 'https://qiita.com/Hibs/items/f430c84ad93152ecf094'],
+      ['Life-log development #2: Three.js trajectories in 3D', 'Builds Three.js fundamentals with animated Lorenz trajectories, camera controls, dynamic line rendering, and performance lessons.', 'https://qiita.com/Hibs/items/ff47da0ef53902e49430'],
+      ['Life-log development #3: A Tauri and Milkdown Markdown editor', 'Integrates rich Markdown editing, local file operations, and image drag-and-drop while documenting permissions and lifecycle pitfalls.', 'https://qiita.com/Hibs/items/29cfeebb5130b3a3ecc2'],
+      ['Life-log development #4: Portable HASM Markdown', 'Explains portable two-layer storage and a development workflow built around design documents, evaluation cases, and iterative debugging.', 'https://qiita.com/Hibs/items/a98acd52ce0a4642b67e']
+    ],
 
     // Top Landing Page (HASM_Page.jsx)
     homeKicker: 'HUMAN ACTIVITY STRUCTURING MODEL',
@@ -345,6 +367,28 @@ const TRANSLATIONS = {
     creatorLead: 'HibiyaHarakiは、構造化されローカルファーストな思考のためのHASMプロジェクト群とツールを作っています。',
     creatorGithubLabel: 'GitHubアカウント',
     creatorGithubButton: 'GitHubでHibiyaHarakiを見る',
+    creatorBlogButton: '開発ブログを読む',
+    blogKicker: '執筆・開発ログ',
+    blogTitle: 'HASMブログ',
+    blogLead: 'HASMの思想、調査、実装をたどるエッセイと開発記録です。',
+    blogNoteLabel: 'noteの記事',
+    blogQiitaLabel: 'Qiitaの技術記事',
+    blogReadArticle: '元の記事を読む',
+    blogNoteArticles: [
+      ['履歴書には書けない「人生の価値」を、見える化したい。', '出来事、行動の理由、変化する解釈、経験どうしの関係を残し、未来を考えるための地図にするというHASMの出発点を綴ります。', 'https://note.com/_hibs_/n/na6bf4c63017d'],
+      ['コミュニケーションの「不全」を履歴で解く', '経験履歴を構造化して知識の非対称性を埋める可能性を、共同基盤、境界オブジェクト、内省的実践、センスメイキングから探ります。', 'https://note.com/_hibs_/n/nff73894e334d'],
+      ['HASMの先行研究・マインドマップの作成', '知識工学、認知科学、HCI、キャリア論、AI、CSCW、経営科学の7領域を整理し、集団知としての経験グラフの可能性を考えます。', 'https://note.com/_hibs_/n/n2787ba7bbba2'],
+      ['AIと並走してTauri+React開発の足掛かりを掴む', 'Markdownエディタの試作、ローカルファイル操作、自動保存を進めながら、AIのコードを理解して使う開発プロセスを振り返ります。', 'https://note.com/_hibs_/n/n2d2661bce859'],
+      ['「書く」から「繋ぐ」へ。HASM本丸の全体設計とロードマップ', '4つのエンティティ、3Dタイムライン、MarkdownとSQLiteを組み合わせた保存設計、段階的な実装ロードマップを紹介します。', 'https://note.com/_hibs_/n/n5948f803a5d0'],
+      ['履歴書を超えて「経験の意味」を可視化する', '因果と意味を分けるHASMの思想を紹介ページとして公開するまでの過程と、今後の課題をまとめます。', 'https://note.com/_hibs_/n/nbeb04391e892']
+    ],
+    blogQiitaArticles: [
+      ['個人開発で人生ログアプリを作りたいので、学習ロードマップを整理してみた', 'HASMの目標を定め、React、Tauri、ローカル保存、Three.js、GitHub Actionsを順に学びながら小さく作る計画を整理します。', 'https://qiita.com/Hibs/items/adde5e32a020a08fb92d'],
+      ['【人生ログ開発 #1】Tauri v2 + Reactでデスクトップアプリ開発の第一歩', 'Windowsでの開発環境構築、Rustの導入、PowerShellの実行ポリシー、Hello Worldまでを初心者の視点で記録します。', 'https://qiita.com/Hibs/items/f430c84ad93152ecf094'],
+      ['【人生ログ開発 #2】Three.jsで点と線による軌跡描画をマスターする', 'ローレンツ方程式を題材に、Three.jsの基本、カメラ操作、動的な線の描画、パフォーマンスの学びをまとめます。', 'https://qiita.com/Hibs/items/ff47da0ef53902e49430'],
+      ['【人生ログ開発 #3】Tauri v2 + Milkdownで画像D&D対応のMarkdownエディタを作る', 'リッチなMarkdown編集、ローカルファイル操作、画像ドラッグ&ドロップを実装し、Tauriの権限とReact連携の課題を記録します。', 'https://qiita.com/Hibs/items/29cfeebb5130b3a3ecc2'],
+      ['【人生ログ開発 #4】ポータブルなHASM Markdownの設計とAIとの開発プロセス', '持ち運べるMarkdownパッケージの二層保存構造と、設計書、評価仕様、反復デバッグを軸にしたAI協働開発を紹介します。', 'https://qiita.com/Hibs/items/a98acd52ce0a4642b67e']
+    ],
 
     // Top Landing Page (HASM_Page.jsx)
     homeKicker: 'HUMAN ACTIVITY STRUCTURING MODEL',
