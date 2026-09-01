@@ -64,6 +64,51 @@
   color: var(--theme-accent-readable);
 }
 
+.HASM_Footer_Ownership {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 0 8px;
+}
+
+.HASM_Footer_Ownership p {
+  margin: 0;
+}
+
+.HASM_Footer_Avatar {
+  display: block;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--theme-border);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.HASM_Footer_Ownership a {
+  color: var(--theme-accent-readable);
+  font-weight: 700;
+}
+
+.HASM_Footer_GitHubLinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 14px;
+  max-width: 760px;
+  margin: 0 auto 10px;
+}
+
+.HASM_Footer_GitHubLinks a {
+  color: var(--theme-muted);
+  text-underline-offset: 3px;
+}
+
+.HASM_Footer_GitHubLinks a:hover,
+.HASM_Footer_GitHubLinks a:focus-visible {
+  color: var(--theme-accent-readable);
+}
+
 @media (max-width: 760px) {
   .ThemeSelector,
   .LanguageSelector {
