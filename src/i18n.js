@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
+import { createContext, createElement, useCallback, useContext, useEffect, useState } from 'react';
 import { createLogger } from './hasm_logger/src/react/logger.js';
 
 const STORAGE_KEY = 'hasm_language_preference';
 const logger = createLogger('language');
+const LanguageContext = createContext(null);
 
 export const LANGUAGES = [
   { id: 'en', label: 'English' },
@@ -21,12 +22,26 @@ const TRANSLATIONS = {
     openMarkdownSubApp: 'Sub App: HASM Markdown',
     openColorPatternSubApp: 'Sub App: Color Pattern',
     openLogoSubApp: 'Sub App: Logo System',
+    openCreatorSubApp: 'Meet the HASM Creator',
     openHasmAppSubApp: 'Open HASM Model Editor',
     hasmMainApp: 'MAIN APP',
     hasmSubApps: 'HASM ECOSYSTEM',
     hasmSubAppsDescription: 'Explore the HASM Model Editor and the specialized sub-modules for document editing, color pattern design, and brand mark geometry.',
     copyright: 'Copyright (c) 2026 Hibiya Haraki.',
+    ownership: 'HASM is a project by',
     footerTagline: 'HASM is a living structure — separating what happened from what it means.',
+    githubLinksLabel: 'HASM GitHub links',
+    githubCreator: 'HASM Creator Account',
+    githubCreatorAvatar: 'HibiyaHaraki GitHub profile picture',
+    githubIntroduction: 'HASM Introduction Page',
+    githubDesktopApp: 'HASM Editor Desktop App',
+    githubMarkdownEditor: 'HASM Markdown Editor',
+    creatorKicker: 'HASM CREATOR',
+    creatorTitle: 'HASM Creator',
+    creatorDescription: 'Learn about the person behind the HASM project family.',
+    creatorLead: 'HibiyaHaraki creates the HASM project family and its tools for structured, local-first thinking.',
+    creatorGithubLabel: 'GitHub account',
+    creatorGithubButton: 'Visit HibiyaHaraki on GitHub',
 
     // Top Landing Page (HASM_Page.jsx)
     homeKicker: 'HUMAN ACTIVITY STRUCTURING MODEL',
@@ -310,12 +325,26 @@ const TRANSLATIONS = {
     openMarkdownSubApp: 'サブアプリ: HASM Markdown',
     openColorPatternSubApp: 'サブアプリ: Color Pattern',
     openLogoSubApp: 'サブアプリ: Logo システム',
+    openCreatorSubApp: 'HASMの作成者を見る',
     openHasmAppSubApp: 'HASM モデルエディタを開く',
     hasmMainApp: 'メインアプリ',
     hasmSubApps: 'HASM エコシステム',
     hasmSubAppsDescription: 'HASM モデルエディタ本体と、文書編集・カラーパレット設計・ブランドマーク幾何学を担う専門サブモジュールを見てみましょう。',
     copyright: 'Copyright (c) 2026 Hibiya Haraki.',
+    ownership: 'HASMの考案者は',
     footerTagline: 'HASMは生きた構造です──「起きたこと」と「その意味」を切り離す。',
+    githubLinksLabel: 'HASM GitHubリンク',
+    githubCreator: 'HASM作成者アカウント',
+    githubCreatorAvatar: 'HibiyaHarakiのGitHubプロフィール画像',
+    githubIntroduction: 'HASM紹介ページ',
+    githubDesktopApp: 'HASMエディタ デスクトップアプリ',
+    githubMarkdownEditor: 'HASM Markdownエディタ',
+    creatorKicker: 'HASMの作成者',
+    creatorTitle: 'HASM作成者',
+    creatorDescription: 'HASMプロジェクト群を作る人について紹介します。',
+    creatorLead: 'HibiyaHarakiは、構造化されローカルファーストな思考のためのHASMプロジェクト群とツールを作っています。',
+    creatorGithubLabel: 'GitHubアカウント',
+    creatorGithubButton: 'GitHubでHibiyaHarakiを見る',
 
     // Top Landing Page (HASM_Page.jsx)
     homeKicker: 'HUMAN ACTIVITY STRUCTURING MODEL',
@@ -589,7 +618,7 @@ const TRANSLATIONS = {
   }
 };
 
-export function useLanguage() {
+export function LanguageProvider({ children }) {
   const [language, setLanguageState] = useState(() => {
     if (typeof window === 'undefined') return 'ja';
     const stored = window.localStorage.getItem(STORAGE_KEY);
@@ -605,5 +634,17 @@ export function useLanguage() {
     logger.info('Selected language.', { language: nextLanguage });
   }, []);
 
-  return { language, setLanguage, t: TRANSLATIONS[language] };
+  return createElement(
+    LanguageContext.Provider,
+    { value: { language, setLanguage, t: TRANSLATIONS[language] } },
+    children
+  );
+}
+
+export function useLanguage() {
+  const context = useContext(LanguageContext);
+  if (!context) {
+    throw new Error('useLanguage must be used within a LanguageProvider.');
+  }
+  return context;
 }
