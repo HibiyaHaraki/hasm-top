@@ -7,6 +7,34 @@ The top-level site for the HASM project family. It hosts:
 
 Navigation between the two pages is a simple in-memory state switch in [src/App.jsx](src/App.jsx) (no router dependency yet).
 
+## GitHub Pages
+
+Visit the published site: [HASM on GitHub Pages](https://hibiyaharaki.github.io/hasm-top/).
+
+## Philosophy
+
+HASM explores tools that keep personal expression and structured knowledge in conversation. Its projects favor thoughtful, portable software: tools that can be carried between contexts, remain close to their data, and help people turn ideas into forms they can revisit and share.
+
+HASM Markdown is one practical expression of that idea. It treats writing as both a private act of thinking and a durable, readable structure for communication.
+
+## Repository Structure
+
+```mermaid
+graph TD
+  TOP[hasm-top: GitHub Pages site] --> UI[src: React user interface]
+  TOP --> SCRIPTS[scripts: sync and build helpers]
+  TOP --> PUBLIC[public: static assets and downloads]
+  TOP --> SUBMODULES[submodules: upstream project sources]
+  UI --> GENERATED[src/generated: synced design and visualizer code]
+  UI --> COLORS[src/hasm_color_pattern: shared themes]
+  UI --> LOGGER[src/hasm_logger: shared logging]
+  SUBMODULES --> HASM[submodules/hasm: desktop app]
+  SUBMODULES --> MARKDOWN[submodules/hasm_markdown: Markdown editor source of truth]
+  SUBMODULES --> LOGO[submodules/hasm_logo: logo artwork]
+  SCRIPTS --> GENERATED
+  LOGO --> ASSETS[src/assets/logo: synced logo assets]
+```
+
 ## Submodules
 
 | Path | Purpose |
