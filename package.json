@@ -6,9 +6,8 @@
   "scripts": {
     "sync:logo": "node scripts/sync-logo.mjs",
     "sync:markdown-design": "node scripts/sync-markdown-design.mjs",
-    "sync:visualizer": "node scripts/sync-hasm-visualizer.mjs",
     "sync:downloads": "node scripts/stage-downloads.mjs",
-    "sync": "npm run sync:logo && npm run sync:markdown-design && npm run sync:visualizer && npm run sync:downloads",
+    "sync": "npm run sync:logo && npm run sync:markdown-design && npm run sync:downloads",
     "build:hasm": "cd submodules/hasm && npm run build",
     "build:hasm-markdown": "cd submodules/hasm_markdown && npm run build",
     "build:all": "npm run build:hasm-markdown && npm run build:hasm && npm run build",

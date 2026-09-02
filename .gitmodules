@@ -13,3 +13,6 @@
 [submodule "src/hasm_color_pattern"]
 	path = src/hasm_color_pattern
 	 url = https://github.com/HibiyaHaraki/hasm_color_pattern.git
+[submodule "src/hasm_visualizer"]
+	path = src/hasm_visualizer
+	url = git@github.com:HibiyaHaraki/hasm_visualizer.git
