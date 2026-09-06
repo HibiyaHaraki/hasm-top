@@ -1,5 +1,8 @@
 {
-  "hasm": [],
+  "hasm": [
+    "hasm_0.1.0_x64_en-US.msi",
+    "hasm_0.1.0_x64-setup.exe"
+  ],
   "hasm_markdown": [
     "hasm_markdown_0.1.0_x64_en-US.msi",
     "hasm_markdown_0.1.0_x64-setup.exe"

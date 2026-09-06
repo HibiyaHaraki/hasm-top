@@ -12,7 +12,7 @@
     "install:hasm-markdown": "npm ci --prefix submodules/hasm_markdown",
     "install:submodules": "npm run install:hasm-markdown && npm run install:hasm",
     "build:site": "vite build",
-    "build:hasm": "npm --prefix submodules/hasm run tauri:build",
+    "build:hasm": "npm --prefix submodules/hasm run sync:tauri-icons && npm --prefix submodules/hasm run build && npm --prefix submodules/hasm run tauri -- build --config ../../config/hasm-tauri.distribution.conf.json",
     "build:hasm-markdown": "npm --prefix submodules/hasm_markdown run tauri -- build",
     "build:installers": "npm run install:submodules && npm run build:hasm-markdown && npm run build:hasm",
     "build:all": "npm run build",
