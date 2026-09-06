@@ -1,13 +1,20 @@
 name: Deploy to GitHub Pages
 
+# CI already builds the Windows/macOS/Linux installers, so Pages waits for it and
+# reuses those artifacts instead of rebuilding Tauri here.
 on:
-  push:
+  workflow_run:
+    workflows:
+      - CI
     branches:
       - master
+    types:
+      - completed
   workflow_dispatch:
 
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 
@@ -17,11 +24,13 @@ concurrency:
 
 jobs:
   build:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository (including submodules)
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
           submodules: recursive
           lfs: true
 
@@ -43,10 +52,28 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Download installer packages from CI run
+        if: github.event_name == 'workflow_run'
+        uses: actions/download-artifact@v4
+        with:
+          pattern: installer-packages-*
+          merge-multiple: true
+          path: public/downloads
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      # sync:downloads regenerates manifest.json from everything staged in public/downloads,
+      # so the per-OS artifacts are merged into a single download list.
+      - name: Sync generated assets and downloads
+        run: |
+          npm run sync:logo
+          npm run sync:markdown-design
+          npm run sync:downloads
+
       - name: Build site
         env:
           GITHUB_PAGES: 'true'
-        run: npm run build
+        run: npm run build:site
 
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
