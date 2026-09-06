@@ -1,5 +1,5 @@
-import React from 'react';
-import { HashRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { HASM_Page } from './HASM_Page';
 import { HASM_App_Page } from './HASM_App_Page';
 import { HASM_Markdown_Page } from './HASM_Markdown_Page';
@@ -25,9 +25,19 @@ function HomeLinkRoute({ Page }) {
   return <Page onNavigateHome={() => navigate('/')} />;
 }
 
+// Resets scroll position on every route change instead of keeping the previous page's scroll offset.
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
 function App() {
   return (
     <HashRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomeRoute />} />
         <Route path="/editor" element={<HomeLinkRoute Page={HASM_App_Page} />} />
