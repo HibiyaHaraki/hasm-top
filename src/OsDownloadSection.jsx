@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLanguage } from './i18n.js';
 
 const DOWNLOADS_BASE = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/downloads`;
+const INSTALLER_LABELS = {
+  '.msi': 'winMsi',
+  '.exe': 'winExe',
+  '.zip': 'winZip',
+  '.dmg': 'macDmg',
+  '.AppImage': 'linuxAppImage',
+  '.deb': 'linuxDeb',
+};
 
 const downloadSectionStyles = `
   .OsDownload_Section {
@@ -128,26 +136,63 @@ const downloadSectionStyles = `
 
 export function OsDownloadSection({ appType = 'hasm' }) {
   const { t } = useLanguage();
+  const [availableFiles, setAvailableFiles] = useState([]);
 
   const isHasm = appType === 'hasm';
   const folder = isHasm ? 'hasm' : 'hasm_markdown';
+  const downloadsBase = `${DOWNLOADS_BASE}/${folder}`;
   const title = isHasm ? t.downloadTitleHasm : t.downloadTitleMarkdown;
+  const subtitle = isHasm ? t.downloadSubtitleHasm : t.downloadSubtitleMarkdown;
 
-  const files = isHasm
-    ? {
-        msi: 'hasm_0.1.0_x64_en-US.msi',
-        zip: 'hasm_0.1.0_x64_portable.zip',
-        dmg: 'hasm_0.1.0_aarch64.dmg',
-        appImage: 'hasm_0.1.0_amd64.AppImage',
-        deb: 'hasm_0.1.0_amd64.deb',
-      }
-    : {
-        msi: 'hasm_markdown_0.1.0_x64_en-US.msi',
-        zip: 'hasm_markdown_0.1.0_x64_portable.zip',
-        dmg: 'hasm_markdown_0.1.0_aarch64.dmg',
-        appImage: 'hasm_markdown_0.1.0_amd64.AppImage',
-        deb: 'hasm_markdown_0.1.0_amd64.deb',
-      };
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch(`${DOWNLOADS_BASE}/manifest.json`)
+      .then((response) => (response.ok ? response.json() : {}))
+      .then((manifest) => {
+        if (isMounted) {
+          setAvailableFiles(Array.isArray(manifest[folder]) ? manifest[folder] : []);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setAvailableFiles([]);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [folder]);
+
+  const getInstallerExtension = (file) => (file.endsWith('.AppImage') ? '.AppImage' : `.${file.split('.').pop()}`);
+  const getInstallerButton = (file) => ({
+    file,
+    label: t[INSTALLER_LABELS[getInstallerExtension(file)]] ?? file,
+    variant: getInstallerExtension(file) === '.msi' || getInstallerExtension(file) === '.dmg' || getInstallerExtension(file) === '.AppImage' ? 'primary' : 'secondary',
+    icon: getInstallerExtension(file) === '.msi' || getInstallerExtension(file) === '.dmg' || getInstallerExtension(file) === '.AppImage' ? '📥' : '📦',
+  });
+
+  const osGroups = [
+    {
+      key: 'windows',
+      icon: '🪟',
+      title: t.winTitle,
+      buttons: availableFiles.filter((file) => ['.msi', '.exe', '.zip'].includes(getInstallerExtension(file))).map(getInstallerButton),
+    },
+    {
+      key: 'macos',
+      icon: '🍎',
+      title: t.macTitle,
+      buttons: availableFiles.filter((file) => getInstallerExtension(file) === '.dmg').map(getInstallerButton),
+    },
+    {
+      key: 'linux',
+      icon: '🐧',
+      title: t.linuxTitle,
+      buttons: availableFiles.filter((file) => ['.AppImage', '.deb'].includes(getInstallerExtension(file))).map(getInstallerButton),
+    },
+  ].filter((group) => group.buttons.length > 0);
 
   return (
     <section className="OsDownload_Section" id="download">
@@ -156,82 +201,33 @@ export function OsDownloadSection({ appType = 'hasm' }) {
       <div className="OsDownload_Header">
         <div className="OsDownload_Kicker">{t.downloadHeader}</div>
         <h2 className="OsDownload_Title">{title}</h2>
-        <p className="OsDownload_Subtitle">{t.downloadSubtitle}</p>
+        <p className="OsDownload_Subtitle">{subtitle}</p>
         <span className="OsDownload_Badge">{t.buildVersionTag}</span>
       </div>
 
       <div className="OsDownload_Grid">
-        {/* WINDOWS */}
-        <div className="OsDownload_Card">
-          <div className="OsDownload_OsHeader">
-            <span className="OsDownload_OsIcon">🪟</span>
-            <span className="OsDownload_OsName">{t.winTitle}</span>
+        {osGroups.length === 0 ? (
+          <p className="OsDownload_Subtitle">{t.downloadUnavailable}</p>
+        ) : osGroups.map((group) => (
+          <div className="OsDownload_Card" key={group.key}>
+            <div className="OsDownload_OsHeader">
+              <span className="OsDownload_OsIcon">{group.icon}</span>
+              <span className="OsDownload_OsName">{group.title}</span>
+            </div>
+            <div className="OsDownload_Buttons">
+              {group.buttons.map((button) => (
+                <a
+                  href={`${downloadsBase}/${button.file}`}
+                  download={button.file}
+                  className={`OsDownload_Btn ${button.variant === 'primary' ? 'OsDownload_BtnPrimary' : 'OsDownload_BtnSecondary'}`}
+                  key={button.file}
+                >
+                  {button.icon} {button.label}
+                </a>
+              ))}
+            </div>
           </div>
-          <div className="OsDownload_Buttons">
-            <a
-              href={`${DOWNLOADS_BASE}/${folder}/${files.msi}`}
-              download={files.msi}
-              className="OsDownload_Btn OsDownload_BtnPrimary"
-            >
-              📥 {t.winMsi}
-            </a>
-            <a
-              href={`${DOWNLOADS_BASE}/${folder}/${files.zip}`}
-              download={files.zip}
-              className="OsDownload_Btn OsDownload_BtnSecondary"
-            >
-              📦 {t.winZip}
-            </a>
-          </div>
-        </div>
-
-        {/* MACOS */}
-        <div className="OsDownload_Card">
-          <div className="OsDownload_OsHeader">
-            <span className="OsDownload_OsIcon">🍎</span>
-            <span className="OsDownload_OsName">{t.macTitle}</span>
-          </div>
-          <div className="OsDownload_Buttons">
-            <a
-              href={`${DOWNLOADS_BASE}/${folder}/${files.dmg}`}
-              download={files.dmg}
-              className="OsDownload_Btn OsDownload_BtnPrimary"
-            >
-              📥 {t.macDmg}
-            </a>
-            <a
-              href={`${DOWNLOADS_BASE}/${folder}/${files.dmg}`}
-              download={files.dmg}
-              className="OsDownload_Btn OsDownload_BtnSecondary"
-            >
-              📦 {t.macTar}
-            </a>
-          </div>
-        </div>
-
-        {/* LINUX */}
-        <div className="OsDownload_Card">
-          <div className="OsDownload_OsHeader">
-            <span className="OsDownload_OsIcon">🐧</span>
-            <span className="OsDownload_OsName">{t.linuxTitle}</span>
-          </div>
-          <div className="OsDownload_Buttons">
-            <a
-              href={`${DOWNLOADS_BASE}/${folder}/${files.appImage}`}
-              download={files.appImage}
-              className="OsDownload_Btn OsDownload_BtnPrimary"
-            >
-              📥 {t.linuxAppImage}
-            </a>
-            <a
-              href={`${DOWNLOADS_BASE}/${folder}/${files.deb}`}
-              download={files.deb}
-              className="OsDownload_Btn OsDownload_BtnSecondary"
-            >
-              📦 {t.linuxDeb}
-            </a>
-          </div>
-        </div>
+        ))}
       </div>
     </section>
   );
