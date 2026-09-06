@@ -13,7 +13,15 @@ concurrency:
 
 jobs:
   build-and-smoke-test:
-    runs-on: ubuntu-latest
+    name: Build and Smoke Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-22.04
+          - macos-latest
+          - windows-latest
 
     steps:
       - name: Check out repository
@@ -34,6 +42,19 @@ jobs:
           node-version: 24
           cache: npm
 
+      - name: Set up Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Linux system dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            patchelf
+
       - name: Install dependencies
         run: npm ci
 
@@ -42,6 +63,20 @@ jobs:
 
       - name: Build site
         run: npm run build
+
+      - name: Upload installer packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: installer-packages-${{ runner.os }}
+          path: |
+            public/downloads/manifest.json
+            public/downloads/**/*.msi
+            public/downloads/**/*.exe
+            public/downloads/**/*.dmg
+            public/downloads/**/*.AppImage
+            public/downloads/**/*.deb
+            public/downloads/**/*.zip
+          if-no-files-found: error
 
       - name: Serve and smoke-test site
         shell: bash
