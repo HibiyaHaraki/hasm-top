@@ -417,7 +417,7 @@ const hasmPageStyles = `
   }
 `;
 
-export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigateToColorPattern, onNavigateToLogo, onNavigateToCreator }) => {
+export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigateToColorPattern, onNavigateToLogo, onNavigateToCreator, onNavigateToExtendedCommitGraph }) => {
   const { colorPattern, setColorPattern, patterns } = useColorTheme();
   const { language, setLanguage, t } = useLanguage();
 
@@ -637,6 +637,16 @@ export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigat
                 </div>
                 <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToMarkdown}>
                   {t.openMarkdownSubApp}
+                </button>
+              </div>
+
+              <div className="HASM_Page_SubAppCard">
+                <div>
+                  <div className="HASM_Page_SubAppTitle">{t.ecg.title}</div>
+                  <p className="HASM_Page_SubAppDesc">{t.ecg.homeDescription}</p>
+                </div>
+                <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToExtendedCommitGraph}>
+                  {t.ecg.openPage}
                 </button>
               </div>
 

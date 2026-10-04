@@ -7,6 +7,7 @@ import { HASM_Color_Pattern_Page } from './HASM_Color_Pattern_Page';
 import { HASM_Logo_Explanation_Page } from './HASM_Logo_Explanation_Page';
 import { HASM_Creator_Page } from './HASM_Creator_Page';
 import { HASM_Blog_Page } from './HASM_Blog_Page';
+import { Extended_Commit_Graph } from './Extended_Commit_Graph.jsx';
 import './shared-controls.css';
 
 function HomeRoute() {
@@ -17,6 +18,7 @@ function HomeRoute() {
     onNavigateToColorPattern={() => navigate('/color-pattern')}
     onNavigateToLogo={() => navigate('/logo')}
     onNavigateToCreator={() => navigate('/creator')}
+    onNavigateToExtendedCommitGraph={() => navigate('/extended-commit-graph')}
   />;
 }
 
@@ -46,6 +48,7 @@ function App() {
         <Route path="/logo" element={<HomeLinkRoute Page={HASM_Logo_Explanation_Page} />} />
         <Route path="/creator" element={<HomeLinkRoute Page={HASM_Creator_Page} />} />
         <Route path="/blog" element={<HomeLinkRoute Page={HASM_Blog_Page} />} />
+        <Route path="/extended-commit-graph" element={<HomeLinkRoute Page={Extended_Commit_Graph} />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </HashRouter>

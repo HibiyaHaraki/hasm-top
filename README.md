@@ -4,12 +4,25 @@ The top-level site for the HASM project family. It hosts:
 
 - **HASM** (`/` — [src/HASM_Page.jsx](src/HASM_Page.jsx)): the project index page. The HASM desktop app itself is not built yet, so this page is intentionally minimal — brand mark, color theme selector, and a link into the Markdown editor preview.
 - **HASM Markdown** ([src/HASM_Markdown_Page.jsx](src/HASM_Markdown_Page.jsx)): a landing page that previews the HASM Markdown editor's look, feel, and syntax highlighting.
+- **Extended Commit Graph** ([src/Extended_Commit_Graph.jsx](src/Extended_Commit_Graph.jsx)): a bilingual explanation of the developing HASM visualization method, with two conceptual PNG examples and the planned `hasm_visualizer` integration.
 
-Navigation between the two pages is a simple in-memory state switch in [src/App.jsx](src/App.jsx) (no router dependency yet).
+Pages use hash routes in [src/App.jsx](src/App.jsx), including `/#/extended-commit-graph`. The home ecosystem section links to the ECG page, which shares the persistent language and theme controls.
 
 ## GitHub Pages
 
 Visit the published site: [HASM on GitHub Pages](https://hibiyaharaki.github.io/hasm-top/).
+
+## Extended Commit Graph
+
+The ECG page describes the time (X), context (Y), and subjective-depth (Z) axes, the separation of objective causal records from subjective experiences, interpretation branches, and experience trajectories. It also documents planned focus/context, dual-layer switching, metadata inspection, and orbit exploration. These interactions are requirements for the future shared visualizer, not an interactive engine implemented on the explanation page.
+
+The fictional examples are [public/images/ecg-layers.png](public/images/ecg-layers.png) and [public/images/ecg-branches.png](public/images/ecg-branches.png). Their node IDs are language-neutral; captions and alternative text are localized through [src/i18n.js](src/i18n.js). Regenerate them on Windows with the shared HASM palette:
+
+```powershell
+./scripts/generate-ecg-images.ps1
+```
+
+Rendering logic is intended for `hasm_visualizer`. This page does not modify submodule sources or replace the existing visualizer.
 
 ## Philosophy
 
