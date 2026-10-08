@@ -130,7 +130,7 @@ const TRANSLATIONS = {
     // Top Landing Page (HASM_Page.jsx)
     homeKicker: 'HUMAN ACTIVITY STRUCTURING MODEL',
     homeTitle: 'Human Activity Structure Model',
-    homeTagline: 'Before HASM is software, it is a way of separating what happened from what it means.',
+    homeTagline: 'HASM is a way of separating what happened from what it means.',
     homeDescription: 'Organize people, experiences, facts, and links in a transparent local model with Markdown files and SQLite.',
 
     // Philosophy Core
@@ -143,16 +143,16 @@ const TRANSLATIONS = {
     defectsSectionSubtitle: 'Why existing formats (CVs, portfolios, task trackers, and static note apps) fail to capture true human context:',
     defect1Name: '1. Non-linear Revaluation',
     defect1EnName: '(Non-linear Revaluation)',
-    defect1Desc: 'The value of an event is not fixed at the moment it happens; it is dynamically restructured by subsequent experiences and future breakthroughs. In traditional formats, a 2019 failure remains labeled as a failure forever, unable to show that it became the indispensable turning point for a 2024 success without altering history.',
+    defect1Desc: 'The value of an event is not fixed at the moment it happens; it is dynamically restructured by subsequent experiences and future breakthroughs.',
     defect2Name: '2. Structural Discontinuity',
     defect2EnName: '(Structural Discontinuity)',
-    defect2Desc: 'Career pivots, changes in field, or periods of self-study look like disjointed, disconnected dots on a chronological timeline. In reality, an underlying, coherent motivation and core methodology bridges those seemingly unrelated domains.',
+    defect2Desc: 'Career pivots, changes in field, or periods of self-study look like disjointed, disconnected dots on a chronological timeline.',
     defect3Name: '3. Context-Dependent Valuation',
     defect3EnName: '(Context-Dependent Valuation)',
-    defect3Desc: 'The exact same fact or skill holds drastically different value depending on the evaluation lens (e.g., personal mindset growth vs. team engineering capability). Conventional formats force a single static label, erasing contextual nuance.',
+    defect3Desc: 'The exact same fact or skill holds drastically different value depending on the evaluation lens (e.g., personal mindset growth vs. team engineering capability).',
     defect4Name: '4. Subjective Closure',
     defect4EnName: '(Subjective Closure)',
-    defect4Desc: 'Existing records are locked into the single perspective of the author. They lack the architectural structure to allow multiple viewpoints (e.g., self-reflection, collaborator perspective, manager evaluation) to co-exist simultaneously on the same objective event.',
+    defect4Desc: 'They lack the architectural structure to allow multiple viewpoints (e.g., self-reflection, collaborator perspective, manager evaluation) to co-exist simultaneously on the same objective event.',
 
     // Dual Layer Stack Concept
     layerStackTitle: 'The Dual-Layer Architecture: Causal vs. Semantic',
@@ -160,7 +160,7 @@ const TRANSLATIONS = {
     layerSubjectiveTitle: 'Subjective Layer (Semantic Layer / Perception Frames)',
     layerSubjectiveDesc: 'Contains human interpretations, contextual framing, and subjective significance (Experience & Perception Frames). Owned by a Person. Features dynamic Enable/Disable switches and retroactive re-linking without altering historical facts.',
     layerNexusTitle: 'Nexus Bridge (Omnidirectional Links & Bonds)',
-    layerNexusDesc: 'Connects not only across the dual layers (attaching meaning to facts), but also within each layer: linking Fact to Fact (cause and effect), Experience to Experience (thematic relations & lineage), and Person to activities.',
+    layerNexusDesc: 'Connects not only across the dual layers (attaching meaning to facts), but also within each layer: linking Fact to Fact (cause and effect), Experience to Experience (thematic relations & lineage), etc.',
     layerObjectiveTitle: 'Objective Layer (Causal Layer / Immutable Records)',
     layerObjectiveDesc: 'An immutable sequence and causal network along the irreversible timeline. Contains discrete events (Facts and Achievements) and sustained activities (Processes). It is never rewritten or deleted.',
 
@@ -525,32 +525,31 @@ const TRANSLATIONS = {
 
     // Philosophy Core
     philosophyKicker: '哲学と設計思想',
-    philosophyTitle: 'HASMが目指すもの─因果と意味の分離（Causal-Semantic Separation）',
-    philosophyLead: '履歴書や業績リストは一本の線です。ひとつの日付に、ひとつの行、永久にひとつの意味。HASMは根本的な問いから出発します──人間の人生やキャリア、プロジェクトは一本の線ではなく、「客観的な事実」と「主観的な解釈」という、時にしか一致しない二つの層でできているのではないか、と。',
+    philosophyTitle: 'HASMが目指すもの─因果と意味の分離',
+    philosophyLead: '履歴書や日記は一本の線です。ひとつの日付に、ひとつの行、永久にひとつの意味。HASMは根本的な問いから出発します──人間の人生やキャリア、プロジェクトは一本の線ではなく、「客観的な事実」と「主観的な解釈」という、時にしか一致しない二つの層でできているのではないか、と。',
 
-    // 4 Fatal Defects of Conventional Formats
-    defectsSectionTitle: '従来の記録形式が抱える「4つの本質的欠陥」',
-    defectsSectionSubtitle: 'なぜ既存のツール（職務経歴書、ポートフォリオ、タスク管理、単なるノート）では人の成長や文脈を扱えないのか：',
+    // 4 Fatal Difference from Conventional Formats
+    defectsSectionTitle: '従来の記録形式との「4つの本質的な違い」',
     defect1Name: '1. 非線形な再評価の欠落',
     defect1EnName: '(Non-linear Revaluation)',
-    defect1Desc: '出来事の真の価値は、発生した瞬間には決まりません。その後の経験や後続の成果によって動的に再構造化されます。従来の履歴書では過去の失敗はずっと失敗のまま固定され、2019年の挫折が2024年の大成功の設計思想になったという事実を、過去を改ざんすることなく表現する術がありません。',
+    defect1Desc: '出来事の真の価値は、発生した瞬間には決まりません。その後の経験や後続の成果によって動的に再構造化されます。',
     defect2Name: '2. 構造的不連続の見かけ',
     defect2EnName: '(Structural Discontinuity)',
-    defect2Desc: '職種転換や異分野への挑戦、一見バラバラに見える経験は、年表上では不連続な点に見えてしまいます。しかし実際には、その人の内面に一貫した動機や哲学、共通する問題意識が存在しています。従来の形式はこの見えない連続性を切り捨ててしまいます。',
+    defect2Desc: '人生における経験や出来事は、一見バラバラで、年表上では不連続な点に見えてしまいます。しかし実際には、その人の内面に一貫した動機や哲学、共通する問題意識が存在しています。',
     defect3Name: '3. 文脈依存の価値変動',
     defect3EnName: '(Context-Dependent Valuation)',
-    defect3Desc: '同一の経験やスキルであっても、評価する文脈（個人の内省・成長の節目か、組織のケイパビリティ需要か）によって価値は大きく変動します。従来の形式は記述を単一の意味に固定化してしまいます。',
+    defect3Desc: '同一の経験やスキルであっても、評価する文脈によって価値は大きく変動できます。',
     defect4Name: '4. 主観的閉包と単一視点',
     defect4EnName: '(Subjective Closure)',
-    defect4Desc: '既存の記録は書いた本人の視点だけに閉じています。同じプロジェクトという客観的事実に対し、共作者の視点、上司やメンターの評価、第三者のレビューなど、多視点の解釈を同時に共存させるデータ構造が存在しません。',
+    defect4Desc: '同じプロジェクトという客観的事実に対し、共作者の視点、上司やメンターの評価、第三者のレビューなど、多視点の解釈を同時に共存させるデータ構造に発展できます。',
 
     // Dual Layer Stack Concept
     layerStackTitle: '二層アーキテクチャ：客観層（因果）と主観層（意味）',
     layerStackSubtitle: '「何が起きたか」と「それをどう捉えるか」を構造的に分離するモデル。',
     layerSubjectiveTitle: '主観層（Semantic Layer / 認識の枠組み）',
-    layerSubjectiveDesc: '人間（人物）が意味を与える非線形の解釈グラフ（体験や認識の枠組み）。テーマや動機に応じた枠組みを持ち、過去の事実を傷つけることなく、後から有効/無効の切り替えや再リンクが可能です。',
+    layerSubjectiveDesc: '人が意味を与える解釈を示すグラフ。テーマや動機に応じた枠組みを持ち、過去の事実を傷つけることなく、後から有効/無効の切り替えや再リンクが可能です。',
     layerNexusTitle: 'Nexus / リンク（多層と各層内をつなぐ絆）',
-    layerNexusDesc: '主観層と客観層を結ぶ意味づけだけでなく、各層の内部も網羅的に接続します。事実同士の因果関係（原因と結果）、体験同士の文脈関係（関連する経験の系譜）、人物と出来事の関わりをすべて明示的に結びつけます。',
+    layerNexusDesc: '主観層と客観層を結ぶ意味づけだけでなく、各層の内部も網羅的に接続します。事実同士の因果関係（原因と結果）、体験同士の文脈関係（関連する経験の系譜）、人物と出来事の関わりを明示的に結びつけます。',
     layerObjectiveTitle: '客観層（Causal Layer / 不変の記録）',
     layerObjectiveDesc: '不可逆な時間軸上に固定された不変の記録と因果関係。個別の出来事（事実や達成）と時間幅を持つ活動（プロセス）を保持し、決して上書きや削除されません。',
 

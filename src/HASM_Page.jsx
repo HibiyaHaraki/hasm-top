@@ -219,6 +219,7 @@ const hasmPageStyles = `
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    justify-content: flex-start;
   }
 
   .HASM_Page_DefectHeader {
@@ -441,7 +442,6 @@ export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigat
           {/* HERO SECTION */}
           <section className="HASM_Page_Hero">
             <img src={hasmLogo} alt="HASM" className="HASM_Page_HeroLogo" />
-            <div className="HASM_Page_Kicker">{t.homeKicker}</div>
             <h1 className="HASM_Page_HeroTitle">{t.homeTitle}</h1>
             <p className="HASM_Page_HeroLead">{t.homeTagline}</p>
           </section>
@@ -492,15 +492,21 @@ export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigat
             {/* 4 FATAL DEFECTS BREAKDOWN */}
             <div style={{ marginTop: 44 }}>
               <div className="HASM_Page_Kicker">{t.defectsSectionTitle}</div>
+              {/*
               <p style={{ margin: '4px 0 16px', color: 'var(--theme-muted)', fontSize: '0.95rem' }}>
                 {t.defectsSectionSubtitle}
               </p>
+              */}
 
               <div className="HASM_Page_DefectsGrid">
                 <div className="HASM_Page_DefectCard">
                   <div className="HASM_Page_DefectHeader">
                     <div className="HASM_Page_DefectTitle">{t.defect1Name}</div>
-                    <div className="HASM_Page_DefectEn">{t.defect1EnName}</div>
+                    {(() => {
+                      if (language != 'en') {
+                        return <div className="HASM_Page_DefectEn">{t.defect1EnName}</div>;
+                      }
+                    })()}
                   </div>
                   <p className="HASM_Page_DefectDesc">{t.defect1Desc}</p>
                 </div>
@@ -508,7 +514,11 @@ export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigat
                 <div className="HASM_Page_DefectCard">
                   <div className="HASM_Page_DefectHeader">
                     <div className="HASM_Page_DefectTitle">{t.defect2Name}</div>
-                    <div className="HASM_Page_DefectEn">{t.defect2EnName}</div>
+                    {(() => {
+                      if (language != 'en') {
+                        return <div className="HASM_Page_DefectEn">{t.defect2EnName}</div>;
+                      }
+                    })()}
                   </div>
                   <p className="HASM_Page_DefectDesc">{t.defect2Desc}</p>
                 </div>
@@ -516,7 +526,11 @@ export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigat
                 <div className="HASM_Page_DefectCard">
                   <div className="HASM_Page_DefectHeader">
                     <div className="HASM_Page_DefectTitle">{t.defect3Name}</div>
-                    <div className="HASM_Page_DefectEn">{t.defect3EnName}</div>
+                    {(() => {
+                      if (language != 'en') {
+                        return <div className="HASM_Page_DefectEn">{t.defect3EnName}</div>;
+                      }
+                    })()}
                   </div>
                   <p className="HASM_Page_DefectDesc">{t.defect3Desc}</p>
                 </div>
@@ -524,7 +538,11 @@ export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigat
                 <div className="HASM_Page_DefectCard">
                   <div className="HASM_Page_DefectHeader">
                     <div className="HASM_Page_DefectTitle">{t.defect4Name}</div>
-                    <div className="HASM_Page_DefectEn">{t.defect4EnName}</div>
+                    {(() => {
+                      if (language != 'en') {
+                        return <div className="HASM_Page_DefectEn">{t.defect4EnName}</div>;
+                      }
+                    })()}
                   </div>
                   <p className="HASM_Page_DefectDesc">{t.defect4Desc}</p>
                 </div>
@@ -585,6 +603,7 @@ export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigat
             </div>
 
             {/* INTERDISCIPLINARY SCIENTIFIC GROUNDING */}
+            {/*
             <div style={{ marginTop: 40 }}>
               <div className="HASM_Page_Kicker">{t.groundingTitle}</div>
               <p style={{ margin: '4px 0 16px', color: 'var(--theme-muted)', fontSize: '0.95rem' }}>
@@ -610,6 +629,7 @@ export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigat
                 </div>
               </div>
             </div>
+            */}
           </section>
 
           {/* ECOSYSTEM: LINKS TO ALL SUB-APPS */}
