@@ -1,9 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { COLOR_PATTERNS, getPatternById } from './hasm_color_pattern/src/index.js';
 import { useColorTheme } from './theme/useColorTheme.js';
-import ThemeSelector from './ThemeSelector.jsx';
-import LanguageSelector from './LanguageSelector.jsx';
 import { useLanguage } from './i18n.js';
+import SiteHeader from './SiteHeader.jsx';
 import Footer from './Footer.jsx';
 
 const hasmColorPatternStyles = `
@@ -20,21 +19,6 @@ const hasmColorPatternStyles = `
     width: min(1200px, calc(100% - 32px));
     margin: 0 auto;
     padding: 24px 0 60px;
-  }
-
-  .HASM_Color_Pattern_Header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 18px;
-    padding: 18px 0 32px;
-    border-bottom: 1px solid var(--theme-border);
-  }
-
-  .HASM_Color_Pattern_TitleBlock {
-    display: flex;
-    align-items: center;
-    gap: 20px;
   }
 
   .HASM_Color_Pattern_Badge {
@@ -226,23 +210,6 @@ const hasmColorPatternStyles = `
     font-family: "SFMono-Regular", Consolas, monaco, monospace;
   }
 
-  .BackHomeLink {
-    position: fixed;
-    top: 18px;
-    left: 18px;
-    z-index: 20;
-    padding: 6px 12px;
-    color: var(--theme-text);
-    background: var(--theme-surface);
-    border: 1px solid var(--theme-border);
-    box-shadow: 0 6px 18px rgba(20, 18, 15, 0.12);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-  }
-
   @media (max-width: 900px) {
     .HASM_Color_Pattern_Intro {
       grid-template-columns: 1fr;
@@ -258,8 +225,8 @@ Object.entries(vars).forEach(([name, value]) => {
 });`;
 
 export const HASM_Color_Pattern_Page = ({ onNavigateHome }) => {
-  const { colorPattern, setColorPattern, patterns } = useColorTheme();
-  const { language, setLanguage, t } = useLanguage();
+  const { colorPattern, setColorPattern } = useColorTheme();
+  const { t } = useLanguage();
   const [selectedPatternId, setSelectedPatternId] = useState(colorPattern ?? 'classic');
 
   const selectedPattern = useMemo(() => getPatternById(selectedPatternId, colorPattern), [selectedPatternId, colorPattern]);
@@ -270,22 +237,18 @@ export const HASM_Color_Pattern_Page = ({ onNavigateHome }) => {
     { label: 'bg', value: selectedPattern.colors.textBackgroundColor },
   ], [selectedPattern]);
 
+  // The explorer drives the theme selector with its own state so previews follow the picked pattern.
+  const handleThemeChange = (next) => {
+    setSelectedPatternId(next);
+    setColorPattern(next);
+  };
+
   return (
     <div className="HASM_Color_Pattern_Page">
       <style>{hasmColorPatternStyles}</style>
-      {onNavigateHome && (
-        <button type="button" className="BackHomeLink" onClick={onNavigateHome}>&larr; {t.backHome}</button>
-      )}
-      <LanguageSelector language={language} onChange={setLanguage} label={t.language} />
-      <ThemeSelector patterns={patterns} activePatternId={selectedPatternId} onChange={(next) => { setSelectedPatternId(next); setColorPattern(next); }} label={t.theme} />
+      <SiteHeader onNavigateHome={onNavigateHome} activePatternId={selectedPatternId} onThemeChange={handleThemeChange} />
 
       <div className="HASM_Color_Pattern_Page_Inner">
-        <header className="HASM_Color_Pattern_Header">
-          <div className="HASM_Color_Pattern_TitleBlock">
-            <div className="HASM_Color_Pattern_Badge">{t.colorPatternKicker}</div>
-          </div>
-        </header>
-
         <section className="HASM_Color_Pattern_Intro">
           <div>
             <div className="HASM_Color_Pattern_Badge" style={{ marginBottom: '18px' }}>{t.colorPatternLabel}</div>

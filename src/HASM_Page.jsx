@@ -1,9 +1,7 @@
 import React from 'react';
 import hasmLogo from './assets/logo/hasm_logo_transparent.png';
-import { useColorTheme } from './theme/useColorTheme.js';
-import ThemeSelector from './ThemeSelector.jsx';
-import LanguageSelector from './LanguageSelector.jsx';
 import { useLanguage } from './i18n.js';
+import SiteHeader from './SiteHeader.jsx';
 import Footer from './Footer.jsx';
 
 const hasmPageStyles = `
@@ -23,30 +21,6 @@ const hasmPageStyles = `
     margin: 0 auto;
     padding: 24px 0 60px;
     flex: 1;
-  }
-
-  .HASM_Page_Header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 18px;
-    padding: 18px 0 28px;
-    border-bottom: 1px solid var(--theme-border);
-  }
-
-  .HASM_Page_Brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-    color: var(--theme-text);
-  }
-
-  .HASM_Page_BrandTitle {
-    font-family: Georgia, serif;
-    font-size: 1.25rem;
-    font-weight: 700;
-    line-height: 1.1;
   }
 
   .HASM_Page_Hero {
@@ -410,34 +384,18 @@ const hasmPageStyles = `
     opacity: 0.9;
   }
 
-  @media (max-width: 760px) {
-    .HASM_Page_Header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  }
 `;
 
 export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigateToColorPattern, onNavigateToLogo, onNavigateToCreator, onNavigateToExtendedCommitGraph }) => {
-  const { colorPattern, setColorPattern, patterns } = useColorTheme();
-  const { language, setLanguage, t } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <div className="HASM_Page">
       <style>{hasmPageStyles}</style>
 
-      <div className="HASM_Page_Inner">
-        <header className="HASM_Page_Header">
-          <div className="HASM_Page_Brand">
-            <img src={hasmLogo} alt="HASM" style={{ width: 36, height: 36, objectFit: 'contain' }} />
-            <div className="HASM_Page_BrandTitle">HASM</div>
-          </div>
-          <div className="d-flex gap-2 align-items-center">
-            <LanguageSelector language={language} onChange={setLanguage} label={t.language} />
-            <ThemeSelector patterns={patterns} activePatternId={colorPattern} onChange={setColorPattern} label={t.theme} />
-          </div>
-        </header>
+      <SiteHeader />
 
+      <div className="HASM_Page_Inner">
         <main>
           {/* HERO SECTION */}
           <section className="HASM_Page_Hero">
@@ -502,11 +460,7 @@ export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigat
                 <div className="HASM_Page_DefectCard">
                   <div className="HASM_Page_DefectHeader">
                     <div className="HASM_Page_DefectTitle">{t.defect1Name}</div>
-                    {(() => {
-                      if (language != 'en') {
-                        return <div className="HASM_Page_DefectEn">{t.defect1EnName}</div>;
-                      }
-                    })()}
+                    <div className="HASM_Page_DefectEn">{t.defect1EnName}</div>
                   </div>
                   <p className="HASM_Page_DefectDesc">{t.defect1Desc}</p>
                 </div>
@@ -514,11 +468,7 @@ export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigat
                 <div className="HASM_Page_DefectCard">
                   <div className="HASM_Page_DefectHeader">
                     <div className="HASM_Page_DefectTitle">{t.defect2Name}</div>
-                    {(() => {
-                      if (language != 'en') {
-                        return <div className="HASM_Page_DefectEn">{t.defect2EnName}</div>;
-                      }
-                    })()}
+                    <div className="HASM_Page_DefectEn">{t.defect2EnName}</div>
                   </div>
                   <p className="HASM_Page_DefectDesc">{t.defect2Desc}</p>
                 </div>
@@ -526,11 +476,7 @@ export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigat
                 <div className="HASM_Page_DefectCard">
                   <div className="HASM_Page_DefectHeader">
                     <div className="HASM_Page_DefectTitle">{t.defect3Name}</div>
-                    {(() => {
-                      if (language != 'en') {
-                        return <div className="HASM_Page_DefectEn">{t.defect3EnName}</div>;
-                      }
-                    })()}
+                    <div className="HASM_Page_DefectEn">{t.defect3EnName}</div>
                   </div>
                   <p className="HASM_Page_DefectDesc">{t.defect3Desc}</p>
                 </div>
@@ -538,11 +484,7 @@ export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigat
                 <div className="HASM_Page_DefectCard">
                   <div className="HASM_Page_DefectHeader">
                     <div className="HASM_Page_DefectTitle">{t.defect4Name}</div>
-                    {(() => {
-                      if (language != 'en') {
-                        return <div className="HASM_Page_DefectEn">{t.defect4EnName}</div>;
-                      }
-                    })()}
+                    <div className="HASM_Page_DefectEn">{t.defect4EnName}</div>
                   </div>
                   <p className="HASM_Page_DefectDesc">{t.defect4Desc}</p>
                 </div>

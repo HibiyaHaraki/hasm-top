@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import hasmLogo from './assets/logo/hasm_logo_transparent.png';
 import { useColorTheme } from './theme/useColorTheme.js';
-import ThemeSelector from './ThemeSelector.jsx';
-import LanguageSelector from './LanguageSelector.jsx';
+import SiteHeader from './SiteHeader.jsx';
 import { useLanguage } from './i18n.js';
 import Footer from './Footer.jsx';
 import HasmVisualizerComponent from './hasm_visualizer/HasmVisualizerComponent.jsx';
@@ -28,47 +27,6 @@ const hasmAppPageStyles = `
     margin: 0 auto;
     padding: 24px 0 60px;
     flex: 1;
-  }
-
-  .HASM_Page_Header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 18px;
-    padding: 18px 0 28px;
-    border-bottom: 1px solid var(--theme-border);
-  }
-
-  .HASM_Page_Brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-    color: var(--theme-text);
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    font-family: inherit;
-    text-align: left;
-  }
-
-  .HASM_Page_BrandTitle {
-    font-family: Georgia, serif;
-    font-size: 1.25rem;
-    font-weight: 700;
-    line-height: 1.1;
-  }
-
-  .HASM_Page_BrandBadge {
-    display: inline-block;
-    padding: 2px 8px;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    background: var(--theme-primary);
-    color: var(--theme-on-accent);
   }
 
   .HASM_Page_Hero {
@@ -453,10 +411,6 @@ const hasmAppPageStyles = `
   }
 
   @media (max-width: 760px) {
-    .HASM_Page_Header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
     .HASM_Page_TabNav {
       flex-direction: column;
     }
@@ -471,8 +425,8 @@ const hasmAppPageStyles = `
 `;
 
 export const HASM_App_Page = ({ onNavigateHome }) => {
-  const { colorPattern, setColorPattern, patterns } = useColorTheme();
-  const { language, setLanguage, t } = useLanguage();
+  const { colorPattern } = useColorTheme();
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState('all');
 
   const handleTabChange = (tabId) => {
@@ -484,21 +438,9 @@ export const HASM_App_Page = ({ onNavigateHome }) => {
     <div className="HASM_Page">
       <style>{hasmAppPageStyles}</style>
 
-      <div className="HASM_Page_Inner">
-        <header className="HASM_Page_Header">
-          <button type="button" className="HASM_Page_Brand" onClick={onNavigateHome}>
-            <img src={hasmLogo} alt="HASM" style={{ width: 36, height: 36, objectFit: 'contain' }} />
-            <div>
-              <div className="HASM_Page_BrandTitle">HASM</div>
-              <span className="HASM_Page_BrandBadge">{t.hasmMainApp}</span>
-            </div>
-          </button>
-          <div className="d-flex gap-2 align-items-center">
-            <LanguageSelector language={language} onChange={setLanguage} label={t.language} />
-            <ThemeSelector patterns={patterns} activePatternId={colorPattern} onChange={setColorPattern} label={t.theme} />
-          </div>
-        </header>
+      <SiteHeader onNavigateHome={onNavigateHome} />
 
+      <div className="HASM_Page_Inner">
         <main>
           {/* HERO SECTION: APP INTRODUCTION */}
           <section className="HASM_Page_Hero">

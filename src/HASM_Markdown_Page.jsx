@@ -4,9 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import './generated/markdown-design-tokens.css';
 import { highlightMarkdown } from './generated/markdownHighlight.js';
 import hasmLogo from './assets/logo/hasm_logo_transparent.png';
-import { useColorTheme } from './theme/useColorTheme.js';
-import ThemeSelector from './ThemeSelector.jsx';
-import LanguageSelector from './LanguageSelector.jsx';
+import SiteHeader from './SiteHeader.jsx';
 import { useLanguage } from './i18n.js';
 import Footer from './Footer.jsx';
 import OsDownloadSection from './OsDownloadSection.jsx';
@@ -53,23 +51,6 @@ const hasmStyles = `
     min-height: 0;
     overflow: hidden;
     position: relative;
-  }
-
-  .BackHomeLink {
-    position: fixed;
-    top: 18px;
-    left: 18px;
-    z-index: 20;
-    padding: 6px 12px;
-    color: var(--theme-text);
-    background: var(--theme-surface);
-    border: 1px solid var(--theme-border);
-    box-shadow: 0 6px 18px rgba(20, 18, 15, 0.12);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
   }
 
 `;
@@ -255,18 +236,13 @@ const LineNumberGutter = ({ count }) => (
 
 export const HASM_Markdown_Page = ({ onNavigateHome }) => {
   const [activeTab, setActiveTab] = useState(0);
-  const { colorPattern, setColorPattern, patterns } = useColorTheme();
-  const { language, setLanguage, t } = useLanguage();
+  const { t } = useLanguage();
   const features = getFeatures(t);
 
   return (
     <div className="hasm-lp-root EditorColor_light min-vh-100">
       <style>{hasmStyles}</style>
-      {onNavigateHome && (
-        <button type="button" className="BackHomeLink" onClick={onNavigateHome}>&larr; {t.backHome}</button>
-      )}
-      <LanguageSelector language={language} onChange={setLanguage} label={t.language} />
-      <ThemeSelector patterns={patterns} activePatternId={colorPattern} onChange={setColorPattern} label={t.theme} />
+      <SiteHeader onNavigateHome={onNavigateHome} />
 
       {/* ヒーローセクション */}
       <section className="min-vh-100 d-flex flex-column justify-content-center align-items-center text-center p-4">

@@ -1,27 +1,17 @@
 import React from 'react';
-import { useColorTheme } from './theme/useColorTheme.js';
 import { useLanguage } from './i18n.js';
-import LanguageSelector from './LanguageSelector.jsx';
-import ThemeSelector from './ThemeSelector.jsx';
+import SiteHeader from './SiteHeader.jsx';
 import Footer from './Footer.jsx';
 import './extended-commit-graph.css';
 
 export function Extended_Commit_Graph({ onNavigateHome }) {
-  const { colorPattern, setColorPattern, patterns } = useColorTheme();
-  const { language, setLanguage, t } = useLanguage();
+  const { t } = useLanguage();
   const copy = t.ecg;
 
   return (
     <div className="ECG_Page">
+      <SiteHeader onNavigateHome={onNavigateHome} />
       <div className="ECG_Inner">
-        <header className="ECG_Header">
-          <button type="button" className="ECG_Back" onClick={onNavigateHome}>{t.backHome}</button>
-          <div className="ECG_Controls">
-            <LanguageSelector language={language} onChange={setLanguage} label={t.language} />
-            <ThemeSelector patterns={patterns} activePatternId={colorPattern} onChange={setColorPattern} label={t.theme} />
-          </div>
-        </header>
-
         <main>
           <section className="ECG_Intro" aria-labelledby="ecg-title">
             <div className="ECG_Eyebrow">{copy.kicker}</div>

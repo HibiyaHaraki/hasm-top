@@ -3,17 +3,13 @@ import hasmLogoTransparent from './assets/logo/hasm_logo_transparent.png';
 import hasmLogoDark from './assets/logo/hasm_logo_dark_bg.png';
 import hasmLogoLight from './assets/logo/hasm_logo_light_bg.png';
 import hasmFavicon from './assets/logo/hasm_favicon.png';
-import { useColorTheme } from './theme/useColorTheme.js';
-import ThemeSelector from './ThemeSelector.jsx';
-import LanguageSelector from './LanguageSelector.jsx';
 import { useLanguage } from './i18n.js';
+import SiteHeader from './SiteHeader.jsx';
 import Footer from './Footer.jsx';
 
 const logoExplanationStyles = `
   .HASM_Logo_Explanation_Page { min-height: 100vh; color: var(--theme-text); background: var(--theme-textbackground); font-family: "Yu Mincho", "游明朝", Georgia, serif; letter-spacing: 0.03em; line-height: 1.7; }
   .HASM_Logo_Explanation_Inner { width: min(1160px, calc(100% - 32px)); margin: 0 auto; padding: 24px 0 60px; }
-  .HASM_Logo_Explanation_Header { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 18px 0 32px; border-bottom: 1px solid var(--theme-border); }
-  .HASM_Logo_Explanation_Header a { color: var(--theme-text); text-decoration: none; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
   .HASM_Logo_Explanation_Hero { display: grid; grid-template-columns: 1fr 0.92fr; gap: 56px; align-items: center; padding: 64px 0 76px; }
   .HASM_Logo_Explanation_Kicker, .HASM_Logo_Explanation_Label { color: var(--theme-accent-readable); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
   .HASM_Logo_Explanation_Hero h1 { max-width: 680px; margin: 12px 0 18px; font-family: Georgia, serif; font-size: clamp(2.7rem, 6vw, 5.8rem); line-height: 0.96; }
@@ -43,8 +39,7 @@ const logoExplanationStyles = `
 `;
 
 export const HASM_Logo_Explanation_Page = ({ onNavigateHome }) => {
-  const { colorPattern, setColorPattern, patterns } = useColorTheme();
-  const { language, setLanguage, t } = useLanguage();
+  const { t } = useLanguage();
   const [activeVariant, setActiveVariant] = useState(0);
   const variants = [
     { image: hasmLogoTransparent, name: t.logoTransparent },
@@ -56,14 +51,8 @@ export const HASM_Logo_Explanation_Page = ({ onNavigateHome }) => {
   return (
     <div className="HASM_Logo_Explanation_Page">
       <style>{logoExplanationStyles}</style>
+      <SiteHeader onNavigateHome={onNavigateHome} />
       <div className="HASM_Logo_Explanation_Inner">
-        <header className="HASM_Logo_Explanation_Header">
-          <a href="#home" onClick={(event) => { event.preventDefault(); onNavigateHome(); }}>{t.backHome}</a>
-          <div className="d-flex gap-2 align-items-center">
-            <LanguageSelector language={language} onChange={setLanguage} label={t.language} />
-            <ThemeSelector patterns={patterns} activePatternId={colorPattern} onChange={setColorPattern} label={t.theme} />
-          </div>
-        </header>
         <main>
           <section className="HASM_Logo_Explanation_Hero">
             <div><div className="HASM_Logo_Explanation_Kicker">{t.logoKicker}</div><h1>{t.logoTitle}</h1><p className="HASM_Logo_Explanation_Lead">{t.logoDescription}</p></div>

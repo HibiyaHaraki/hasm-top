@@ -9,11 +9,6 @@
   letter-spacing: 0;
 }
 .ECG_Inner { width: min(1120px, calc(100% - 40px)); margin: 0 auto; flex: 1; padding-bottom: 48px; }
-.ECG_Header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 32px 0 24px; border-bottom: 1px solid var(--theme-border); }
-.ECG_Back { font: inherit; color: var(--theme-text); background: none; border: 0; padding: 8px 0; cursor: pointer; text-decoration: underline; text-underline-offset: 5px; }
-.ECG_Controls { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; min-width: 0; }
-.ECG_Controls .ThemeSelector, .ECG_Controls .LanguageSelector { position: static; max-width: 100%; box-shadow: none; }
-.ECG_Controls .ThemeSelector_Label, .ECG_Controls .LanguageSelector_Label { white-space: nowrap; letter-spacing: 0; }
 .ECG_Page .HASM_Footer { left: auto; width: 100%; margin-left: 0; letter-spacing: 0; }
 .ECG_Intro { padding: 44px 0 24px; }
 .ECG_Eyebrow { color: var(--theme-accent-readable); font-size: 0.76rem; font-weight: 700; }
@@ -58,7 +53,6 @@
 .ECG_Implementation dd { margin: 0; color: var(--theme-muted); font-size: 0.94rem; }
 .ECG_Development { padding-bottom: 0; }
 @media (max-width: 760px) {
-  .ECG_Header { flex-direction: column; align-items: flex-start; gap: 10px; padding-top: 20px; }
   .ECG_Intro { padding-top: 32px; }
   .ECG_Intro h1 { font-size: 2.3rem; }
   .ECG_Axes, .ECG_Story, .ECG_Legend, .ECG_Interactions { grid-template-columns: 1fr; gap: 22px; }
