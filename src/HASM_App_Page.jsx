@@ -503,7 +503,7 @@ export const HASM_App_Page = ({ onNavigateHome }) => {
           {/* HERO SECTION: APP INTRODUCTION */}
           <section className="HASM_Page_Hero">
             <img src={hasmLogo} alt="HASM" className="HASM_Page_HeroLogo" />
-            <div className="HASM_Page_Kicker">{t.homeKicker}</div>
+            {/*<div className="HASM_Page_Kicker">{t.homeKicker}</div>*/}
             <h1 className="HASM_Page_HeroTitle">{t.homeTitle}</h1>
             <p className="HASM_Page_HeroLead">{t.homeDescription}</p>
 
