@@ -1,7 +1,7 @@
 /*
  * File: SiteHeader.jsx
  * Purpose: Shared header used by every HASM page so the top of each page matches the HASM home
- *          page design (HASM logo + "HASM" wordmark, application navigation, and shared selectors).
+ *          page design (HASM logo + "HASM" wordmark, grouped page navigation, and shared selectors).
  * Behavior: Renders the brand as a button that navigates home when `onNavigateHome` is provided,
  *           otherwise as a static brand block (used by the home page itself).
  */
@@ -26,15 +26,36 @@ export const SiteHeader = ({ onNavigateHome, activePatternId, onThemeChange }) =
   // Pages such as the color pattern explorer drive the theme selection with their own state.
   const selectedPatternId = activePatternId || colorPattern;
   const handleThemeChange = onThemeChange || setColorPattern;
-  const applications = [
-    { path: '/editor', label: t.applicationHasm },
-    { path: '/markdown', label: t.applicationMarkdown },
-    { path: '/extended-commit-graph', label: t.applicationExtendedCommitGraph },
-    { path: '/color-pattern', label: t.applicationColorPattern },
-    { path: '/logo', label: t.applicationLogo },
-    { path: '/creator', label: t.applicationCreator }
+  const applicationGroups = [
+    {
+      id: 'philosophy',
+      label: t.navGroupPhilosophy,
+      items: [
+        { path: '/', label: t.applicationHome },
+        { path: '/extended-commit-graph', label: t.applicationExtendedCommitGraph }
+      ]
+    },
+    {
+      id: 'application',
+      label: t.navGroupApplication,
+      items: [
+        { path: '/editor', label: t.applicationHasm },
+        { path: '/markdown', label: t.applicationMarkdown }
+      ]
+    },
+    {
+      id: 'others',
+      label: t.navGroupOthers,
+      items: [
+        { path: '/color-pattern', label: t.applicationColorPattern },
+        { path: '/logo', label: t.applicationLogo },
+        { path: '/creator', label: t.applicationCreator }
+      ]
+    }
   ];
-  const selectedApplication = applications.some(({ path }) => path === location.pathname)
+  const selectedApplication = applicationGroups
+    .flatMap(({ items }) => items)
+    .some(({ path }) => path === location.pathname)
     ? location.pathname
     : '';
 
@@ -73,16 +94,20 @@ export const SiteHeader = ({ onNavigateHome, activePatternId, onThemeChange }) =
 
         <div className="HASM_SiteHeader_Controls">
           <div className="HASM_SiteHeader_ApplicationSelector">
-            <label htmlFor="hasm-application-select">{t.applications}</label>
+            <label htmlFor="hasm-application-select">{t.pages}</label>
             <select
               id="hasm-application-select"
               value={selectedApplication}
               onChange={handleApplicationChange}
-              aria-label={t.applications}
+              aria-label={t.pages}
             >
-              <option value="" disabled>{t.selectApplication}</option>
-              {applications.map(({ path, label }) => (
-                <option key={path} value={path}>{label}</option>
+              <option value="" disabled>{t.selectPage}</option>
+              {applicationGroups.map(({ id, label, items }) => (
+                <optgroup key={id} label={label}>
+                  {items.map((item) => (
+                    <option key={item.path} value={item.path}>{item.label}</option>
+                  ))}
+                </optgroup>
               ))}
             </select>
           </div>

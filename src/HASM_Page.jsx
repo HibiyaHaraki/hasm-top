@@ -337,9 +337,25 @@ const hasmPageStyles = `
     margin-bottom: 28px;
   }
 
+  .HASM_Page_EcosystemGroup + .HASM_Page_EcosystemGroup {
+    margin-top: 28px;
+  }
+
+  .HASM_Page_EcosystemGroupTitle {
+    font-family: Georgia, serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--theme-accent-readable);
+    margin: 0 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--theme-border);
+  }
+
   .HASM_Page_EcosystemGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
     gap: 18px;
   }
 
@@ -384,9 +400,19 @@ const hasmPageStyles = `
     opacity: 0.9;
   }
 
+  @media (max-width: 760px) {
+    .HASM_Page_Ecosystem {
+      padding: 24px 18px;
+    }
+
+    .HASM_Page_SubAppCard {
+      padding: 18px;
+    }
+  }
+
 `;
 
-export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigateToColorPattern, onNavigateToLogo, onNavigateToCreator, onNavigateToExtendedCommitGraph }) => {
+export const HASM_Page = ({ onNavigateToHasmPhilosophy, onNavigateToHasmApp, onNavigateToMarkdown, onNavigateToColorPattern, onNavigateToLogo, onNavigateToCreator, onNavigateToExtendedCommitGraph }) => {
   const { t } = useLanguage();
 
   return (
@@ -581,65 +607,88 @@ export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigat
               <p className="HASM_Page_SubAppDesc">{t.hasmSubAppsDescription}</p>
             </div>
 
-            <div className="HASM_Page_EcosystemGrid">
-              <div className="HASM_Page_SubAppCard">
-                <div>
-                  <div className="HASM_Page_SubAppTitle">HASM Desktop App</div>
-                  <p className="HASM_Page_SubAppDesc">{t.homeDescription}</p>
+            <div className="HASM_Page_EcosystemGroup">
+              <h3 className="HASM_Page_EcosystemGroupTitle">{t.navGroupPhilosophy}</h3>
+              <div className="HASM_Page_EcosystemGrid">
+                <div className="HASM_Page_SubAppCard">
+                  <div>
+                    <div className="HASM_Page_SubAppTitle">{t.applicationHome}</div>
+                    <p className="HASM_Page_SubAppDesc">{t.philosophyDescription}</p>
+                  </div>
+                  <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToHasmPhilosophy}>
+                    {t.openPhilosophy}
+                  </button>
                 </div>
-                <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToHasmApp}>
-                  {t.openHasmAppSubApp}
-                </button>
-              </div>
 
-              <div className="HASM_Page_SubAppCard">
-                <div>
-                  <div className="HASM_Page_SubAppTitle">HASM Markdown</div>
-                  <p className="HASM_Page_SubAppDesc">{t.markdownDescription}</p>
+                <div className="HASM_Page_SubAppCard">
+                  <div>
+                    <div className="HASM_Page_SubAppTitle">{t.applicationExtendedCommitGraph}</div>
+                    <p className="HASM_Page_SubAppDesc">{t.ecg.homeDescription}</p>
+                  </div>
+                  <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToExtendedCommitGraph}>
+                    {t.ecg.openPage}
+                  </button>
                 </div>
-                <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToMarkdown}>
-                  {t.openMarkdownSubApp}
-                </button>
               </div>
+            </div>
 
-              <div className="HASM_Page_SubAppCard">
-                <div>
-                  <div className="HASM_Page_SubAppTitle">{t.ecg.title}</div>
-                  <p className="HASM_Page_SubAppDesc">{t.ecg.homeDescription}</p>
+            <div className="HASM_Page_EcosystemGroup">
+              <h3 className="HASM_Page_EcosystemGroupTitle">{t.navGroupApplication}</h3>
+              <div className="HASM_Page_EcosystemGrid">
+                <div className="HASM_Page_SubAppCard">
+                  <div>
+                    <div className="HASM_Page_SubAppTitle">{t.applicationHasm}</div>
+                    <p className="HASM_Page_SubAppDesc">{t.homeDescription}</p>
+                  </div>
+                  <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToHasmApp}>
+                    {t.openHasmAppSubApp}
+                  </button>
                 </div>
-                <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToExtendedCommitGraph}>
-                  {t.ecg.openPage}
-                </button>
+
+                <div className="HASM_Page_SubAppCard">
+                  <div>
+                    <div className="HASM_Page_SubAppTitle">{t.applicationMarkdown}</div>
+                    <p className="HASM_Page_SubAppDesc">{t.markdownDescription}</p>
+                  </div>
+                  <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToMarkdown}>
+                    {t.openMarkdownSubApp}
+                  </button>
+                </div>
               </div>
+            </div>
 
-              <div className="HASM_Page_SubAppCard">
-                <div>
-                  <div className="HASM_Page_SubAppTitle">Color Pattern System</div>
-                  <p className="HASM_Page_SubAppDesc">{t.colorPatternDescription}</p>
+            <div className="HASM_Page_EcosystemGroup">
+              <h3 className="HASM_Page_EcosystemGroupTitle">{t.navGroupOthers}</h3>
+              <div className="HASM_Page_EcosystemGrid">
+                <div className="HASM_Page_SubAppCard">
+                  <div>
+                    <div className="HASM_Page_SubAppTitle">{t.applicationColorPattern}</div>
+                    <p className="HASM_Page_SubAppDesc">{t.colorPatternDescription}</p>
+                  </div>
+                  <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToColorPattern}>
+                    {t.openColorPatternSubApp}
+                  </button>
                 </div>
-                <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToColorPattern}>
-                  {t.openColorPatternSubApp}
-                </button>
-              </div>
 
-              <div className="HASM_Page_SubAppCard">
-                <div>
-                  <div className="HASM_Page_SubAppTitle">Logo System</div>
-                  <p className="HASM_Page_SubAppDesc">{t.logoDescription}</p>
+                <div className="HASM_Page_SubAppCard">
+                  <div>
+                    <div className="HASM_Page_SubAppTitle">{t.applicationLogo}</div>
+                    <p className="HASM_Page_SubAppDesc">{t.logoDescription}</p>
+                  </div>
+                  <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToLogo}>
+                    {t.openLogoSubApp}
+                  </button>
                 </div>
-                <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToLogo}>
-                  {t.openLogoSubApp}
-                </button>
-              </div>
 
-              <div className="HASM_Page_SubAppCard">
-                <div>
-                  <div className="HASM_Page_SubAppTitle">{t.creatorTitle}</div>
-                  <p className="HASM_Page_SubAppDesc">{t.creatorDescription}</p>
+                <div className="HASM_Page_SubAppCard">
+                  <div>
+                    <div className="HASM_Page_SubAppTitle">{t.applicationCreator}</div>
+                    <p className="HASM_Page_SubAppDesc">{t.creatorDescription}</p>
+                  </div>
+                  <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToCreator}>
+                    {t.openCreatorSubApp}
+                  </button>
                 </div>
-                <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToCreator}>
-                  {t.openCreatorSubApp}
-                </button>
               </div>
             </div>
           </section>

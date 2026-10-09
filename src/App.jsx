@@ -13,6 +13,10 @@ import './shared-controls.css';
 function HomeRoute() {
   const navigate = useNavigate();
   return <HASM_Page
+    onNavigateToHasmPhilosophy={() => {
+      navigate('/');
+      window.scrollTo(0, 0);
+    }}
     onNavigateToHasmApp={() => navigate('/editor')}
     onNavigateToMarkdown={() => navigate('/markdown')}
     onNavigateToColorPattern={() => navigate('/color-pattern')}
