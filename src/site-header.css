@@ -1,0 +1,138 @@
+/*
+ * File: site-header.css
+ * Purpose: Styles for the shared site header (logo + HASM wordmark, grouped page navigation,
+ *          and language/theme controls).
+ * Behavior: Centers the header content in the same container width used by the pages and renders
+ *           the shared selectors inline instead of as fixed floating controls.
+ */
+
+.HASM_SiteHeader {
+  background: var(--theme-textbackground);
+  border-bottom: 1px solid var(--theme-border);
+}
+
+.HASM_SiteHeader_Inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  width: min(1160px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 18px 0;
+}
+
+.HASM_SiteHeader_Brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0;
+  color: var(--theme-text);
+  background: none;
+  border: 0;
+  text-decoration: none;
+}
+
+button.HASM_SiteHeader_Brand {
+  cursor: pointer;
+}
+
+.HASM_SiteHeader_Logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.HASM_SiteHeader_Title {
+  font-family: Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.03em;
+}
+
+.HASM_SiteHeader_Controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: 0;
+}
+
+.HASM_SiteHeader_ApplicationSelector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 6px 8px;
+  color: var(--theme-text);
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: 8px;
+}
+
+.HASM_SiteHeader_ApplicationSelector label {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.HASM_SiteHeader_ApplicationSelector select {
+  min-width: 0;
+  max-width: min(240px, 100%);
+  padding: 4px 8px;
+  color: var(--theme-text);
+  background: var(--theme-input-bg);
+  border: 1px solid var(--theme-border);
+  border-radius: 6px;
+  text-overflow: ellipsis;
+}
+
+.HASM_SiteHeader_ApplicationSelector select:focus-visible {
+  outline: 2px solid var(--theme-primary);
+  outline-offset: 2px;
+}
+
+/* Keep the shared selectors inside the header flow instead of their default fixed placement. */
+.HASM_SiteHeader_Controls .ThemeSelector,
+.HASM_SiteHeader_Controls .LanguageSelector {
+  position: static;
+  max-width: 100%;
+  box-shadow: none;
+}
+
+.HASM_SiteHeader_Controls .ThemeSelector_Label,
+.HASM_SiteHeader_Controls .LanguageSelector_Label {
+  white-space: nowrap;
+  letter-spacing: 0;
+}
+
+@media (max-width: 760px) {
+  .HASM_SiteHeader_Inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .HASM_SiteHeader_Controls {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 520px) {
+  .HASM_SiteHeader_ApplicationSelector,
+  .HASM_SiteHeader_Controls .ThemeSelector,
+  .HASM_SiteHeader_Controls .LanguageSelector {
+    width: 100%;
+  }
+
+  .HASM_SiteHeader_ApplicationSelector select,
+  .HASM_SiteHeader_Controls .ThemeSelector_Select,
+  .HASM_SiteHeader_Controls .LanguageSelector_Select {
+    flex: 1 1 auto;
+    width: 0;
+    max-width: none;
+  }
+}

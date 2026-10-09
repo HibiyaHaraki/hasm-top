@@ -1,9 +1,7 @@
 import React from 'react';
 import hasmLogo from './assets/logo/hasm_logo_transparent.png';
-import { useColorTheme } from './theme/useColorTheme.js';
-import ThemeSelector from './ThemeSelector.jsx';
-import LanguageSelector from './LanguageSelector.jsx';
 import { useLanguage } from './i18n.js';
+import SiteHeader from './SiteHeader.jsx';
 import Footer from './Footer.jsx';
 
 const hasmPageStyles = `
@@ -23,30 +21,6 @@ const hasmPageStyles = `
     margin: 0 auto;
     padding: 24px 0 60px;
     flex: 1;
-  }
-
-  .HASM_Page_Header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 18px;
-    padding: 18px 0 28px;
-    border-bottom: 1px solid var(--theme-border);
-  }
-
-  .HASM_Page_Brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-    color: var(--theme-text);
-  }
-
-  .HASM_Page_BrandTitle {
-    font-family: Georgia, serif;
-    font-size: 1.25rem;
-    font-weight: 700;
-    line-height: 1.1;
   }
 
   .HASM_Page_Hero {
@@ -203,6 +177,79 @@ const hasmPageStyles = `
     margin: 8px 0 0;
   }
 
+  /* Model and Architecture */
+  .HASM_Page_EntityGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin: 28px 0;
+  }
+
+  .HASM_Page_EntityCard {
+    padding: 22px;
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-top: 3px solid var(--theme-primary);
+  }
+
+  .HASM_Page_EntityCardHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .HASM_Page_EntityBadge {
+    padding: 3px 9px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    background: var(--theme-primary);
+    color: var(--theme-on-accent);
+  }
+
+  .HASM_Page_EntityCard p {
+    margin: 0;
+    color: var(--theme-muted);
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+
+  /* ONTOLOGY MATRIX TABLE */
+  .HASM_Page_TableBox {
+    margin: 32px 0;
+    overflow-x: auto;
+    border: 1px solid var(--theme-border);
+    background: var(--theme-surface);
+  }
+
+  .HASM_Page_OntologyTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .HASM_Page_OntologyTable th {
+    padding: 12px 16px;
+    background: var(--theme-soft);
+    border-bottom: 2px solid var(--theme-border);
+    font-family: Georgia, serif;
+    font-weight: 700;
+    color: var(--theme-text);
+  }
+
+  .HASM_Page_OntologyTable td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--theme-border);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .HASM_Page_OntologyTable tr:last-child td {
+    border-bottom: none;
+  }
+
   /* 4 DEFECTS GRID */
   .HASM_Page_DefectsGrid {
     display: grid;
@@ -219,6 +266,7 @@ const hasmPageStyles = `
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    justify-content: flex-start;
   }
 
   .HASM_Page_DefectHeader {
@@ -362,9 +410,25 @@ const hasmPageStyles = `
     margin-bottom: 28px;
   }
 
+  .HASM_Page_EcosystemGroup + .HASM_Page_EcosystemGroup {
+    margin-top: 28px;
+  }
+
+  .HASM_Page_EcosystemGroupTitle {
+    font-family: Georgia, serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--theme-accent-readable);
+    margin: 0 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--theme-border);
+  }
+
   .HASM_Page_EcosystemGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
     gap: 18px;
   }
 
@@ -410,38 +474,31 @@ const hasmPageStyles = `
   }
 
   @media (max-width: 760px) {
-    .HASM_Page_Header {
-      flex-direction: column;
-      align-items: flex-start;
+    .HASM_Page_Ecosystem {
+      padding: 24px 18px;
+    }
+
+    .HASM_Page_SubAppCard {
+      padding: 18px;
     }
   }
+
 `;
 
-export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigateToColorPattern, onNavigateToLogo, onNavigateToCreator }) => {
-  const { colorPattern, setColorPattern, patterns } = useColorTheme();
-  const { language, setLanguage, t } = useLanguage();
+export const HASM_Page = ({ onNavigateToHasmPhilosophy, onNavigateToHasmApp, onNavigateToMarkdown, onNavigateToColorPattern, onNavigateToLogo, onNavigateToCreator, onNavigateToExtendedCommitGraph }) => {
+  const { t } = useLanguage();
 
   return (
     <div className="HASM_Page">
       <style>{hasmPageStyles}</style>
 
-      <div className="HASM_Page_Inner">
-        <header className="HASM_Page_Header">
-          <div className="HASM_Page_Brand">
-            <img src={hasmLogo} alt="HASM" style={{ width: 36, height: 36, objectFit: 'contain' }} />
-            <div className="HASM_Page_BrandTitle">HASM</div>
-          </div>
-          <div className="d-flex gap-2 align-items-center">
-            <LanguageSelector language={language} onChange={setLanguage} label={t.language} />
-            <ThemeSelector patterns={patterns} activePatternId={colorPattern} onChange={setColorPattern} label={t.theme} />
-          </div>
-        </header>
+      <SiteHeader />
 
+      <div className="HASM_Page_Inner">
         <main>
           {/* HERO SECTION */}
           <section className="HASM_Page_Hero">
             <img src={hasmLogo} alt="HASM" className="HASM_Page_HeroLogo" />
-            <div className="HASM_Page_Kicker">{t.homeKicker}</div>
             <h1 className="HASM_Page_HeroTitle">{t.homeTitle}</h1>
             <p className="HASM_Page_HeroLead">{t.homeTagline}</p>
           </section>
@@ -492,9 +549,11 @@ export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigat
             {/* 4 FATAL DEFECTS BREAKDOWN */}
             <div style={{ marginTop: 44 }}>
               <div className="HASM_Page_Kicker">{t.defectsSectionTitle}</div>
+              {/*
               <p style={{ margin: '4px 0 16px', color: 'var(--theme-muted)', fontSize: '0.95rem' }}>
                 {t.defectsSectionSubtitle}
               </p>
+              */}
 
               <div className="HASM_Page_DefectsGrid">
                 <div className="HASM_Page_DefectCard">
@@ -568,13 +627,52 @@ export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigat
                       <td className="HASM_Page_CompConv">{t.compRow4Conv}</td>
                       <td className="HASM_Page_CompHasm">{t.compRow4Hasm}</td>
                     </tr>
+                    {/*
                     <tr>
                       <td className="HASM_Page_CompDim">{t.compRow5Dim}</td>
                       <td className="HASM_Page_CompConv">{t.compRow5Conv}</td>
                       <td className="HASM_Page_CompHasm">{t.compRow5Hasm}</td>
                     </tr>
+                    */}
                   </tbody>
                 </table>
+              </div>
+            </div>
+
+            <div className="HASM_Page_SectionHeader">
+              <div className="HASM_Page_Kicker">{t.whatIsHasmKicker}</div>
+              <h2 className="HASM_Page_SectionTitle">{t.whatIsHasmTitle}</h2>
+              <p className="HASM_Page_SectionDesc">{t.whatIsHasmDescription}</p>
+            </div>
+
+            {/* CORE 4 ENTITIES GRID */}
+            <div className="HASM_Page_EntityGrid">
+              <div className="HASM_Page_EntityCard">
+                <div className="HASM_Page_EntityCardHeader">
+                  <span className="HASM_Page_EntityBadge">{t.entityPerson}</span>
+                </div>
+                <p>{t.entityPersonDesc}</p>
+              </div>
+
+              <div className="HASM_Page_EntityCard">
+                <div className="HASM_Page_EntityCardHeader">
+                  <span className="HASM_Page_EntityBadge">{t.entityExperience}</span>
+                </div>
+                <p>{t.entityExperienceDesc}</p>
+              </div>
+
+              <div className="HASM_Page_EntityCard">
+                <div className="HASM_Page_EntityCardHeader">
+                  <span className="HASM_Page_EntityBadge">{t.entityFact}</span>
+                </div>
+                <p>{t.entityFactDesc}</p>
+              </div>
+
+              <div className="HASM_Page_EntityCard">
+                <div className="HASM_Page_EntityCardHeader">
+                  <span className="HASM_Page_EntityBadge">{t.entityLink}</span>
+                </div>
+                <p>{t.entityLinkDesc}</p>
               </div>
             </div>
 
@@ -583,8 +681,51 @@ export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigat
               <h3 className="HASM_Page_MetaphorTitle">{t.metaphorTitle}</h3>
               <p className="HASM_Page_MetaphorDesc">{t.metaphorDesc}</p>
             </div>
+            {/* ONTOLOGY MATRIX TABLE */}
+            <div style={{ marginTop: 32 }}>
+              <div className="HASM_Page_Kicker">{t.ontTableTitle}</div>
+              <div className="HASM_Page_TableBox">
+                <table className="HASM_Page_OntologyTable">
+                  <thead>
+                    <tr>
+                      <th style={{ width: '22%' }}>{t.ontColEntity}</th>
+                      <th style={{ width: '26%' }}>{t.ontColRole}</th>
+                      <th style={{ width: '28%' }}>{t.ontColConcept}</th>
+                      <th style={{ width: '24%' }}>{t.ontColDev}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>PERSON</strong></td>
+                      <td>Agent & Meaning Owner</td>
+                      <td>{t.ontRowPersonConcept}</td>
+                      <td>{t.ontRowPersonDev}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>EXPERIENCE</strong></td>
+                      <td>Perception Frame & Context</td>
+                      <td>{t.ontRowExpConcept}</td>
+                      <td>{t.ontRowExpDev}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>FACT / ACHIEVEMENT</strong></td>
+                      <td>Immutable Event / Record</td>
+                      <td>{t.ontRowFactConcept}</td>
+                      <td>{t.ontRowFactDev}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>LINK / NEXUS</strong></td>
+                      <td>Omnidirectional Bond & Relation</td>
+                      <td>{t.ontRowLinkConcept}</td>
+                      <td>{t.ontRowLinkDev}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
             {/* INTERDISCIPLINARY SCIENTIFIC GROUNDING */}
+            {/*
             <div style={{ marginTop: 40 }}>
               <div className="HASM_Page_Kicker">{t.groundingTitle}</div>
               <p style={{ margin: '4px 0 16px', color: 'var(--theme-muted)', fontSize: '0.95rem' }}>
@@ -610,6 +751,7 @@ export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigat
                 </div>
               </div>
             </div>
+            */}
           </section>
 
           {/* ECOSYSTEM: LINKS TO ALL SUB-APPS */}
@@ -619,55 +761,88 @@ export const HASM_Page = ({ onNavigateToHasmApp, onNavigateToMarkdown, onNavigat
               <p className="HASM_Page_SubAppDesc">{t.hasmSubAppsDescription}</p>
             </div>
 
-            <div className="HASM_Page_EcosystemGrid">
-              <div className="HASM_Page_SubAppCard">
-                <div>
-                  <div className="HASM_Page_SubAppTitle">HASM Desktop App</div>
-                  <p className="HASM_Page_SubAppDesc">{t.homeDescription}</p>
+            <div className="HASM_Page_EcosystemGroup">
+              <h3 className="HASM_Page_EcosystemGroupTitle">{t.navGroupPhilosophy}</h3>
+              <div className="HASM_Page_EcosystemGrid">
+                <div className="HASM_Page_SubAppCard">
+                  <div>
+                    <div className="HASM_Page_SubAppTitle">{t.applicationHome}</div>
+                    <p className="HASM_Page_SubAppDesc">{t.philosophyDescription}</p>
+                  </div>
+                  <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToHasmPhilosophy}>
+                    {t.openPhilosophy}
+                  </button>
                 </div>
-                <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToHasmApp}>
-                  {t.openHasmAppSubApp}
-                </button>
-              </div>
 
-              <div className="HASM_Page_SubAppCard">
-                <div>
-                  <div className="HASM_Page_SubAppTitle">HASM Markdown</div>
-                  <p className="HASM_Page_SubAppDesc">{t.markdownDescription}</p>
+                <div className="HASM_Page_SubAppCard">
+                  <div>
+                    <div className="HASM_Page_SubAppTitle">{t.applicationExtendedCommitGraph}</div>
+                    <p className="HASM_Page_SubAppDesc">{t.ecg.homeDescription}</p>
+                  </div>
+                  <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToExtendedCommitGraph}>
+                    {t.ecg.openPage}
+                  </button>
                 </div>
-                <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToMarkdown}>
-                  {t.openMarkdownSubApp}
-                </button>
               </div>
+            </div>
 
-              <div className="HASM_Page_SubAppCard">
-                <div>
-                  <div className="HASM_Page_SubAppTitle">Color Pattern System</div>
-                  <p className="HASM_Page_SubAppDesc">{t.colorPatternDescription}</p>
+            <div className="HASM_Page_EcosystemGroup">
+              <h3 className="HASM_Page_EcosystemGroupTitle">{t.navGroupApplication}</h3>
+              <div className="HASM_Page_EcosystemGrid">
+                <div className="HASM_Page_SubAppCard">
+                  <div>
+                    <div className="HASM_Page_SubAppTitle">{t.applicationHasm}</div>
+                    <p className="HASM_Page_SubAppDesc">{t.homeDescription}</p>
+                  </div>
+                  <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToHasmApp}>
+                    {t.openHasmAppSubApp}
+                  </button>
                 </div>
-                <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToColorPattern}>
-                  {t.openColorPatternSubApp}
-                </button>
+
+                <div className="HASM_Page_SubAppCard">
+                  <div>
+                    <div className="HASM_Page_SubAppTitle">{t.applicationMarkdown}</div>
+                    <p className="HASM_Page_SubAppDesc">{t.markdownDescription}</p>
+                  </div>
+                  <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToMarkdown}>
+                    {t.openMarkdownSubApp}
+                  </button>
+                </div>
               </div>
+            </div>
 
-              <div className="HASM_Page_SubAppCard">
-                <div>
-                  <div className="HASM_Page_SubAppTitle">Logo System</div>
-                  <p className="HASM_Page_SubAppDesc">{t.logoDescription}</p>
+            <div className="HASM_Page_EcosystemGroup">
+              <h3 className="HASM_Page_EcosystemGroupTitle">{t.navGroupOthers}</h3>
+              <div className="HASM_Page_EcosystemGrid">
+                <div className="HASM_Page_SubAppCard">
+                  <div>
+                    <div className="HASM_Page_SubAppTitle">{t.applicationColorPattern}</div>
+                    <p className="HASM_Page_SubAppDesc">{t.colorPatternDescription}</p>
+                  </div>
+                  <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToColorPattern}>
+                    {t.openColorPatternSubApp}
+                  </button>
                 </div>
-                <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToLogo}>
-                  {t.openLogoSubApp}
-                </button>
-              </div>
 
-              <div className="HASM_Page_SubAppCard">
-                <div>
-                  <div className="HASM_Page_SubAppTitle">{t.creatorTitle}</div>
-                  <p className="HASM_Page_SubAppDesc">{t.creatorDescription}</p>
+                <div className="HASM_Page_SubAppCard">
+                  <div>
+                    <div className="HASM_Page_SubAppTitle">{t.applicationLogo}</div>
+                    <p className="HASM_Page_SubAppDesc">{t.logoDescription}</p>
+                  </div>
+                  <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToLogo}>
+                    {t.openLogoSubApp}
+                  </button>
                 </div>
-                <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToCreator}>
-                  {t.openCreatorSubApp}
-                </button>
+
+                <div className="HASM_Page_SubAppCard">
+                  <div>
+                    <div className="HASM_Page_SubAppTitle">{t.applicationCreator}</div>
+                    <p className="HASM_Page_SubAppDesc">{t.creatorDescription}</p>
+                  </div>
+                  <button type="button" className="HASM_Page_SubAppButton" onClick={onNavigateToCreator}>
+                    {t.openCreatorSubApp}
+                  </button>
+                </div>
               </div>
             </div>
           </section>

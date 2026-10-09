@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import hasmLogo from './assets/logo/hasm_logo_transparent.png';
 import { useColorTheme } from './theme/useColorTheme.js';
-import ThemeSelector from './ThemeSelector.jsx';
-import LanguageSelector from './LanguageSelector.jsx';
+import SiteHeader from './SiteHeader.jsx';
 import { useLanguage } from './i18n.js';
 import Footer from './Footer.jsx';
 import HasmVisualizerComponent from './hasm_visualizer/HasmVisualizerComponent.jsx';
@@ -28,47 +27,6 @@ const hasmAppPageStyles = `
     margin: 0 auto;
     padding: 24px 0 60px;
     flex: 1;
-  }
-
-  .HASM_Page_Header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 18px;
-    padding: 18px 0 28px;
-    border-bottom: 1px solid var(--theme-border);
-  }
-
-  .HASM_Page_Brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-    color: var(--theme-text);
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    font-family: inherit;
-    text-align: left;
-  }
-
-  .HASM_Page_BrandTitle {
-    font-family: Georgia, serif;
-    font-size: 1.25rem;
-    font-weight: 700;
-    line-height: 1.1;
-  }
-
-  .HASM_Page_BrandBadge {
-    display: inline-block;
-    padding: 2px 8px;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    background: var(--theme-primary);
-    color: var(--theme-on-accent);
   }
 
   .HASM_Page_Hero {
@@ -165,78 +123,6 @@ const hasmAppPageStyles = `
     color: var(--theme-muted);
     font-size: 1.05rem;
     line-height: 1.8;
-  }
-
-  .HASM_Page_EntityGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
-    margin: 28px 0;
-  }
-
-  .HASM_Page_EntityCard {
-    padding: 22px;
-    background: var(--theme-surface);
-    border: 1px solid var(--theme-border);
-    border-top: 3px solid var(--theme-primary);
-  }
-
-  .HASM_Page_EntityCardHeader {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-
-  .HASM_Page_EntityBadge {
-    padding: 3px 9px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    background: var(--theme-primary);
-    color: var(--theme-on-accent);
-  }
-
-  .HASM_Page_EntityCard p {
-    margin: 0;
-    color: var(--theme-muted);
-    font-size: 0.92rem;
-    line-height: 1.65;
-  }
-
-  /* ONTOLOGY MATRIX TABLE */
-  .HASM_Page_TableBox {
-    margin: 32px 0;
-    overflow-x: auto;
-    border: 1px solid var(--theme-border);
-    background: var(--theme-surface);
-  }
-
-  .HASM_Page_OntologyTable {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9rem;
-    text-align: left;
-  }
-
-  .HASM_Page_OntologyTable th {
-    padding: 12px 16px;
-    background: var(--theme-soft);
-    border-bottom: 2px solid var(--theme-border);
-    font-family: Georgia, serif;
-    font-weight: 700;
-    color: var(--theme-text);
-  }
-
-  .HASM_Page_OntologyTable td {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--theme-border);
-    vertical-align: top;
-    line-height: 1.6;
-  }
-
-  .HASM_Page_OntologyTable tr:last-child td {
-    border-bottom: none;
   }
 
   /* ROADMAP CALLOUT */
@@ -453,10 +339,6 @@ const hasmAppPageStyles = `
   }
 
   @media (max-width: 760px) {
-    .HASM_Page_Header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
     .HASM_Page_TabNav {
       flex-direction: column;
     }
@@ -471,8 +353,8 @@ const hasmAppPageStyles = `
 `;
 
 export const HASM_App_Page = ({ onNavigateHome }) => {
-  const { colorPattern, setColorPattern, patterns } = useColorTheme();
-  const { language, setLanguage, t } = useLanguage();
+  const { colorPattern } = useColorTheme();
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState('all');
 
   const handleTabChange = (tabId) => {
@@ -484,26 +366,14 @@ export const HASM_App_Page = ({ onNavigateHome }) => {
     <div className="HASM_Page">
       <style>{hasmAppPageStyles}</style>
 
-      <div className="HASM_Page_Inner">
-        <header className="HASM_Page_Header">
-          <button type="button" className="HASM_Page_Brand" onClick={onNavigateHome}>
-            <img src={hasmLogo} alt="HASM" style={{ width: 36, height: 36, objectFit: 'contain' }} />
-            <div>
-              <div className="HASM_Page_BrandTitle">HASM</div>
-              <span className="HASM_Page_BrandBadge">{t.hasmMainApp}</span>
-            </div>
-          </button>
-          <div className="d-flex gap-2 align-items-center">
-            <LanguageSelector language={language} onChange={setLanguage} label={t.language} />
-            <ThemeSelector patterns={patterns} activePatternId={colorPattern} onChange={setColorPattern} label={t.theme} />
-          </div>
-        </header>
+      <SiteHeader onNavigateHome={onNavigateHome} />
 
+      <div className="HASM_Page_Inner">
         <main>
           {/* HERO SECTION: APP INTRODUCTION */}
           <section className="HASM_Page_Hero">
             <img src={hasmLogo} alt="HASM" className="HASM_Page_HeroLogo" />
-            <div className="HASM_Page_Kicker">{t.homeKicker}</div>
+            {/*<div className="HASM_Page_Kicker">{t.homeKicker}</div>*/}
             <h1 className="HASM_Page_HeroTitle">{t.homeTitle}</h1>
             <p className="HASM_Page_HeroLead">{t.homeDescription}</p>
 
@@ -555,86 +425,6 @@ export const HASM_App_Page = ({ onNavigateHome }) => {
           {/* SECTION 1: WHAT IS HASM? (TECHNICAL INTRODUCTION & ONTOLOGY) */}
           {(activeTab === 'all' || activeTab === 'what-is-hasm') && (
             <section className="HASM_Page_Section" id="what-is-hasm">
-              <div className="HASM_Page_SectionHeader">
-                <div className="HASM_Page_Kicker">{t.whatIsHasmKicker}</div>
-                <h2 className="HASM_Page_SectionTitle">{t.whatIsHasmTitle}</h2>
-                <p className="HASM_Page_SectionDesc">{t.whatIsHasmDescription}</p>
-              </div>
-
-              {/* CORE 4 ENTITIES GRID */}
-              <div className="HASM_Page_EntityGrid">
-                <div className="HASM_Page_EntityCard">
-                  <div className="HASM_Page_EntityCardHeader">
-                    <span className="HASM_Page_EntityBadge">{t.entityPerson}</span>
-                  </div>
-                  <p>{t.entityPersonDesc}</p>
-                </div>
-
-                <div className="HASM_Page_EntityCard">
-                  <div className="HASM_Page_EntityCardHeader">
-                    <span className="HASM_Page_EntityBadge">{t.entityExperience}</span>
-                  </div>
-                  <p>{t.entityExperienceDesc}</p>
-                </div>
-
-                <div className="HASM_Page_EntityCard">
-                  <div className="HASM_Page_EntityCardHeader">
-                    <span className="HASM_Page_EntityBadge">{t.entityFact}</span>
-                  </div>
-                  <p>{t.entityFactDesc}</p>
-                </div>
-
-                <div className="HASM_Page_EntityCard">
-                  <div className="HASM_Page_EntityCardHeader">
-                    <span className="HASM_Page_EntityBadge">{t.entityLink}</span>
-                  </div>
-                  <p>{t.entityLinkDesc}</p>
-                </div>
-              </div>
-
-              {/* ONTOLOGY MATRIX TABLE */}
-              <div style={{ marginTop: 32 }}>
-                <div className="HASM_Page_Kicker">{t.ontTableTitle}</div>
-                <div className="HASM_Page_TableBox">
-                  <table className="HASM_Page_OntologyTable">
-                    <thead>
-                      <tr>
-                        <th style={{ width: '22%' }}>{t.ontColEntity}</th>
-                        <th style={{ width: '26%' }}>{t.ontColRole}</th>
-                        <th style={{ width: '28%' }}>{t.ontColConcept}</th>
-                        <th style={{ width: '24%' }}>{t.ontColDev}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td><strong>PERSON</strong></td>
-                        <td>Agent & Meaning Owner</td>
-                        <td>{t.ontRowPersonConcept}</td>
-                        <td>{t.ontRowPersonDev}</td>
-                      </tr>
-                      <tr>
-                        <td><strong>EXPERIENCE</strong></td>
-                        <td>Perception Frame & Context</td>
-                        <td>{t.ontRowExpConcept}</td>
-                        <td>{t.ontRowExpDev}</td>
-                      </tr>
-                      <tr>
-                        <td><strong>FACT / ACHIEVEMENT</strong></td>
-                        <td>Immutable Event / Record</td>
-                        <td>{t.ontRowFactConcept}</td>
-                        <td>{t.ontRowFactDev}</td>
-                      </tr>
-                      <tr>
-                        <td><strong>LINK / NEXUS</strong></td>
-                        <td>Omnidirectional Bond & Relation</td>
-                        <td>{t.ontRowLinkConcept}</td>
-                        <td>{t.ontRowLinkDev}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
               {/* ROADMAP / ARCHITECTURAL DEVIATION NOTICE */}
               <div className="HASM_Page_RoadmapNotice">
                 <div className="HASM_Page_RoadmapTitle">📌 {t.roadmapTitle}</div>

@@ -7,6 +7,8 @@
     "sync:logo": "node scripts/sync-logo.mjs",
     "sync:markdown-design": "node scripts/sync-markdown-design.mjs",
     "sync:downloads": "node scripts/stage-downloads.mjs",
+    "generate:ecg-images": "node scripts/generate-ecg-images.mjs",
+    "generate:ecg-diagrams": "node scripts/generate-ecg-diagrams.mjs",
     "sync": "npm run sync:logo && npm run sync:markdown-design && npm run sync:downloads",
     "install:hasm": "npm ci --prefix submodules/hasm",
     "install:hasm-markdown": "npm ci --prefix submodules/hasm_markdown",
