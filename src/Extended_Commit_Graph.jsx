@@ -20,41 +20,58 @@ export function Extended_Commit_Graph({ onNavigateHome }) {
             {/*<p className="ECG_Status"><span className="ECG_StatusDot" aria-hidden="true" />{copy.status}</p>*/}
           </section>
 
-          <figure className="ECG_Overview">
-            <img src={`${import.meta.env.BASE_URL}images/ecg-layers.png`} width="1600" height="800" alt={copy.overviewAlt} fetchPriority="high" />
-            <figcaption><span className="ECG_FigureNumber">01</span><div><strong>{copy.overviewTitle}</strong><p>{copy.overviewCaption}</p></div></figcaption>
-          </figure>
-
-          <section className="ECG_Section" aria-labelledby="ecg-concept">
-            <div className="ECG_SectionHeading"><span className="ECG_Eyebrow">{copy.conceptKicker}</span><h2 id="ecg-concept">{copy.conceptTitle}</h2></div>
-            <p className="ECG_SectionLead">{copy.conceptDescription}</p>
+          <section className="ECG_Section" aria-labelledby="ecg-coord">
+            <div className="ECG_SectionHeading"><span className="ECG_Eyebrow">{copy.coordKicker}</span><h2 id="ecg-coord">{copy.coordTitle}</h2></div>
+            <p className="ECG_SectionLead">{copy.coordDescription}</p>
+            <figure className="ECG_Overview">
+              <img src={`${import.meta.env.BASE_URL}images/ecg-axes-3d.png`} width="1600" height="800" alt={copy.axes3dAlt} fetchPriority="high" />
+              <figcaption><span className="ECG_FigureNumber">01</span><div><strong>{copy.axes3dTitle}</strong><p>{copy.axes3dCaption}</p></div></figcaption>
+            </figure>
+            <figure className="ECG_Example">
+              <img src={`${import.meta.env.BASE_URL}images/ecg-axes-2d.png`} width="1600" height="800" alt={copy.axes2dAlt} loading="lazy" />
+              <figcaption><span className="ECG_FigureNumber">02</span><div><strong>{copy.axes2dTitle}</strong><p>{copy.axes2dCaption}</p></div></figcaption>
+            </figure>
             <div className="ECG_Axes">
               {copy.axes.map(([axis, title, description]) => (
-                <div className="ECG_Axis" key={axis}><span className="ECG_AxisSymbol">{axis}</span><div><h3>{title}</h3><p>{description}</p></div></div>
+                <div className="ECG_Axis" key={title}><span className="ECG_AxisSymbol">{axis}</span><div><h3>{title}</h3><p>{description}</p></div></div>
               ))}
             </div>
           </section>
 
-          <section className="ECG_Section" aria-labelledby="ecg-language">
-            <div className="ECG_SectionHeading"><span className="ECG_Eyebrow">{copy.languageKicker}</span><h2 id="ecg-language">{copy.languageTitle}</h2></div>
-            <div className="ECG_Legend">
-              {copy.elements.map(([kind, title, description]) => (
-                <article className="ECG_LegendRow" key={kind}><span className={`ECG_Mark ECG_Mark_${kind}`} aria-hidden="true" /><div><h3>{title}</h3><p>{description}</p></div></article>
+          <section className="ECG_Section" aria-labelledby="ecg-entities">
+            <div className="ECG_SectionHeading"><span className="ECG_Eyebrow">{copy.entityKicker}</span><h2 id="ecg-entities">{copy.entityTitle}</h2></div>
+            <p className="ECG_SectionLead">{copy.entityDescription}</p>
+            <div className="ECG_Entities">
+              {copy.entities.map((entity) => (
+                <article className="ECG_Entity" key={entity.key}>
+                  <div className="ECG_EntityHead">
+                    <span className={`ECG_Mark ECG_Mark_${entity.key}`} aria-hidden="true" />
+                    <span className="ECG_EntityLabel">{entity.label}</span>
+                  </div>
+                  <h3>{entity.title}</h3>
+                  <p>{entity.description}</p>
+                  <figure className="ECG_Example">
+                    <img src={`${import.meta.env.BASE_URL}images/${entity.image}.png`} width="1600" height="800" alt={entity.alt} loading="lazy" />
+                    <figcaption><span className="ECG_FigureNumber">{entity.figure}</span><div><p>{entity.caption}</p></div></figcaption>
+                  </figure>
+                </article>
               ))}
             </div>
           </section>
 
-          <section className="ECG_Section" aria-labelledby="ecg-example">
-            <div className="ECG_SectionHeading"><span className="ECG_Eyebrow">{copy.exampleKicker}</span><h2 id="ecg-example">{copy.exampleTitle}</h2></div>
-            <p className="ECG_SectionLead">{copy.exampleDescription}</p>
-            <figure className="ECG_Example">
-              <img src={`${import.meta.env.BASE_URL}images/ecg-branches.png`} width="1600" height="800" alt={copy.branchAlt} loading="lazy" />
-              <figcaption><span className="ECG_FigureNumber">02</span><div><strong>{copy.branchTitle}</strong><p>{copy.branchCaption}</p></div></figcaption>
-            </figure>
-            <ol className="ECG_Story">
-              {copy.story.map(([id, title, description]) => <li key={id}><span>{id}</span><div><h3>{title}</h3><p>{description}</p></div></li>)}
-            </ol>
-            <p className="ECG_Note">{copy.trajectoryNote}</p>
+          <section className="ECG_Section" aria-labelledby="ecg-git">
+            <div className="ECG_SectionHeading"><span className="ECG_Eyebrow">{copy.gitKicker}</span><h2 id="ecg-git">{copy.gitTitle}</h2></div>
+            <p className="ECG_SectionLead">{copy.gitDescription}</p>
+            {copy.gitPoints.map((point) => (
+              <article className="ECG_Difference" key={point.key}>
+                <h3>{point.title}</h3>
+                <p>{point.description}</p>
+                <figure className="ECG_Example">
+                  <img src={`${import.meta.env.BASE_URL}images/${point.image}.png`} width="1600" height="800" alt={point.alt} loading="lazy" />
+                  <figcaption><span className="ECG_FigureNumber">{point.figure}</span><div><p>{point.caption}</p></div></figcaption>
+                </figure>
+              </article>
+            ))}
           </section>
 
           <section className="ECG_Section" aria-labelledby="ecg-interaction">

@@ -25,21 +25,24 @@
 .ECG_SectionHeading h2 { font-size: 1.85rem; line-height: 1.3; margin: 8px 0 18px; }
 .ECG_SectionLead { max-width: 880px; margin: 0 0 24px; color: var(--theme-muted); }
 .ECG_Page h3 { font-size: 1.05rem; line-height: 1.45; margin: 0 0 8px; }
-.ECG_Axes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.ECG_Axes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 40px; }
 .ECG_Axis { display: flex; gap: 16px; padding-top: 16px; border-top: 2px solid var(--theme-border); }
 .ECG_AxisSymbol { color: var(--theme-accent-readable); font: italic 2rem Georgia, serif; }
-.ECG_Axis p, .ECG_Legend p, .ECG_Story p, .ECG_Interactions p { font-size: 0.94rem; color: var(--theme-muted); margin: 0; }
-.ECG_Legend { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 40px; }
-.ECG_LegendRow { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 16px; align-items: start; }
-.ECG_Mark { display: block; align-self: start; margin-top: 7px; }
-.ECG_Mark_fact { width: 18px; height: 18px; border: 2px solid var(--theme-muted); background: var(--theme-muted); border-radius: 50%; }
-.ECG_Mark_experience { width: 18px; height: 18px; transform: rotate(45deg); border: 2px solid var(--theme-accent-readable); background: var(--theme-soft); }
-.ECG_Mark_causal { width: 36px; margin-top: 15px; border-top: 2px solid var(--theme-muted); position: relative; }
-.ECG_Mark_causal::after { content: ''; position: absolute; right: 0; top: -5px; width: 8px; height: 8px; border-top: 2px solid var(--theme-muted); border-right: 2px solid var(--theme-muted); transform: rotate(45deg); }
-.ECG_Mark_semantic { width: 36px; margin-top: 15px; border-top: 2px dashed var(--theme-accent-readable); }
-.ECG_Story { padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
-.ECG_Story li { display: flex; gap: 12px; border-top: 1px solid var(--theme-border); padding-top: 16px; }
-.ECG_Story li > span { color: var(--theme-accent-readable); font-weight: 700; }
+.ECG_Axis p, .ECG_Entity p, .ECG_Difference p, .ECG_Interactions p { font-size: 0.94rem; color: var(--theme-muted); margin: 0; }
+.ECG_Entities { display: grid; gap: 34px; }
+.ECG_Entity { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); grid-template-rows: auto auto 1fr; gap: 10px 40px; align-items: start; padding-top: 26px; border-top: 1px solid var(--theme-border); }
+.ECG_Entity > h3, .ECG_Entity > p, .ECG_EntityHead { grid-column: 1; }
+.ECG_Entity > figure { grid-column: 2; grid-row: 1 / span 3; }
+.ECG_EntityHead { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.ECG_EntityLabel { color: var(--theme-accent-readable); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; }
+.ECG_Difference { padding-top: 26px; border-top: 1px solid var(--theme-border); }
+.ECG_Difference + .ECG_Difference { margin-top: 12px; }
+.ECG_Difference p { max-width: 880px; }
+.ECG_Mark { display: block; align-self: start; }
+.ECG_Mark_fact { width: 16px; height: 16px; border: 2px solid var(--theme-muted); background: var(--theme-muted); border-radius: 50%; }
+.ECG_Mark_experience { width: 4px; height: 20px; background: var(--theme-accent-readable); }
+.ECG_Mark_person { width: 20px; height: 20px; border: 2px dashed var(--theme-muted); }
+.ECG_Mark_link { width: 20px; height: 20px; border-top: 2px dotted var(--theme-accent-readable); align-self: center; }
 .ECG_Note { border-left: 2px solid var(--theme-primary); padding: 0 0 0 18px; margin: 24px 0 0; font-size: 0.9rem; color: var(--theme-muted); }
 .ECG_Interactions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 40px; }
 .ECG_ItemNumber { display: block; color: var(--theme-accent-readable); font-size: 0.8rem; margin-bottom: 8px; }
@@ -55,7 +58,11 @@
 @media (max-width: 760px) {
   .ECG_Intro { padding-top: 32px; }
   .ECG_Intro h1 { font-size: 2.3rem; }
-  .ECG_Axes, .ECG_Story, .ECG_Legend, .ECG_Interactions { grid-template-columns: 1fr; gap: 22px; }
+  .ECG_Axes, .ECG_Interactions { grid-template-columns: 1fr; gap: 22px; }
+  .ECG_Entity { grid-template-columns: 1fr; grid-template-rows: none; gap: 0; }
+  .ECG_Entity > h3, .ECG_Entity > p, .ECG_EntityHead, .ECG_Entity > figure { grid-column: 1; }
+  .ECG_Entity > figure { grid-row: auto; margin-top: 14px; }
+  .ECG_Entities { gap: 26px; }
   .ECG_SectionHeading h2 { font-size: 1.55rem; }
   .ECG_Implementation > div { grid-template-columns: 1fr; gap: 6px; }
   .ECG_Pipeline { grid-template-columns: 1fr; }
