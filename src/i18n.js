@@ -628,13 +628,13 @@ const TRANSLATIONS = {
     whatIsHasmDescription: 'HASMは、人間の活動にまつわる知識をローカルのMarkdownファイル群と組み込みSQLite（main.db）で透過的に保持し、クラウドに依存しない高速検索・3D可視化・グラフ探索を可能にするモデルです。',
 
     // Core 4 Entities
-    entityPerson: 'PERSON（人物）',
+    entityPerson: 'PERSON',
     entityPersonDesc: '活動を経験し、意味づけを行う主体・人間。人間関係や社会的距離の基準点となります。',
-    entityExperience: 'EXPERIENCE（体験/文脈）',
+    entityExperience: 'EXPERIENCE',
     entityExperienceDesc: '主観的な認識の枠組み・文脈空間。「技術習得」「プロジェクトリーダー」などのテーマで事実を束ね、関連する経験へと展開します。',
-    entityFact: 'FACT / ACHIEVEMENT（事実/達成）',
+    entityFact: 'FACT / ACHIEVEMENT',
     entityFactDesc: '不変の客観的な出来事や達成成果（「解読機の開発成功」「特許取得」「プロジェクトの中断」など）。',
-    entityLink: 'LINK / NEXUS（関係性・絆）',
+    entityLink: 'LINK / NEXUS',
     entityLinkDesc: '事象間の客観的な因果関係、体験間の文脈関係、あるいは体験と事実を結びつける全方位の型付き接続。',
 
     // Ontological Matrix Table

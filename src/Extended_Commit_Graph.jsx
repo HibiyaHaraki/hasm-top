@@ -17,7 +17,7 @@ export function Extended_Commit_Graph({ onNavigateHome }) {
             <div className="ECG_Eyebrow">{copy.kicker}</div>
             <h1 id="ecg-title">{copy.title}</h1>
             <p className="ECG_Lead">{copy.lead}</p>
-            <p className="ECG_Status"><span className="ECG_StatusDot" aria-hidden="true" />{copy.status}</p>
+            {/*<p className="ECG_Status"><span className="ECG_StatusDot" aria-hidden="true" />{copy.status}</p>*/}
           </section>
 
           <figure className="ECG_Overview">
