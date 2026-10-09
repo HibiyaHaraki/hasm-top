@@ -15,13 +15,13 @@ const TRANSLATIONS = {
     ecg: {
       title: 'Extended Commit Graph',
       kicker: 'HASM / VISUALIZATION RESEARCH',
-      lead: 'Extended Commit Graph (ECG) plots a life the way a commit graph plots a repository. EXPERIENCE becomes a line, FACT becomes a point on that line, and time becomes an axis, so a history can branch and merge without ever being rewritten.',
+      lead: 'Extended Commit Graph plots a life the way a commit graph plots a repository. EXPERIENCE becomes a line, FACT becomes a point on that line, and time becomes an axis, so a history can branch and merge without ever being rewritten.',
       status: 'In development / the notation is still changing',
       homeDescription: 'Discover the developing visualization model for HASM: EXPERIENCE as lines, FACT as points, and a history that branches without being rewritten.',
       openPage: 'Explore Extended Commit Graph',
       coordKicker: 'THE COORDINATE MODEL',
       coordTitle: 'Position carries relationship. One axis carries time.',
-      coordDescription: 'ECG reserves a single axis for time and gives the remaining space to relationship. Where an EXPERIENCE sits, and how far it sits from another EXPERIENCE, is the statement the graph makes about them. Because that position never changes, every EXPERIENCE is drawn as a straight line that only advances along time.',
+      coordDescription: 'Extended Commit Graph reserves a single axis for time and gives the remaining space to relationship. Where an EXPERIENCE sits, and how far it sits from another EXPERIENCE, is the statement the graph makes about them. Because that position never changes, every EXPERIENCE is drawn as a straight line that only advances along time.',
       axes3dTitle: 'Three dimensions: the XY plane holds EXPERIENCE, Z holds time.',
       axes3dCaption: 'EXPERIENCE lines are distributed across the XY plane, and the distance and position between them express how those EXPERIENCEs relate to each other. The Z axis is time, so each line rises vertically from its own fixed point on the plane.',
       axes3dAlt: 'An isometric diagram. A horizontal XY plane carries three base points, and from each point a vertical line rises along the Z axis, which is labelled time. A dashed segment between two base points is labelled relationship.',
@@ -36,7 +36,7 @@ const TRANSLATIONS = {
       ],
       entityKicker: 'READING THE ENTITIES',
       entityTitle: 'Every HASM entity has one, and only one, visual form.',
-      entityDescription: 'ECG draws the same entities that HASM records: PERSON, EXPERIENCE, FACT, and LINK. Each one is given a single notation, so a graph can be read without consulting a key.',
+      entityDescription: 'Extended Commit Graph draws the same entities that HASM records: PERSON, EXPERIENCE, FACT, and LINK. Each one is given a single notation, so a graph can be read without consulting a key.',
       entities: [
         {
           key: 'fact',
@@ -64,7 +64,7 @@ const TRANSLATIONS = {
           image: 'ecg-entity-person',
           label: 'PERSON',
           title: 'Present as the owner, not as a node',
-          description: 'PERSON is not currently planned to be drawn directly on ECG. A PERSON appears indirectly, as the owner of the EXPERIENCEs that belong to them, so naming an owner groups a set of EXPERIENCE lines rather than adding a node of its own.',
+          description: 'PERSON is not currently planned to be drawn directly on Extended Commit Graph. A PERSON appears indirectly, as the owner of the EXPERIENCEs that belong to them, so naming an owner groups a set of EXPERIENCE lines rather than adding a node of its own.',
           caption: 'PERSON has no marker of its own. The two owners here are suggested only by the grouping and the colour of the EXPERIENCE lines that belong to each of them.',
           alt: 'Two dashed rectangles labelled person P1 and person P2. Each contains a pair of vertical experience lines, blue in the first group and green in the second, beside a note reading not drawn as its own node.',
         },
@@ -81,7 +81,7 @@ const TRANSLATIONS = {
       ],
       gitKicker: 'DIFFERENCE FROM A GIT COMMIT GRAPH',
       gitTitle: 'Human activity does not need one agreed meaning.',
-      gitDescription: 'ECG borrows the shape of a commit graph but not its constraints. Git has to converge on a single shared history, so its rules about parents, and about where a commit is allowed to appear, are deliberately strict. A record of human activity carries no such obligation, and ECG relaxes exactly two of those rules.',
+      gitDescription: 'Extended Commit Graph borrows the shape of a commit graph but not its constraints. Git has to converge on a single shared history, so its rules about parents, and about where a commit is allowed to appear, are deliberately strict. A record of human activity carries no such obligation, and Extended Commit Graph relaxes exactly two of those rules.',
       gitPoints: [
         {
           key: 'multiparent',
@@ -112,7 +112,7 @@ const TRANSLATIONS = {
       ],
       developmentKicker: 'IMPLEMENTATION DIRECTION',
       developmentTitle: 'Settle the notation first, build the renderer second.',
-      developmentDescription: 'ECG is being developed as a way of reading HASM, so the notation is defined before the renderer. The figures on this page describe how each entity should look; the renderer that reads HASM state and draws it this way is being built inside the HASM application.',
+      developmentDescription: 'Extended Commit Graph is being developed as a way of reading HASM, so the notation is defined before the renderer. The figures on this page describe how each entity should look; the renderer that reads HASM state and draws it this way is being built inside the HASM application.',
       pipelineLabel: 'Planned graph data and rendering pipeline',
       pipeline: [['SQLite / JSON', 'HASM entity state'], ['P, E, F, L', 'Ontology-aware graph mapping'], ['3D and 2D views', 'Lines, points, and links']],
       implementation: [
@@ -471,13 +471,13 @@ const TRANSLATIONS = {
     ecg: {
       title: 'Extended Commit Graph',
       kicker: 'HASM / 可視化の研究開発',
-      lead: 'Extended Commit Graph（ECG）は、コミットグラフがリポジトリを描くように、人の歩みを描くモデルです。EXPERIENCEは線に、FACTはその線上の点に、そして時間は軸になります。履歴を書き換えることなく、分岐と合流を表現できます。',
+      lead: 'Extended Commit Graphは、コミットグラフがリポジトリを描くように、人の歩みを描く可視化方法です。EXPERIENCEは線に、FACTはその線上の点に、そして時間は軸になります。履歴を書き換えることなく、分岐と合流を表現できます。',
       status: '開発中 / 記法は現在も変化しています',
       homeDescription: '線としてのEXPERIENCE、点としてのFACT、そして書き換えずに分岐する履歴。HASMを理解するための開発中の可視化モデルを紹介します。',
       openPage: 'Extended Commit Graphを見る',
       coordKicker: '座標モデル',
       coordTitle: '位置が関係を、ひとつの軸が時間を担う。',
-      coordDescription: 'ECGは時間にひとつの軸だけを割り当て、残りの空間を関係の表現にあてます。EXPERIENCEがどこに置かれ、他のEXPERIENCEからどれだけ離れているかが、そのままグラフの主張になります。この位置は変わらないため、すべてのEXPERIENCEは時間方向にだけ伸びる直線として描かれます。',
+      coordDescription: 'Extended Commit Graphは時間にひとつの軸だけを割り当て、残りの空間を関係の表現にあてます。EXPERIENCEがどこに置かれ、他のEXPERIENCEからどれだけ離れているかが、そのままグラフの主張になります。この位置は変わらないため、すべてのEXPERIENCEは時間方向にだけ伸びる直線として描かれます。',
       axes3dTitle: '3次元：xy平面がEXPERIENCE、z軸が時間。',
       axes3dCaption: 'EXPERIENCEの線はxy平面上に分布し、その位置と距離が、EXPERIENCE同士の関係を表します。z軸は時間であり、各線は平面上の固定された点から垂直に立ち上がります。',
       axes3dAlt: '等角投影の図。水平なxy平面に3つの基点があり、各基点から時間と記されたz軸に沿って垂直な線が伸びています。2つの基点の間の破線には関係と記されています。',
@@ -492,7 +492,7 @@ const TRANSLATIONS = {
       ],
       entityKicker: 'エンティティの読み方',
       entityTitle: 'HASMの各エンティティに、ただひとつの形を。',
-      entityDescription: 'ECGが描くのは、HASMが記録するエンティティそのものです。PERSON、EXPERIENCE、FACT、LINKにはそれぞれひとつの記法だけが与えられ、凡例を見なくてもグラフを読めるようにしています。',
+      entityDescription: 'Extended Commit Graphが描くのは、HASMが記録するエンティティそのものです。PERSON、EXPERIENCE、FACT、LINKにはそれぞれひとつの記法だけが与えられ、凡例を見なくてもグラフを読めるようにしています。',
       entities: [
         {
           key: 'fact',
@@ -520,7 +520,7 @@ const TRANSLATIONS = {
           image: 'ecg-entity-person',
           label: 'PERSON',
           title: 'ノードではなく、所有者として現れる',
-          description: 'PERSONをECG上に直接描くことは、現時点では予定していません。PERSONは、自身が持つEXPERIENCEの所有者として間接的に現れます。所有者を示すことは、独立したノードを増やすのではなく、EXPERIENCEの線の集まりをまとめることにあたります。',
+          description: 'PERSONをExtended Commit Graph上に直接描くことは、現時点では予定していません。PERSONは、自身が持つEXPERIENCEの所有者として間接的に現れます。所有者を示すことは、独立したノードを増やすのではなく、EXPERIENCEの線の集まりをまとめることにあたります。',
           caption: 'PERSONには固有のマーカーがありません。ここでの2人の所有者は、それぞれが持つEXPERIENCEの線のまとまりと色だけで示されています。',
           alt: 'PERSON P1とPERSON P2と記された2つの破線の枠。それぞれに青と緑の垂直なEXPERIENCEの線が2本ずつ含まれ、独立したノードとしては描かれないと注記されています。',
         },
@@ -537,7 +537,7 @@ const TRANSLATIONS = {
       ],
       gitKicker: 'Gitコミットグラフとの違い',
       gitTitle: '人の活動に、ひとつに定まった意味は必要ない。',
-      gitDescription: 'ECGはコミットグラフの形を借りていますが、その制約までは引き継ぎません。Gitはひとつの共有された履歴に収束する必要があるため、親の持ち方や、コミットが現れてよい場所の規則が意図的に厳格です。人の活動の記録にその義務はなく、ECGはそのうち2つの規則だけを緩めます。',
+      gitDescription: 'Extended Commit Graphはコミットグラフの形を借りていますが、その制約までは引き継ぎません。Gitはひとつの共有された履歴に収束する必要があるため、親の持ち方や、コミットが現れてよい場所の規則が意図的に厳格です。人の活動の記録にその義務はなくExtended Commit Graphはそのうちいくつかの規則を緩めて人にあてはめます。',
       gitPoints: [
         {
           key: 'multiparent',
@@ -568,7 +568,7 @@ const TRANSLATIONS = {
       ],
       developmentKicker: '実装の方向性',
       developmentTitle: '記法を先に定め、描画はその後に。',
-      developmentDescription: 'ECGはHASMを読むための方法として開発しているため、描画エンジンより先に記法を定めています。このページの図は各エンティティをどう描くべきかを示すものであり、HASMの状態を読み取ってこの通りに描画する実装は、HASMアプリケーションの中で進めています。',
+      developmentDescription: 'Extended Commit GraphはHASMを読むための方法として開発しているため、描画エンジンより先に記法を定めています。このページの図は各エンティティをどう描くべきかを示すものであり、HASMの状態を読み取ってこの通りに描画する実装は、HASMアプリケーションの中で進めています。',
       pipelineLabel: '予定しているグラフのデータ・描画の流れ',
       pipeline: [['SQLite / JSON', 'HASMエンティティの状態'], ['P, E, F, L', 'オントロジーに沿ったグラフへの対応づけ'], ['3D / 2D表示', '線・点・リンク']],
       implementation: [
@@ -764,13 +764,13 @@ const TRANSLATIONS = {
     flowTitle: 'デスクトップアプリの基本ライフサイクル',
     flowStep1: 'ローカルのモデルフォルダを選択',
     flowStep2: 'Markdownとmain.dbの自動同期',
-    flowStep3: '3Dコミットグラフの探索と閲覧',
+    flowStep3: '3Dグラフの探索と閲覧',
     flowStep4: 'Markdown編集と意味リンクのリファクタリング',
 
     // 3D Visualizer & Coordinate Section
     visualizerKicker: '3D COMMIT GRAPH VISUALIZER',
     visualizerTitle: '3次元時空空間で経験の軌跡を探検する',
-    visualizerDescription: 'WebGL 3Dコミットグラフエンジンが、不可逆な時間軸に沿って出来事を配置し、人間関係の距離と意味のドメインを空間上に美しく展開します。ドラッグで回転、スクロールでズーム、クリックでノード詳細を確認できます。',
+    visualizerDescription: 'WebGL 3Dグラフエンジンが、不可逆な時間軸に沿って出来事を配置し、人間関係の距離と意味のドメインを空間上に美しく展開します。ドラッグで回転、スクロールでズーム、クリックでノード詳細を確認できます。',
     sampleModel: 'サンプル .hasm パッケージ',
     timeScale: '時間スケールモード',
     zScale: 'Z軸スケール倍率',
