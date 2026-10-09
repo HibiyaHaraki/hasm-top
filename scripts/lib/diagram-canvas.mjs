@@ -1,6 +1,6 @@
 // ###################################################
 // File Name : diagram-canvas.mjs
-// Purpose : Dependency-free 2D raster canvas shared by the ECG diagram scripts.
+// Purpose : Dependency-free 2D raster canvas shared by the Extended Commit Graph diagram scripts.
 // Description : Provides a supersampled software rasteriser (polygon fill,
 //               round-joined polylines, dashes, circles, arrows and a built-in
 //               single-stroke technical font) plus a minimal PNG encoder based on

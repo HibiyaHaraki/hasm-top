@@ -1,6 +1,6 @@
 ﻿// ###################################################
 // File Name : generate-ecg-images.mjs
-// Purpose : Generate the Extended Commit Graph figures used by the ECG page.
+// Purpose : Generate the legacy Extended Commit Graph figures.
 // Description : Renders public/images/ecg-layers.png (figure 01) and
 //               public/images/ecg-branches.png (figure 02) from a declarative
 //               isometric scene description. The renderer is a dependency-free
@@ -26,7 +26,7 @@ const HEIGHT = 800;
 // anti-aliases edges and lets overlapping opaque shapes compose without seams.
 const SUPERSAMPLE = 4;
 
-// Palette taken from the HASM cool/steel figure styling already used on the ECG page.
+// Palette taken from the HASM cool/steel figure styling used on the Extended Commit Graph page.
 const COLOR = {
   background: "#f0f9ff",
   grid: "#dae9f2",
@@ -881,7 +881,7 @@ for (const scene of SCENES) {
   const target = path.join(OUTPUT_DIR, scene.file);
   const png = encodePng(renderScene(scene));
   writeFileSync(target, png);
-  logger.debug("Rendered ECG figure.", {
+  logger.debug("Rendered Extended Commit Graph figure.", {
     file: scene.file,
     summary: scene.summary,
     bytes: png.length,

@@ -25,15 +25,15 @@ export function Extended_Commit_Graph({ onNavigateHome }) {
             <p className="ECG_SectionLead">{copy.coordDescription}</p>
             <figure className="ECG_Overview">
               <img src={`${import.meta.env.BASE_URL}images/ecg-axes-3d.png`} width="1600" height="800" alt={copy.axes3dAlt} fetchPriority="high" />
-              <figcaption><span className="ECG_FigureNumber">01</span><div><strong>{copy.axes3dTitle}</strong><p>{copy.axes3dCaption}</p></div></figcaption>
+              <figcaption><span className="ECG_FigureNumber">01</span><div><strong>{copy.axes3dTitle}</strong></div></figcaption>
             </figure>
             <figure className="ECG_Example">
               <img src={`${import.meta.env.BASE_URL}images/ecg-axes-2d.png`} width="1600" height="800" alt={copy.axes2dAlt} loading="lazy" />
-              <figcaption><span className="ECG_FigureNumber">02</span><div><strong>{copy.axes2dTitle}</strong><p>{copy.axes2dCaption}</p></div></figcaption>
+              <figcaption><span className="ECG_FigureNumber">02</span><div><strong>{copy.axes2dTitle}</strong></div></figcaption>
             </figure>
             <div className="ECG_Axes">
-              {copy.axes.map(([axis, title, description]) => (
-                <div className="ECG_Axis" key={title}><span className="ECG_AxisSymbol">{axis}</span><div><h3>{title}</h3><p>{description}</p></div></div>
+              {copy.axes.map(([axis, title]) => (
+                <div className="ECG_Axis" key={title}><span className="ECG_AxisSymbol">{axis}</span><div><h3>{title}</h3></div></div>
               ))}
             </div>
           </section>
@@ -49,7 +49,6 @@ export function Extended_Commit_Graph({ onNavigateHome }) {
                     <span className="ECG_EntityLabel">{entity.label}</span>
                   </div>
                   <h3>{entity.title}</h3>
-                  <p>{entity.description}</p>
                   <figure className="ECG_Example">
                     <img src={`${import.meta.env.BASE_URL}images/${entity.image}.png`} width="1600" height="800" alt={entity.alt} loading="lazy" />
                     <figcaption><span className="ECG_FigureNumber">{entity.figure}</span><div><p>{entity.caption}</p></div></figcaption>
@@ -65,7 +64,6 @@ export function Extended_Commit_Graph({ onNavigateHome }) {
             {copy.gitPoints.map((point) => (
               <article className="ECG_Difference" key={point.key}>
                 <h3>{point.title}</h3>
-                <p>{point.description}</p>
                 <figure className="ECG_Example">
                   <img src={`${import.meta.env.BASE_URL}images/${point.image}.png`} width="1600" height="800" alt={point.alt} loading="lazy" />
                   <figcaption><span className="ECG_FigureNumber">{point.figure}</span><div><p>{point.caption}</p></div></figcaption>
@@ -74,24 +72,62 @@ export function Extended_Commit_Graph({ onNavigateHome }) {
             ))}
           </section>
 
-          <section className="ECG_Section" aria-labelledby="ecg-interaction">
-            <div className="ECG_SectionHeading"><span className="ECG_Eyebrow">{copy.interactionKicker}</span><h2 id="ecg-interaction">{copy.interactionTitle}</h2></div>
-            <div className="ECG_Interactions">
-              {copy.interactions.map(([title, description], index) => <article key={title}><span className="ECG_ItemNumber">0{index + 1}</span><h3>{title}</h3><p>{description}</p></article>)}
+          <section className="ECG_Section" aria-labelledby="ecg-case">
+            <div className="ECG_SectionHeading"><span className="ECG_Eyebrow">{copy.caseKicker}</span><h2 id="ecg-case">{copy.caseTitle}</h2></div>
+            <p className="ECG_SectionLead">{copy.caseDescription}</p>
+
+            <figure className="ECG_CaseGraph">
+              <img src={`${import.meta.env.BASE_URL}images/${copy.caseGraphImage}.png`} width="2400" height="1500" alt={copy.caseGraphAlt} loading="lazy" />
+              <figcaption><span className="ECG_FigureNumber">{copy.caseGraphFigure}</span><div><strong>{copy.caseGraphTitle}</strong><p>{copy.caseGraphCaption}</p></div></figcaption>
+            </figure>
+
+            <div className="ECG_CaseExperiences">
+              {copy.caseExperiences.map((experience) => (
+                <article className={`ECG_CaseExperience ECG_CaseExperience_${experience.id.split(' ').at(-1)}`} key={experience.id}>
+                  <header>
+                    <span>{experience.id}</span>
+                    <h3>{experience.title}</h3>
+                  </header>
+                  <ol>
+                    {experience.facts.map(([id, title, description]) => (
+                      <li key={id}>
+                        <span>{id}</span>
+                        <div><h4>{title}</h4><p>{description}</p></div>
+                      </li>
+                    ))}
+                  </ol>
+                </article>
+              ))}
+            </div>
+
+            <section className="ECG_CaseLinks" aria-labelledby="ecg-case-links">
+              <h3 id="ecg-case-links">{copy.caseLinksTitle}</h3>
+              <div>
+                {copy.caseLinks.map(([id, relation, description]) => (
+                  <article key={id}>
+                    <span>{id}</span>
+                    <h4>{relation}</h4>
+                    <p>{description}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <div className="ECG_CaseInsights">
+              {copy.caseInsights.map((insight) => (
+                <article className="ECG_CaseInsight" key={insight.key}>
+                  <span className="ECG_Eyebrow">{insight.kicker}</span>
+                  <h3>{insight.title}</h3>
+                  <p>{insight.description}</p>
+                  <figure className="ECG_CaseGraph">
+                    <img src={`${import.meta.env.BASE_URL}images/${insight.image}.png`} width="2400" height="1500" alt={insight.alt} loading="lazy" />
+                    <figcaption><span className="ECG_FigureNumber">{insight.figure}</span><div><p>{insight.caption}</p></div></figcaption>
+                  </figure>
+                </article>
+              ))}
             </div>
           </section>
 
-          <section className="ECG_Section ECG_Development" aria-labelledby="ecg-development">
-            <div className="ECG_SectionHeading"><span className="ECG_Eyebrow">{copy.developmentKicker}</span><h2 id="ecg-development">{copy.developmentTitle}</h2></div>
-            <p className="ECG_SectionLead">{copy.developmentDescription}</p>
-            <div className="ECG_Pipeline" aria-label={copy.pipelineLabel}>
-              {copy.pipeline.map(([title, detail]) => <div key={title}><strong>{title}</strong><span>{detail}</span></div>)}
-            </div>
-            <dl className="ECG_Implementation">
-              {copy.implementation.map(([term, description]) => <div key={term}><dt>{term}</dt><dd>{description}</dd></div>)}
-            </dl>
-            <p className="ECG_Note">{copy.scopeNote}</p>
-          </section>
         </main>
       </div>
       <Footer />

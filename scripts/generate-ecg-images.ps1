@@ -1,6 +1,6 @@
 # ###################################################
 # File Name : generate-ecg-images.ps1
-# Purpose : Generate the ECG page's language-neutral concept illustrations.
+# Purpose : Generate the Extended Commit Graph page's language-neutral concept illustrations.
 # Description : Projects fictional layered graphs into raster PNG images using
 #               System.Drawing and colors from the shared HASM palette.
 # ###################################################

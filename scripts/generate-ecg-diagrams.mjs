@@ -2,10 +2,11 @@
 // File Name : generate-ecg-diagrams.mjs
 // Purpose : Generate the explanatory diagrams used by the Extended Commit Graph page.
 // Description : Renders the coordinate model (3D / 2D), the four HASM entity
-//               representations (FACT, EXPERIENCE, PERSON, LINK) and the two
-//               differences from a Git commit graph into public/images. Drawing
-//               is done with the dependency-free rasteriser in lib/diagram-canvas.mjs,
-//               so the figures can be regenerated from a clean checkout with
+//               representations (FACT, EXPERIENCE, PERSON, LINK), the two
+//               differences from a Git commit graph, a complete worked example,
+//               and three focus variants into public/images. Drawing is done with the
+//               dependency-free rasteriser in lib/diagram-canvas.mjs, so the
+//               figures can be regenerated from a clean checkout with
 //               `npm run generate:ecg-diagrams`.
 // ###################################################
 
@@ -13,6 +14,11 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { createCanvas, bowedCurve } from "./lib/diagram-canvas.mjs";
+import {
+  SCENARIO_HEIGHT,
+  SCENARIO_WIDTH,
+  drawScenarioGraph,
+} from "./lib/extended-commit-scenario.mjs";
 import { createLogger } from "../src/hasm_logger/src/react/logger.js";
 
 const logger = createLogger("generate-ecg-diagrams");
@@ -23,7 +29,7 @@ const OUTPUT_DIR = path.join(REPO_ROOT, "public", "images");
 const WIDTH = 1600;
 const HEIGHT = 800;
 
-// Palette shared with the existing ECG figures so the whole page reads as one set.
+// Palette shared by the Extended Commit Graph figures.
 const C = {
   bg: "#f0f9ff",
   grid: "#dbe9f3",
@@ -454,16 +460,48 @@ const SCENES = [
   { file: "ecg-entity-link.png", summary: "LINK entity", draw: drawEntityLink },
   { file: "ecg-git-multiparent.png", summary: "Multiple parents and children", draw: drawGitMultiParent },
   { file: "ecg-git-recursive.png", summary: "Recursive fact visibility", draw: drawGitRecursive },
+  {
+    file: "ecg-example-complete.png",
+    summary: "Complete Hibiya scenario",
+    width: SCENARIO_WIDTH,
+    height: SCENARIO_HEIGHT,
+    draw: (canvas) => drawScenarioGraph(canvas, "all"),
+  },
+  {
+    file: "ecg-example-revaluation.png",
+    summary: "Non-linear revaluation focus",
+    width: SCENARIO_WIDTH,
+    height: SCENARIO_HEIGHT,
+    draw: (canvas) => drawScenarioGraph(canvas, "revaluation"),
+  },
+  {
+    file: "ecg-example-discontinuity.png",
+    summary: "Structural discontinuity focus",
+    width: SCENARIO_WIDTH,
+    height: SCENARIO_HEIGHT,
+    draw: (canvas) => drawScenarioGraph(canvas, "discontinuity"),
+  },
+  {
+    file: "ecg-example-restructuring.png",
+    summary: "Subjective restructuring focus",
+    width: SCENARIO_WIDTH,
+    height: SCENARIO_HEIGHT,
+    draw: (canvas) => drawScenarioGraph(canvas, "restructuring"),
+  },
 ];
 
 mkdirSync(OUTPUT_DIR, { recursive: true });
 for (const scene of SCENES) {
   const started = Date.now();
-  const canvas = createCanvas({ width: WIDTH, height: HEIGHT, background: C.bg });
+  const canvas = createCanvas({
+    width: scene.width || WIDTH,
+    height: scene.height || HEIGHT,
+    background: C.bg,
+  });
   scene.draw(canvas);
   const png = canvas.toPng();
   writeFileSync(path.join(OUTPUT_DIR, scene.file), png);
-  logger.debug("Rendered ECG diagram.", {
+  logger.debug("Rendered Extended Commit Graph diagram.", {
     file: scene.file,
     summary: scene.summary,
     bytes: png.length,
