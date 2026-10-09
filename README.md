@@ -4,9 +4,9 @@ The top-level site for the HASM project family. It hosts:
 
 - **HASM** (`/` — [src/HASM_Page.jsx](src/HASM_Page.jsx)): the project index page. The HASM desktop app itself is not built yet, so this page is intentionally minimal — brand mark, color theme selector, and a link into the Markdown editor preview.
 - **HASM Markdown** ([src/HASM_Markdown_Page.jsx](src/HASM_Markdown_Page.jsx)): a landing page that previews the HASM Markdown editor's look, feel, and syntax highlighting.
-- **Extended Commit Graph** ([src/Extended_Commit_Graph.jsx](src/Extended_Commit_Graph.jsx)): a bilingual explanation of the developing HASM visualization method, with two conceptual PNG examples and the planned `hasm_visualizer` integration.
+- **Extended Commit Graph** ([src/Extended_Commit_Graph.jsx](src/Extended_Commit_Graph.jsx)): a bilingual explanation of the developing HASM visualization method, with generated diagrams for its axes, entities, Git differences, and a worked life-history example.
 
-Pages use hash routes in [src/App.jsx](src/App.jsx), including `/#/extended-commit-graph`. The home ecosystem section links to the ECG page, which shares the persistent language and theme controls.
+Pages use hash routes in [src/App.jsx](src/App.jsx), including `/#/extended-commit-graph`. The home ecosystem section links to the Extended Commit Graph page, which shares the persistent language and theme controls.
 
 ## GitHub Pages
 
@@ -14,15 +14,15 @@ Visit the published site: [HASM on GitHub Pages](https://hibiyaharaki.github.io/
 
 ## Extended Commit Graph
 
-The ECG page describes the time (X), context (Y), and subjective-depth (Z) axes, the separation of objective causal records from subjective experiences, interpretation branches, and experience trajectories. It also documents planned focus/context, dual-layer switching, metadata inspection, and orbit exploration. These interactions are requirements for the future shared visualizer, not an interactive engine implemented on the explanation page.
+The Extended Commit Graph page describes EXPERIENCE distribution on the XY plane, time on the Z axis, and the equivalent flattened 2D view. It introduces PERSON, EXPERIENCE, FACT, and LINK notation; explains multiple parents and recursive FACT visibility; and uses one complete worked-example graph plus three opacity-focused variants to show non-linear revaluation, structural discontinuity, and restructuring of the subjective layer.
 
-The fictional examples are [public/images/ecg-layers.png](public/images/ecg-layers.png) and [public/images/ecg-branches.png](public/images/ecg-branches.png). Their node IDs are language-neutral; captions and alternative text are localized through [src/i18n.js](src/i18n.js). Regenerate them on Windows with the shared HASM palette:
+The diagrams use concise English labels so the generated geometry is shared by both locales; captions, detailed explanations, and alternative text are localized through [src/i18n.js](src/i18n.js). Regenerate all current diagrams with the shared HASM palette:
 
 ```powershell
-./scripts/generate-ecg-images.ps1
+npm run generate:ecg-diagrams
 ```
 
-Rendering logic is intended for `hasm_visualizer`. This page does not modify submodule sources or replace the existing visualizer.
+The generator is dependency-free and writes the explanatory PNG files into [public/images](public/images). This page does not modify submodule sources.
 
 ## Philosophy
 
@@ -110,4 +110,3 @@ npm run preview  # preview a production build
 Pushes to `main` run [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml), which checks out this repo with all submodules, builds the site, and publishes `dist/` to GitHub Pages. The site is served from `https://<owner>.github.io/hasm-top/`, so the production build sets `GITHUB_PAGES=true` to make Vite emit asset URLs prefixed with `/hasm-top/` (see [vite.config.js](vite.config.js)). Local `npm run dev` / `npm run build` are unaffected and stay rooted at `/`.
 
 In the repository settings, set **Settings → Pages → Source** to **GitHub Actions** so this workflow can deploy.
-

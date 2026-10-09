@@ -18,6 +18,8 @@
 .ECG_StatusDot { width: 8px; height: 8px; border-radius: 50%; flex: 0 0 8px; background: var(--theme-accent-readable); }
 .ECG_Page figure { margin: 0; }
 .ECG_Page figure img { display: block; width: 100%; height: auto; aspect-ratio: 2; object-fit: contain; }
+.ECG_CaseGraph { position: relative; left: 50%; width: min(1400px, calc(100vw - 40px)); transform: translateX(-50%); }
+.ECG_Page .ECG_CaseGraph img { aspect-ratio: 8 / 5; }
 .ECG_Page figcaption { display: flex; gap: 20px; padding: 18px 0 24px; font-size: 0.9rem; }
 .ECG_Page figcaption p { margin: 3px 0 0; color: var(--theme-muted); }
 .ECG_FigureNumber { font-family: Georgia, serif; font-size: 1.5rem; color: var(--theme-accent-readable); }
@@ -38,6 +40,27 @@
 .ECG_Difference { padding-top: 26px; border-top: 1px solid var(--theme-border); }
 .ECG_Difference + .ECG_Difference { margin-top: 12px; }
 .ECG_Difference p { max-width: 880px; }
+.ECG_CaseExperiences { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.ECG_CaseExperience { border: 1px solid var(--theme-border); }
+.ECG_CaseExperience_4 { grid-column: 1 / -1; }
+.ECG_CaseExperience header { padding: 18px 20px 16px; border-bottom: 1px solid var(--theme-border); }
+.ECG_CaseExperience header > span, .ECG_CaseExperience li > span, .ECG_CaseLinks article > span { display: block; color: var(--theme-accent-readable); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.06em; }
+.ECG_CaseExperience header h3 { margin: 4px 0 0; }
+.ECG_CaseExperience ol { list-style: none; margin: 0; padding: 0 20px; }
+.ECG_CaseExperience li { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 12px; padding: 16px 0; }
+.ECG_CaseExperience li + li { border-top: 1px solid var(--theme-border); }
+.ECG_CaseExperience h4, .ECG_CaseLinks h4 { font-size: 0.96rem; line-height: 1.45; margin: 0 0 5px; }
+.ECG_CaseExperience p, .ECG_CaseLinks p, .ECG_CaseInsight > p { color: var(--theme-muted); font-size: 0.9rem; margin: 0; }
+.ECG_CaseLinks { margin-top: 36px; }
+.ECG_CaseLinks > h3 { margin-bottom: 16px; }
+.ECG_CaseLinks > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.ECG_CaseLinks article { padding-top: 16px; border-top: 2px solid var(--theme-border); }
+.ECG_CaseLinks article > span { margin-bottom: 5px; }
+.ECG_CaseInsights { margin-top: 42px; }
+.ECG_CaseInsight { padding-top: 34px; border-top: 1px solid var(--theme-border); }
+.ECG_CaseInsight + .ECG_CaseInsight { margin-top: 18px; }
+.ECG_CaseInsight > h3 { font-size: 1.35rem; margin: 7px 0 10px; }
+.ECG_CaseInsight > p { max-width: 880px; margin-bottom: 24px; }
 .ECG_Mark { display: block; align-self: start; }
 .ECG_Mark_fact { width: 16px; height: 16px; border: 2px solid var(--theme-muted); background: var(--theme-muted); border-radius: 50%; }
 .ECG_Mark_experience { width: 4px; height: 20px; background: var(--theme-accent-readable); }
@@ -58,7 +81,9 @@
 @media (max-width: 760px) {
   .ECG_Intro { padding-top: 32px; }
   .ECG_Intro h1 { font-size: 2.3rem; }
-  .ECG_Axes, .ECG_Interactions { grid-template-columns: 1fr; gap: 22px; }
+  .ECG_Axes, .ECG_Interactions, .ECG_CaseExperiences, .ECG_CaseLinks > div { grid-template-columns: 1fr; gap: 22px; }
+  .ECG_CaseExperience_4 { grid-column: auto; }
+  .ECG_CaseExperience li { grid-template-columns: 1fr; gap: 5px; }
   .ECG_Entity { grid-template-columns: 1fr; grid-template-rows: none; gap: 0; }
   .ECG_Entity > h3, .ECG_Entity > p, .ECG_EntityHead, .ECG_Entity > figure { grid-column: 1; }
   .ECG_Entity > figure { grid-row: auto; margin-top: 14px; }
@@ -69,4 +94,7 @@
   .ECG_Pipeline > div + div { border-top: 1px solid var(--theme-border); }
   .ECG_Section { padding: 32px 0; }
   .ECG_Page figcaption { gap: 12px; }
+  .ECG_CaseGraph { overflow-x: auto; }
+  .ECG_Page .ECG_CaseGraph img { width: 900px; max-width: none; }
+  .ECG_CaseGraph figcaption { width: 900px; }
 }
