@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
 // Design tokens & syntax highlighting synced from submodules/hasm_markdown (see scripts/sync-markdown-design.mjs).
 import './generated/markdown-design-tokens.css';
 import { highlightMarkdown } from './generated/markdownHighlight.js';
@@ -9,134 +8,271 @@ import { useLanguage } from './i18n.js';
 import Footer from './Footer.jsx';
 import OsDownloadSection from './OsDownloadSection.jsx';
 
-// レイアウト専用スタイル（配色・タイポ・エディタ/プレビューの見た目は generated/markdown-design-tokens.css 側で同期）
-const hasmStyles = `
-  .hasm-lp-root {
-    font-family: "Yu Mincho", "游明朝", Georgia, serif;
-    color: var(--theme-text);
-    background-color: var(--theme-textbackground);
-    letter-spacing: 0.03em;
-    line-height: 1.75;
-  }
-
-  .scroll-pane {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-  }
-
-  .feature-step-trigger {
-    min-height: 80vh;
-  }
-
-  .HASM_Markdown_Editor_Pane {
-    height: 100%;
+const hasmMarkdownPageStyles = `
+  .HASM_Markdown_Page {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--theme-border);
-    background: var(--theme-surface);
-    box-shadow: 0 10px 30px rgba(20, 18, 15, 0.12);
-    overflow: hidden;
+    color: var(--theme-text);
+    background-color: var(--theme-textbackground);
+    font-family: "Yu Mincho", "游明朝", Georgia, serif;
+    letter-spacing: 0.03em;
+    line-height: 1.7;
   }
 
-  .HASM_Markdown_Editor_ViewerCol_Viewer {
-    flex: 1 1 auto;
-    min-height: 0;
+  .HASM_Markdown_Page_Inner {
+    width: min(1160px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 24px 0 60px;
+    flex: 1;
+  }
+
+  .HASM_Markdown_Page_Hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 48px 0 44px;
+  }
+
+  .HASM_Markdown_Page_HeroLogo {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    margin-bottom: 16px;
+  }
+
+  .HASM_Markdown_Page_Kicker {
+    margin: 0 0 8px;
+    color: var(--theme-accent-readable);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .HASM_Markdown_Page_HeroTitle {
+    margin: 0 0 16px;
+    font-family: Georgia, serif;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .HASM_Markdown_Page_HeroLead {
+    max-width: 760px;
+    margin: 0;
+    color: var(--theme-muted);
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+
+  .HASM_Markdown_Page_Feature {
+    padding: 44px 0;
+    border-top: 1px solid var(--theme-border);
+  }
+
+  .HASM_Markdown_Page_FeatureQuestion {
+    max-width: 820px;
+    margin: 0 0 8px;
+    color: var(--theme-muted);
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .HASM_Markdown_Page_FeatureTitle {
+    margin: 0 0 24px;
+    font-family: Georgia, serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    line-height: 1.18;
+  }
+
+  .HASM_Markdown_Page_DemoGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    align-items: stretch;
+  }
+
+  .HASM_Markdown_Page_Pane {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--theme-border);
+    background: var(--theme-surface);
+    box-shadow: 8px 8px 0 var(--theme-soft);
+  }
+
+  .HASM_Markdown_Page_PaneTitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 9px 18px;
+    color: var(--theme-muted);
+    background: var(--theme-surface);
+    border-bottom: 1px solid var(--theme-border);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+  }
+
+  .HASM_Markdown_Page_FileName {
+    color: var(--theme-accent-readable);
+    font-size: 0.72rem;
+    letter-spacing: 0.03em;
+  }
+
+  .HASM_Markdown_Page_EditorBody {
+    display: flex;
+    min-height: 220px;
+    flex: 1;
     overflow: auto;
+    background: var(--editor-surface);
+  }
+
+  .HASM_Markdown_Page_EditorBody .HASM_Markdown_Editor_EditorCol_Editor_LineNum {
+    flex: 0 0 48px;
+  }
+
+  .HASM_Markdown_Page_Code {
+    min-width: 0;
+    min-height: 220px;
+    height: auto;
+    overflow: auto;
+  }
+
+  .HASM_Markdown_Page_Preview {
+    min-height: 220px;
+    flex: 1;
     padding: 24px;
   }
 
-  .scroll-pane-body {
-    flex: 1 1 auto;
-    min-height: 0;
-    overflow: hidden;
-    position: relative;
+  .HASM_Markdown_Page_Preview h3,
+  .HASM_Markdown_Page_Preview h4 {
+    margin: 0 0 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--theme-border);
+    font-family: Georgia, serif;
+    line-height: 1.35;
   }
 
+  .HASM_Markdown_Page_Preview p {
+    color: var(--theme-muted);
+  }
+
+  .HASM_Markdown_Page_PortableStatus {
+    padding: 16px;
+    border: 1px solid var(--theme-border);
+    border-left: 4px solid var(--theme-accent-readable);
+    background: var(--theme-soft);
+  }
+
+  .HASM_Markdown_Page_PortableStatus strong {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--theme-accent-readable);
+  }
+
+  .HASM_Markdown_Page_PortableStatus p {
+    margin: 0;
+  }
+
+  .HASM_Markdown_Page_EnvironmentList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 14px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .HASM_Markdown_Page_EnvironmentList li {
+    padding: 5px 10px;
+    border: 1px solid var(--theme-border);
+    background: var(--theme-surface);
+    font-size: 0.82rem;
+  }
+
+  .HASM_Markdown_Page_AssetStatus {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid var(--theme-border);
+    background: var(--theme-soft);
+  }
+
+  .HASM_Markdown_Page_AssetStatus strong,
+  .HASM_Markdown_Page_AssetStatus span {
+    display: block;
+  }
+
+  .HASM_Markdown_Page_AssetStatus span {
+    margin-top: 4px;
+    color: var(--theme-muted);
+    font-size: 0.9rem;
+  }
+
+  .HASM_Markdown_Page_OfflineStatus {
+    padding: 16px;
+    border: 1px solid var(--theme-border);
+    background: var(--theme-soft);
+  }
+
+  .HASM_Markdown_Page_OfflineStatus strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--theme-accent-readable);
+  }
+
+  .HASM_Markdown_Page_OfflineStatus p {
+    margin: 0;
+  }
+
+  .HASM_Markdown_Page_Footer {
+    padding: 36px 0 0;
+    border-top: 1px solid var(--theme-border);
+  }
+
+  @media (max-width: 760px) {
+    .HASM_Markdown_Page_Inner {
+      width: min(100% - 28px, 600px);
+      padding-top: 12px;
+    }
+
+    .HASM_Markdown_Page_Hero {
+      padding: 36px 0;
+    }
+
+    .HASM_Markdown_Page_HeroLogo {
+      width: 88px;
+      height: 88px;
+    }
+
+    .HASM_Markdown_Page_Feature {
+      padding: 34px 0;
+    }
+
+    .HASM_Markdown_Page_DemoGrid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+
+    .HASM_Markdown_Page_Preview,
+    .HASM_Markdown_Page_EditorBody,
+    .HASM_Markdown_Page_Code {
+      min-height: 190px;
+    }
+  }
 `;
 
-// 異なるPC・OSのイラストアニメーション（右側プレビュー用）
-const EnvironmentIllustrations = ({ t }) => {
-  const [currentEnv, setCurrentEnv] = useState(0);
-  const environments = [
-    { name: t.osNames[0], label: t.osLabels[0], color: '#2d3748', icon: 'mac', border: '#e2e8f0' },
-    { name: t.osNames[1], label: t.osLabels[1], color: '#0f172a', icon: 'win', border: '#38bdf8' },
-    { name: t.osNames[2], label: t.osLabels[2], color: '#1c1917', icon: 'linux', border: '#f97316' }
-  ];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentEnv((prev) => (prev + 1) % environments.length);
-    }, 2800);
-    return () => clearInterval(timer);
-  }, [environments.length]);
-
-  const env = environments[currentEnv];
-
-  return (
-    <div className="p-2 text-center">
-      {/* OSインジケーター */}
-      <div className="d-flex justify-content-center gap-2 mb-3">
-        {environments.map((e, idx) => (
-          <span
-            key={e.name}
-            className={`badge px-2 py-1 ${idx === currentEnv ? 'bg-primary' : 'bg-secondary'}`}
-            style={{ fontSize: '0.7rem', transition: 'all 0.3s' }}
-          >
-            {e.label}
-          </span>
-        ))}
-      </div>
-
-      {/* PCイラスト・フレーム */}
-      <motion.div
-        key={env.name}
-        initial={{ opacity: 0, scale: 0.92, rotateY: -15 }}
-        animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-        transition={{ duration: 0.4 }}
-        className="p-3 rounded-3 shadow-lg text-start mx-auto"
-        style={{
-          background: env.color,
-          border: `2px solid ${env.border}`,
-          maxWidth: '420px',
-          color: '#f8fafc'
-        }}
-      >
-        <div className="d-flex align-items-center justify-content-between border-bottom border-secondary pb-2 mb-2">
-          <div className="d-flex gap-1">
-            <span className="rounded-circle bg-danger d-inline-block" style={{ width: 8, height: 8 }}></span>
-            <span className="rounded-circle bg-warning d-inline-block" style={{ width: 8, height: 8 }}></span>
-            <span className="rounded-circle bg-success d-inline-block" style={{ width: 8, height: 8 }}></span>
-          </div>
-          <span className="font-monospace text-muted" style={{ fontSize: '0.65rem' }}>
-            HASM Editor - {env.name}
-          </span>
-        </div>
-
-        <div className="p-3 rounded" style={{ background: 'rgba(255,255,255,0.06)', fontSize: '0.85rem' }}>
-          <div className="fw-bold mb-1" style={{ color: 'var(--theme-accent-readable)' }}>{t.portableStatus}</div>
-          <p className="small text-light mb-2">
-            {t.portableDescription}
-          </p>
-          <div className="p-2 rounded font-monospace small" style={{ background: '#000', color: '#4ade80' }}>
-            {t.loaded}<br />
-            {t.localStatus}
-          </div>
-        </div>
-      </motion.div>
-
-      <div className="mt-3 text-muted small" style={{ fontSize: '0.72rem' }}>
-        {t.usbHint}
-      </div>
-    </div>
-  );
-};
-
-// 各機能の入力テキスト・プレビュー定義
 const getFeatures = (t) => [
   {
     id: 'portable',
     question: t.portableQuestion,
+    title: t.portableTitle,
     markdownText: `# ${t.portableTitle}
 
 ![${t.portableAlt}](asset:portable.mp4)
@@ -144,27 +280,38 @@ const getFeatures = (t) => [
 - ${t.portableLines[0]}
 - ${t.portableLines[1]}
 - ${t.portableLines[2]}`,
-    renderPreview: () => <EnvironmentIllustrations t={t} />
+    renderPreview: () => (
+      <div className="HASM_Markdown_Page_Preview HASM_Markdown_Editor_ViewerCol_Viewer">
+        <h3>{t.portableTitle}</h3>
+        <div className="HASM_Markdown_Page_PortableStatus">
+          <strong>{t.portableStatus}</strong>
+          <p>{t.portableDescription}</p>
+        </div>
+        <ul className="HASM_Markdown_Page_EnvironmentList" aria-label={t.portableTitle}>
+          {t.osLabels.map((label) => <li key={label}>{label}</li>)}
+        </ul>
+        <p>{t.usbHint}</p>
+      </div>
+    )
   },
   {
     id: 'asset',
     question: t.assetQuestion,
+    title: t.assetTitle,
     markdownText: `## ${t.assetTitle}
 
 ![${t.assetAlt}](asset:architecture-diagram)
 
 ${t.assetDescription}`,
     renderPreview: () => (
-      <div>
-        <h3 className="border-bottom pb-2 border-secondary">{t.assetTitle}</h3>
-        <p className="mt-3">{t.assetDescription}</p>
-        
-        <div className="alert alert-warning border-secondary mt-3 d-flex align-items-center gap-3">
-          <div className="fs-3">◇</div>
-          <div className="small">
+      <div className="HASM_Markdown_Page_Preview HASM_Markdown_Editor_ViewerCol_Viewer">
+        <h3>{t.assetTitle}</h3>
+        <p>{t.assetDescription}</p>
+        <div className="HASM_Markdown_Page_AssetStatus">
+          <div aria-hidden="true">◇</div>
+          <div>
             <strong>asset:architecture-diagram</strong>
-            <br />
-            <span className="text-muted">{t.assetStatus}</span>
+            <span>{t.assetStatus}</span>
           </div>
         </div>
       </div>
@@ -173,168 +320,94 @@ ${t.assetDescription}`,
   {
     id: 'privacy',
     question: t.privacyQuestion,
+    title: t.privacyTitle,
     markdownText: `### ${t.privacyTitle}
 
-  - ${t.externalApi}
-  - ${t.telemetry}
+- ${t.externalApi}
+- ${t.telemetry}
 
-  ${t.offlineGuarantee}`,
+${t.offlineGuarantee}`,
     renderPreview: () => (
-      <div>
-        <h4 className="border-bottom pb-2 border-secondary">{t.privacyTitle}</h4>
-        <ul className="mt-3">
+      <div className="HASM_Markdown_Page_Preview HASM_Markdown_Editor_ViewerCol_Viewer">
+        <h3>{t.privacyTitle}</h3>
+        <ul>
           <li>{t.externalApi}</li>
           <li>{t.telemetry}</li>
         </ul>
-        <div className="p-3 my-3 text-center border border-secondary rounded" style={{ background: 'var(--theme-surface)' }}>
-          <div className="fs-2 mb-1">🛡️</div>
-          <div className="fw-bold">{t.offlineLabel}</div>
-          <div className="small text-muted">{t.offlineDescription}</div>
+        <div className="HASM_Markdown_Page_OfflineStatus">
+          <strong>{t.offlineLabel}</strong>
+          <p>{t.offlineDescription}</p>
         </div>
       </div>
     )
   }
 ];
 
-// タイピング演出コンポーネント
-const TypewriterText = ({ htmlContent }) => {
-  const [displayedLength, setDisplayedLength] = useState(0);
-
-  useEffect(() => {
-    setDisplayedLength(0);
-    const timer = setInterval(() => {
-      setDisplayedLength((prev) => {
-        if (prev < htmlContent.length) {
-          return prev + 1;
-        }
-        clearInterval(timer);
-        return prev;
-      });
-    }, 15);
-
-    return () => clearInterval(timer);
-  }, [htmlContent]);
-
-  const currentHtml = htmlContent.slice(0, displayedLength);
-
-  return (
-    <div
-      className="MarkdownSyntax_Input flex-grow-1"
-      dangerouslySetInnerHTML={{ __html: currentHtml + '<span style="color:var(--theme-primary)">|</span>' }}
-    />
-  );
-};
-
-// Gutter markup mirrors HASM_Markdown_Editor.jsx exactly, so the shared .HASM_Markdown_Editor_EditorCol_Editor_LineNum > span rule applies.
 const LineNumberGutter = ({ count }) => (
-  <div className="HASM_Markdown_Editor_EditorCol_Editor_LineNum">
-    {Array.from({ length: count }, (_, i) => i + 1).map((lineNumber) => (
-      <span key={lineNumber}>{lineNumber}</span>
+  <div className="HASM_Markdown_Editor_EditorCol_Editor_LineNum" aria-hidden="true">
+    {Array.from({ length: count }, (_, index) => (
+      <span key={index + 1}>{index + 1}</span>
     ))}
   </div>
 );
 
+const FeatureDemo = ({ feature, t }) => {
+  const highlightedMarkdown = highlightMarkdown(feature.markdownText);
+
+  return (
+    <section className="HASM_Markdown_Page_Feature" aria-labelledby={`markdown-feature-${feature.id}`}>
+      <p className="HASM_Markdown_Page_FeatureQuestion">{feature.question}</p>
+      <h2 className="HASM_Markdown_Page_FeatureTitle" id={`markdown-feature-${feature.id}`}>
+        {feature.title}
+      </h2>
+      <div className="HASM_Markdown_Page_DemoGrid">
+        <div className="HASM_Markdown_Page_Pane">
+          <div className="HASM_Markdown_Editor_EditorCol_Title HASM_Markdown_Page_PaneTitle">
+            <span>{t.editor}</span>
+            <span className="HASM_Markdown_Page_FileName">note.md</span>
+          </div>
+          <div className="HASM_Markdown_Page_EditorBody">
+            <LineNumberGutter count={feature.markdownText.split('\n').length} />
+            <div
+              className="MarkdownSyntax_Input HASM_Markdown_Page_Code"
+              dangerouslySetInnerHTML={{ __html: highlightedMarkdown }}
+            />
+          </div>
+        </div>
+        <div className="HASM_Markdown_Page_Pane">
+          <div className="HASM_Markdown_Editor_ViewerCol_Title HASM_Markdown_Page_PaneTitle">
+            <span>{t.preview}</span>
+          </div>
+          {feature.renderPreview()}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 export const HASM_Markdown_Page = ({ onNavigateHome }) => {
-  const [activeTab, setActiveTab] = useState(0);
   const { t } = useLanguage();
   const features = getFeatures(t);
 
   return (
-    <div className="hasm-lp-root EditorColor_light min-vh-100">
-      <style>{hasmStyles}</style>
+    <div className="HASM_Markdown_Page EditorColor_light">
+      <style>{hasmMarkdownPageStyles}</style>
       <SiteHeader onNavigateHome={onNavigateHome} />
-
-      {/* ヒーローセクション */}
-      <section className="min-vh-100 d-flex flex-column justify-content-center align-items-center text-center p-4">
-        <img src={hasmLogo} alt="HASM" className="mb-3" style={{ width: 96, height: 96, objectFit: 'contain' }} />
-        <div className="mb-2 text-uppercase fw-bold" style={{ color: 'var(--theme-accent-readable)', fontSize: '0.8rem', letterSpacing: '0.16em' }}>
-          {t.markdownKicker}
-        </div>
-        <h1 className="display-4 fw-bold mb-3" style={{ fontFamily: 'Georgia, serif' }}>
-          {t.markdownTitle}
-        </h1>
-        <p className="lead text-muted max-w-lg mb-4">
-          {t.markdownDescription}
-        </p>
-        <p className="small text-secondary mt-5">↓ {t.scrollHint}</p>
-      </section>
-
-      {/* エディタとプレビューは画面いっぱいに固定し、スクロールに応じて中身だけを1つずつ切り替える */}
-      <section className="container py-5">
-        <div className="row g-4">
-
-          {/* 左側: エディタ（画面いっぱいに固定） */}
-          <div className="col-md-6">
-            <div className="scroll-pane">
-              <div className="HASM_Markdown_Editor_Pane">
-                <div className="HASM_Markdown_Editor_EditorCol_Title">
-                  <span>{t.editor}</span>
-                  <span style={{ fontSize: '0.65rem', color: 'var(--theme-accent-readable)' }}>note.md</span>
-                </div>
-                <div className="scroll-pane-body">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={activeTab}
-                      className="d-flex h-100"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <LineNumberGutter count={features[activeTab].markdownText.split('\n').length} />
-                      <TypewriterText htmlContent={highlightMarkdown(features[activeTab].markdownText)} />
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-              </div>
-            </div>
-
-            {/* 見えないスクロール検出用トリガー（スクロール量の確保とタブ切り替え） */}
-            {features.map((feature, index) => (
-              <motion.div
-                key={feature.id}
-                onViewportEnter={() => setActiveTab(index)}
-                viewport={{ amount: 0.6 }}
-                className="feature-step-trigger"
-              />
-            ))}
-          </div>
-
-          {/* 右側: プレビュー（画面いっぱいに固定） */}
-          <div className="col-md-6">
-            <div className="scroll-pane">
-              <div className="HASM_Markdown_Editor_Pane">
-                <div className="HASM_Markdown_Editor_ViewerCol_Title">
-                  <span>{t.preview}</span>
-                  <span className="badge" style={{ background: 'var(--theme-primary)', color: 'var(--theme-on-accent)' }}>{t.live}</span>
-                </div>
-                <div className="HASM_Markdown_Editor_ViewerCol_Viewer">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={activeTab}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      {features[activeTab].renderPreview()}
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* フッター / ダウンロード */}
-      <section className="py-5 border-top" style={{ borderColor: 'var(--theme-border)' }}>
-        <div className="container py-2">
+      <main className="HASM_Markdown_Page_Inner">
+        <header className="HASM_Markdown_Page_Hero">
+          <img src={hasmLogo} alt="HASM" className="HASM_Markdown_Page_HeroLogo" />
+          <p className="HASM_Markdown_Page_Kicker">{t.markdownKicker}</p>
+          <h1 className="HASM_Markdown_Page_HeroTitle">{t.markdownTitle}</h1>
+          <p className="HASM_Markdown_Page_HeroLead">{t.markdownDescription}</p>
+        </header>
+        {features.map((feature) => (
+          <FeatureDemo key={feature.id} feature={feature} t={t} />
+        ))}
+        <footer className="HASM_Markdown_Page_Footer">
           <OsDownloadSection appType="hasm_markdown" />
           <Footer />
-        </div>
-      </section>
+        </footer>
+      </main>
     </div>
   );
 };
