@@ -13,6 +13,14 @@ export const LANGUAGES = [
 const TRANSLATIONS = {
   en: {
     ecg: {
+      openImage: 'Open full-window image',
+      closeImage: 'Close image',
+      zoomIn: 'Zoom in',
+      zoomOut: 'Zoom out',
+      showExperienceDetails: 'Show FACT details',
+      hideExperienceDetails: 'Hide FACT details',
+      showLinkDetails: 'Show LINK details',
+      hideLinkDetails: 'Hide LINK details',
       title: 'Extended Commit Graph',
       kicker: 'HASM / VISUALIZATION RESEARCH',
       lead: 'HASM is being explored as a way to read a life with structure, time, and relationship. The details are carried by the figures below.',
@@ -560,6 +568,14 @@ const TRANSLATIONS = {
 
   ja: {
     ecg: {
+      openImage: '画像をウィンドウ全体で表示',
+      closeImage: '画像を閉じる',
+      zoomIn: '拡大',
+      zoomOut: '縮小',
+      showExperienceDetails: 'FACTの詳細を表示',
+      hideExperienceDetails: 'FACTの詳細を隠す',
+      showLinkDetails: 'LINKの詳細を表示',
+      hideLinkDetails: 'LINKの詳細を隠す',
       title: 'Extended Commit Graph',
       kicker: 'HASM / 可視化の研究開発',
       lead: 'Extended Commit Graphは、コミットグラフがリポジトリを描くように、人の歩みを描く可視化方法です。EXPERIENCEは線に、FACTはその線上の点に、そして時間は軸になります。履歴を書き換えることなく、分岐と合流を表現できます。',
