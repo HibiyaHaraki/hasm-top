@@ -14,7 +14,7 @@ Visit the published site: [HASM on GitHub Pages](https://hibiyaharaki.github.io/
 
 ## Extended Commit Graph
 
-The Extended Commit Graph page describes EXPERIENCE distribution on the XY plane, time on the Z axis, and the equivalent flattened 2D view. It introduces PERSON, EXPERIENCE, FACT, and LINK notation; explains multiple parents and recursive FACT visibility; and uses one complete worked-example graph plus three opacity-focused variants to show non-linear revaluation, structural discontinuity, and restructuring of the subjective layer.
+The Extended Commit Graph page describes EXPERIENCE distribution on the XY plane, time on the Z axis, and the equivalent flattened 2D view. It introduces PERSON, EXPERIENCE, FACT, and LINK notation; explains parent branches and recursive FACT visibility; and uses one complete worked-example graph plus three opacity-focused variants to show non-linear revaluation, structural discontinuity, and restructuring of the subjective layer. In the worked example, EXPERIENCE 0 is Hibiya's life, the parent of EXPERIENCE 1–4.
 
 The diagrams use concise English labels so the generated geometry is shared by both locales; captions, detailed explanations, and alternative text are localized through [src/i18n.js](src/i18n.js). Regenerate all current diagrams with the shared HASM palette:
 

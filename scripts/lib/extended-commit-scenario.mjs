@@ -17,6 +17,7 @@ const C = {
   label: "#082f49",
   muted: "#4b7490",
   ghost: "#9dbccd",
+  e0: "#315b6d",
   e1: "#0a4f73",
   e2: "#1e5b2b",
   e3: "#8a2d0a",
@@ -28,10 +29,20 @@ const C = {
 
 const EXPERIENCES = [
   {
+    id: "EXPERIENCE 0",
+    title: "LIFE OF HIBIYA HARAKI",
+    summary: "THE PARENT EXPERIENCE THAT HOLDS EVERY CHILD FACT.",
+    x: 300,
+    color: C.e0,
+    start: 1180,
+    end: 270,
+    parent: true,
+  },
+  {
     id: "EXPERIENCE 1",
     title: "UNIVERSITY ENTRANCE EXAM",
     summary: "TWO FAILURES LED TO A DIFFERENT UNIVERSITY.",
-    x: 350,
+    x: 650,
     color: C.e1,
     start: 1130,
     end: 884,
@@ -40,7 +51,7 @@ const EXPERIENCES = [
     id: "EXPERIENCE 2",
     title: "INTERNATIONAL EXPERIENCE",
     summary: "STUDY ABROAD REVEALED COMPUTATIONAL ENGINEERING.",
-    x: 900,
+    x: 1080,
     color: C.e2,
     start: 802,
     end: 556,
@@ -49,7 +60,7 @@ const EXPERIENCES = [
     id: "EXPERIENCE 3",
     title: "RESEARCH",
     summary: "LAB WORK DEVELOPED RESEARCH AND PYTHON SKILLS.",
-    x: 1450,
+    x: 1510,
     color: C.e3,
     start: 474,
     end: 310,
@@ -58,7 +69,7 @@ const EXPERIENCES = [
     id: "EXPERIENCE 4",
     title: "PROGRAMMING",
     summary: "MATLAB AND PYTHON FORM A NEW LEARNING VIEW.",
-    x: 2000,
+    x: 2010,
     color: C.e4,
     start: 556,
     end: 392,
@@ -120,21 +131,21 @@ const FOCUS = {
     kicker: "COMPLETE EXTENDED COMMIT GRAPH / 2016-2021",
   },
   revaluation: {
-    experiences: new Set(["EXPERIENCE 1", "EXPERIENCE 3"]),
+    experiences: new Set(["EXPERIENCE 0", "EXPERIENCE 1", "EXPERIENCE 3"]),
     facts: new Set(["FACT 1-1", "FACT 1-2", "FACT 1-3", "FACT 1-4", "FACT 3-3"]),
     links: new Set(["LINK 1"]),
     title: "NON-LINEAR REVALUATION",
     kicker: "FOCUS / PAST FAILURE AND FUTURE SUCCESS",
   },
   discontinuity: {
-    experiences: new Set(["EXPERIENCE 2", "EXPERIENCE 3"]),
+    experiences: new Set(["EXPERIENCE 0", "EXPERIENCE 2", "EXPERIENCE 3"]),
     facts: new Set(["FACT 2-4", "FACT 3-1"]),
     links: new Set(["LINK 3"]),
     title: "STRUCTURAL DISCONTINUITY",
     kicker: "FOCUS / A REASON THAT CROSSES EXPERIENCES",
   },
   restructuring: {
-    experiences: new Set(["EXPERIENCE 2", "EXPERIENCE 3", "EXPERIENCE 4"]),
+    experiences: new Set(["EXPERIENCE 0", "EXPERIENCE 2", "EXPERIENCE 3", "EXPERIENCE 4"]),
     facts: new Set(["FACT 2-5", "FACT 3-2", "FACT 4-1 = FACT 2-5", "FACT 4-2 = FACT 3-2"]),
     links: new Set(),
     title: "RESTRUCTURING THE SUBJECTIVE LAYER",
@@ -185,6 +196,14 @@ function alphaFor(set, id, focus, active = 1, faded = 0.12) {
   return focus === "all" || set.has(id) ? active : faded;
 }
 
+function drawParentConnector(cv, from, to, color, alpha, bow) {
+  const curve = bowedCurve(from, to, bow, 80);
+  cv.polyline(curve, 3.2, color, alpha);
+  const tip = curve[curve.length - 1];
+  const previous = curve[curve.length - 5];
+  cv.arrowHead(tip, [tip[0] - previous[0], tip[1] - previous[1]], 15, 7, color, alpha);
+}
+
 export function drawScenarioGraph(cv, focusName = "all") {
   const focus = FOCUS[focusName] || FOCUS.all;
 
@@ -199,7 +218,29 @@ export function drawScenarioGraph(cv, focusName = "all") {
     cv.text(fact.date, 160, fact.y + 6, { size: 15, color: C.ghost });
   }
 
-  // LINK geometry is drawn first so branches, FACT dots, and labels remain readable above it.
+  // Every child EXPERIENCE branches out from and merges back into the life EXPERIENCE.
+  const life = experienceById.get("EXPERIENCE 0");
+  for (const experience of EXPERIENCES.filter(({ parent }) => !parent)) {
+    const alpha = alphaFor(focus.experiences, experience.id, focusName, 0.58, 0.06);
+    drawParentConnector(
+      cv,
+      [life.x, experience.start],
+      [experience.x, experience.start],
+      experience.color,
+      alpha,
+      experience.id === "EXPERIENCE 4" ? 0.08 : 0.045,
+    );
+    drawParentConnector(
+      cv,
+      [experience.x, experience.end],
+      [life.x, experience.end],
+      experience.color,
+      alpha,
+      experience.id === "EXPERIENCE 4" ? -0.08 : -0.045,
+    );
+  }
+
+  // LINK geometry sits below branches, FACT dots, and labels.
   const linkLabelPoints = new Map();
   for (const link of LINKS) {
     const alpha = alphaFor(focus.links, link.id, focusName, 0.92, 0.08);
@@ -215,10 +256,11 @@ export function drawScenarioGraph(cv, focusName = "all") {
     cv.circle(experience.x, experience.start, 7, experience.color, alpha);
     cv.arrowHead([experience.x, experience.end], [0, -1], 19, 9, experience.color, alpha);
 
-    cv.text(experience.id, experience.x, 166, { size: 19, color: experience.color, align: "center", weight: 0.15, alpha });
-    cv.text(experience.title, experience.x, 198, { size: 21, color: experience.color, align: "center", weight: 0.145, alpha });
-    wrappedText(cv, experience.summary, experience.x, 226, 470, {
-      size: 15,
+    const titleSize = experience.parent ? 18 : 20;
+    cv.text(experience.id, experience.x, 166, { size: 18, color: experience.color, align: "center", weight: 0.15, alpha });
+    cv.text(experience.title, experience.x, 196, { size: titleSize, color: experience.color, align: "center", weight: 0.145, alpha });
+    wrappedText(cv, experience.summary, experience.x, 224, experience.parent ? 320 : 390, {
+      size: 14,
       lineHeight: 20,
       color: C.muted,
       align: "center",
@@ -242,6 +284,13 @@ export function drawScenarioGraph(cv, focusName = "all") {
       color: C.label,
       alpha,
     });
+  }
+
+  // Parent EXPERIENCE 0 recursively reflects each unique child FACT at the same time.
+  for (const fact of FACTS) {
+    const source = experienceById.get(fact.experience);
+    const alpha = alphaFor(focus.facts, fact.id, focusName, 0.92, 0.08);
+    scenarioFactDot(cv, life.x, fact.y, source.color, alpha, true);
   }
 
   for (const copy of FACT_COPIES) {
@@ -283,7 +332,8 @@ export function drawScenarioGraph(cv, focusName = "all") {
     });
   });
 
-  cv.text("FILLED DOT = RECORDED FACT", 72, 1460, { size: 15, color: C.muted });
-  cv.text("HOLLOW DOT = THE SAME FACT IN A NEW SUBJECTIVE EXPERIENCE", 660, 1460, { size: 15, color: C.muted });
-  cv.text("DASHED CURVE = LINK", 1810, 1460, { size: 15, color: C.muted });
+  cv.text("FILLED DOT = RECORDED FACT", 72, 1460, { size: 14, color: C.muted });
+  cv.text("HOLLOW DOT = RECURSIVELY REFLECTED FACT", 520, 1460, { size: 14, color: C.muted });
+  cv.text("SOLID CURVE = BRANCH / MERGE", 1370, 1460, { size: 14, color: C.muted });
+  cv.text("DASHED CURVE = LINK", 1970, 1460, { size: 14, color: C.muted });
 }

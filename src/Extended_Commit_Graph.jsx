@@ -88,6 +88,7 @@ export function Extended_Commit_Graph({ onNavigateHome }) {
                     <span>{experience.id}</span>
                     <h3>{experience.title}</h3>
                   </header>
+                  {experience.description && <p className="ECG_CaseExperienceDescription">{experience.description}</p>}
                   <ol>
                     {experience.facts.map(([id, title, description]) => (
                       <li key={id}>
