@@ -582,59 +582,6 @@ my-hasm-model/
             </section>
           )}
 
-          {/* SECTION 4: 5 MAJOR USE CASES */}
-          {(activeTab === 'all' || activeTab === 'usecase') && (
-            <section className="HASM_Page_Section" id="usecase">
-              <div className="HASM_Page_SectionHeader">
-                <div className="HASM_Page_Kicker">{t.usecaseKicker}</div>
-                <h2 className="HASM_Page_SectionTitle">{t.usecaseTitle}</h2>
-                <p className="HASM_Page_SectionDesc">{t.usecaseDescription}</p>
-              </div>
-
-              <div className="HASM_Page_UsecaseGrid">
-                <div className="HASM_Page_FeatureCard">
-                  <div>
-                    <h3 className="HASM_Page_FeatureTitle">{t.usecase1Title}</h3>
-                    <div className="HASM_Page_FeatureSubtitle">{t.usecase1Subtitle}</div>
-                  </div>
-                  <p className="HASM_Page_FeatureDesc">{t.usecase1Desc}</p>
-                </div>
-
-                <div className="HASM_Page_FeatureCard">
-                  <div>
-                    <h3 className="HASM_Page_FeatureTitle">{t.usecase2Title}</h3>
-                    <div className="HASM_Page_FeatureSubtitle">{t.usecase2Subtitle}</div>
-                  </div>
-                  <p className="HASM_Page_FeatureDesc">{t.usecase2Desc}</p>
-                </div>
-
-                <div className="HASM_Page_FeatureCard">
-                  <div>
-                    <h3 className="HASM_Page_FeatureTitle">{t.usecase3Title}</h3>
-                    <div className="HASM_Page_FeatureSubtitle">{t.usecase3Subtitle}</div>
-                  </div>
-                  <p className="HASM_Page_FeatureDesc">{t.usecase3Desc}</p>
-                </div>
-
-                <div className="HASM_Page_FeatureCard">
-                  <div>
-                    <h3 className="HASM_Page_FeatureTitle">{t.usecase4Title}</h3>
-                    <div className="HASM_Page_FeatureSubtitle">{t.usecase4Subtitle}</div>
-                  </div>
-                  <p className="HASM_Page_FeatureDesc">{t.usecase4Desc}</p>
-                </div>
-
-                <div className="HASM_Page_FeatureCard">
-                  <div>
-                    <h3 className="HASM_Page_FeatureTitle">{t.usecase5Title}</h3>
-                    <div className="HASM_Page_FeatureSubtitle">{t.usecase5Subtitle}</div>
-                  </div>
-                  <p className="HASM_Page_FeatureDesc">{t.usecase5Desc}</p>
-                </div>
-              </div>
-            </section>
-          )}
-
           {/* DOWNLOAD SECTION */}
           <OsDownloadSection appType="hasm" />
         </main>
