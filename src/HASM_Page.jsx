@@ -155,7 +155,6 @@ const hasmPageStyles = `
     align-items: center;
     justify-content: center;
     padding: 16px 0;
-    text-align: center;
     position: relative;
   }
 
@@ -639,6 +638,12 @@ export const HASM_Page = ({ onNavigateToHasmPhilosophy, onNavigateToHasmApp, onN
               </div>
             </div>
 
+            {/* ENGINEERING METAPHOR */}
+            <div className="HASM_Page_MetaphorBlock">
+              <h3 className="HASM_Page_MetaphorTitle">{t.metaphorTitle}</h3>
+              <p className="HASM_Page_MetaphorDesc">{t.metaphorDesc}</p>
+            </div>
+
             <div className="HASM_Page_SectionHeader">
               <div className="HASM_Page_Kicker">{t.whatIsHasmKicker}</div>
               <h2 className="HASM_Page_SectionTitle">{t.whatIsHasmTitle}</h2>
@@ -676,11 +681,6 @@ export const HASM_Page = ({ onNavigateToHasmPhilosophy, onNavigateToHasmApp, onN
               </div>
             </div>
 
-            {/* ENGINEERING METAPHOR */}
-            <div className="HASM_Page_MetaphorBlock">
-              <h3 className="HASM_Page_MetaphorTitle">{t.metaphorTitle}</h3>
-              <p className="HASM_Page_MetaphorDesc">{t.metaphorDesc}</p>
-            </div>
             {/* ONTOLOGY MATRIX TABLE */}
             <div style={{ marginTop: 32 }}>
               <div className="HASM_Page_Kicker">{t.ontTableTitle}</div>
