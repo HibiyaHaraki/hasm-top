@@ -147,6 +147,7 @@ const hasmMarkdownPageStyles = `
     min-height: 220px;
     flex: 1;
     padding: 24px;
+    border-right: 4px solid var(--theme-accent-readable);
   }
 
   .HASM_Markdown_Page_Preview h3,
@@ -160,75 +161,6 @@ const hasmMarkdownPageStyles = `
 
   .HASM_Markdown_Page_Preview p {
     color: var(--theme-muted);
-  }
-
-  .HASM_Markdown_Page_PortableStatus {
-    padding: 16px;
-    border: 1px solid var(--theme-border);
-    border-left: 4px solid var(--theme-accent-readable);
-    background: var(--theme-soft);
-  }
-
-  .HASM_Markdown_Page_PortableStatus strong {
-    display: block;
-    margin-bottom: 6px;
-    color: var(--theme-accent-readable);
-  }
-
-  .HASM_Markdown_Page_PortableStatus p {
-    margin: 0;
-  }
-
-  .HASM_Markdown_Page_EnvironmentList {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 0 0 14px;
-    padding: 0;
-    list-style: none;
-  }
-
-  .HASM_Markdown_Page_EnvironmentList li {
-    padding: 5px 10px;
-    border: 1px solid var(--theme-border);
-    background: var(--theme-surface);
-    font-size: 0.82rem;
-  }
-
-  .HASM_Markdown_Page_AssetStatus {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 16px;
-    border: 1px solid var(--theme-border);
-    background: var(--theme-soft);
-  }
-
-  .HASM_Markdown_Page_AssetStatus strong,
-  .HASM_Markdown_Page_AssetStatus span {
-    display: block;
-  }
-
-  .HASM_Markdown_Page_AssetStatus span {
-    margin-top: 4px;
-    color: var(--theme-muted);
-    font-size: 0.9rem;
-  }
-
-  .HASM_Markdown_Page_OfflineStatus {
-    padding: 16px;
-    border: 1px solid var(--theme-border);
-    background: var(--theme-soft);
-  }
-
-  .HASM_Markdown_Page_OfflineStatus strong {
-    display: block;
-    margin-bottom: 4px;
-    color: var(--theme-accent-readable);
-  }
-
-  .HASM_Markdown_Page_OfflineStatus p {
-    margin: 0;
   }
 
   .HASM_Markdown_Page_Footer {
@@ -275,22 +207,20 @@ const getFeatures = (t) => [
     title: t.portableTitle,
     markdownText: `# ${t.portableTitle}
 
-![${t.portableAlt}](asset:portable.mp4)
-
 - ${t.portableLines[0]}
 - ${t.portableLines[1]}
-- ${t.portableLines[2]}`,
+- ${t.portableLines[2]}
+${t.osLabels.map((label) => `- ${label}`).join('\n')}
+
+${t.offlineGuarantee}`,
     renderPreview: () => (
       <div className="HASM_Markdown_Page_Preview HASM_Markdown_Editor_ViewerCol_Viewer">
         <h3>{t.portableTitle}</h3>
-        <div className="HASM_Markdown_Page_PortableStatus">
-          <strong>{t.portableStatus}</strong>
-          <p>{t.portableDescription}</p>
-        </div>
-        <ul className="HASM_Markdown_Page_EnvironmentList" aria-label={t.portableTitle}>
+        <ul>
+          {t.portableLines.map((line) => <li key={line}>{line}</li>)}
           {t.osLabels.map((label) => <li key={label}>{label}</li>)}
         </ul>
-        <p>{t.usbHint}</p>
+        <p>{t.offlineGuarantee}</p>
       </div>
     )
   },
@@ -300,20 +230,41 @@ const getFeatures = (t) => [
     title: t.assetTitle,
     markdownText: `## ${t.assetTitle}
 
-![${t.assetAlt}](asset:architecture-diagram)
-
 ${t.assetDescription}`,
     renderPreview: () => (
       <div className="HASM_Markdown_Page_Preview HASM_Markdown_Editor_ViewerCol_Viewer">
         <h3>{t.assetTitle}</h3>
         <p>{t.assetDescription}</p>
-        <div className="HASM_Markdown_Page_AssetStatus">
-          <div aria-hidden="true">◇</div>
-          <div>
-            <strong>asset:architecture-diagram</strong>
-            <span>{t.assetStatus}</span>
-          </div>
-        </div>
+      </div>
+    )
+  },
+  {
+    id: 'package',
+    question: t.packageQuestion,
+    title: t.packageTitle,
+    markdownText: `## ${t.packageTitle}
+
+${t.packageDescription}
+
+- ${t.packageFiles[0]}
+- ${t.packageFiles[1]}
+- ${t.packageFiles[2]}
+
+### ${t.packageOutputTitle}
+
+- ${t.packageOutputs[0]}
+- ${t.packageOutputs[1]}`,
+    renderPreview: () => (
+      <div className="HASM_Markdown_Page_Preview HASM_Markdown_Editor_ViewerCol_Viewer">
+        <h3>{t.packageTitle}</h3>
+        <p>{t.packageDescription}</p>
+        <ul>
+          {t.packageFiles.map((file) => <li key={file}>{file}</li>)}
+        </ul>
+        <h4>{t.packageOutputTitle}</h4>
+        <ul>
+          {t.packageOutputs.map((output) => <li key={output}>{output}</li>)}
+        </ul>
       </div>
     )
   },
@@ -334,10 +285,7 @@ ${t.offlineGuarantee}`,
           <li>{t.externalApi}</li>
           <li>{t.telemetry}</li>
         </ul>
-        <div className="HASM_Markdown_Page_OfflineStatus">
-          <strong>{t.offlineLabel}</strong>
-          <p>{t.offlineDescription}</p>
-        </div>
+        <p>{t.offlineGuarantee}</p>
       </div>
     )
   }
