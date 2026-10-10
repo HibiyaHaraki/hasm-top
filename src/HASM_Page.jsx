@@ -56,7 +56,7 @@ const hasmPageStyles = `
   }
 
   .HASM_Page_HeroLead {
-    max-width: 760px;
+    max-width: 860px;
     color: var(--theme-muted);
     font-size: 1.15rem;
     margin: 0 auto;
@@ -708,13 +708,13 @@ export const HASM_Page = ({ onNavigateToHasmPhilosophy, onNavigateToHasmApp, onN
                       <td>{t.ontRowExpDev}</td>
                     </tr>
                     <tr>
-                      <td><strong>FACT / ACHIEVEMENT</strong></td>
+                      <td><strong>FACT</strong></td>
                       <td>Immutable Event / Record</td>
                       <td>{t.ontRowFactConcept}</td>
                       <td>{t.ontRowFactDev}</td>
                     </tr>
                     <tr>
-                      <td><strong>LINK / NEXUS</strong></td>
+                      <td><strong>LINK</strong></td>
                       <td>Omnidirectional Bond & Relation</td>
                       <td>{t.ontRowLinkConcept}</td>
                       <td>{t.ontRowLinkDev}</td>
