@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import hasmLogo from './assets/logo/hasm_logo_transparent.png';
 import { useColorTheme } from './theme/useColorTheme.js';
 import SiteHeader from './SiteHeader.jsx';
@@ -123,6 +124,26 @@ const hasmAppPageStyles = `
     color: var(--theme-muted);
     font-size: 1.05rem;
     line-height: 1.8;
+  }
+
+  .HASM_Page_VisualizerActions {
+    margin-top: 16px;
+  }
+
+  .HASM_Page_VisualizerLink {
+    border: 1px solid var(--theme-border);
+    background: var(--theme-surface);
+    color: var(--theme-accent-readable);
+    font: inherit;
+    font-weight: 700;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .HASM_Page_VisualizerLink:hover {
+    background: var(--theme-soft);
+    border-color: var(--theme-primary);
   }
 
   /* ROADMAP CALLOUT */
@@ -355,7 +376,9 @@ const hasmAppPageStyles = `
 export const HASM_App_Page = ({ onNavigateHome }) => {
   const { colorPattern } = useColorTheme();
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('all');
+  const extendedCommitGraphLinkLabel = t.ecg?.openPage ?? 'Explore Extended Commit Graph';
 
   const handleTabChange = (tabId) => {
     setActiveTab(tabId);
@@ -474,6 +497,15 @@ export const HASM_App_Page = ({ onNavigateHome }) => {
                 <p className="HASM_Page_SectionDesc" style={{ fontSize: '0.95rem' }}>
                   {t.visualizerDescription}
                 </p>
+                <div className="HASM_Page_VisualizerActions">
+                  <button
+                    type="button"
+                    className="HASM_Page_VisualizerLink"
+                    onClick={() => navigate('/extended-commit-graph')}
+                  >
+                    {extendedCommitGraphLinkLabel}
+                  </button>
+                </div>
                 <HasmVisualizerComponent
                   colorPattern={colorPattern}
                   labels={{
@@ -485,6 +517,7 @@ export const HASM_App_Page = ({ onNavigateHome }) => {
               </div>
 
               {/* 3D COORDINATE SPACE BREAKDOWN */}
+              {/*
               <div className="HASM_Page_CoordBox">
                 <div className="HASM_Page_CoordTitle">{t.coordTitle}</div>
                 <ul className="HASM_Page_CoordList">
@@ -493,6 +526,7 @@ export const HASM_App_Page = ({ onNavigateHome }) => {
                   <li className="HASM_Page_CoordItem">{t.coordY}</li>
                 </ul>
               </div>
+              */}
 
               {/* FILE SYSTEM STRUCTURE */}
               <div className="HASM_Page_TreeBox">
@@ -577,59 +611,6 @@ my-hasm-model/
                 <div className="HASM_Page_FeatureCard">
                   <h3 className="HASM_Page_FeatureTitle">{t.benefit4Title}</h3>
                   <p className="HASM_Page_FeatureDesc">{t.benefit4Desc}</p>
-                </div>
-              </div>
-            </section>
-          )}
-
-          {/* SECTION 4: 5 MAJOR USE CASES */}
-          {(activeTab === 'all' || activeTab === 'usecase') && (
-            <section className="HASM_Page_Section" id="usecase">
-              <div className="HASM_Page_SectionHeader">
-                <div className="HASM_Page_Kicker">{t.usecaseKicker}</div>
-                <h2 className="HASM_Page_SectionTitle">{t.usecaseTitle}</h2>
-                <p className="HASM_Page_SectionDesc">{t.usecaseDescription}</p>
-              </div>
-
-              <div className="HASM_Page_UsecaseGrid">
-                <div className="HASM_Page_FeatureCard">
-                  <div>
-                    <h3 className="HASM_Page_FeatureTitle">{t.usecase1Title}</h3>
-                    <div className="HASM_Page_FeatureSubtitle">{t.usecase1Subtitle}</div>
-                  </div>
-                  <p className="HASM_Page_FeatureDesc">{t.usecase1Desc}</p>
-                </div>
-
-                <div className="HASM_Page_FeatureCard">
-                  <div>
-                    <h3 className="HASM_Page_FeatureTitle">{t.usecase2Title}</h3>
-                    <div className="HASM_Page_FeatureSubtitle">{t.usecase2Subtitle}</div>
-                  </div>
-                  <p className="HASM_Page_FeatureDesc">{t.usecase2Desc}</p>
-                </div>
-
-                <div className="HASM_Page_FeatureCard">
-                  <div>
-                    <h3 className="HASM_Page_FeatureTitle">{t.usecase3Title}</h3>
-                    <div className="HASM_Page_FeatureSubtitle">{t.usecase3Subtitle}</div>
-                  </div>
-                  <p className="HASM_Page_FeatureDesc">{t.usecase3Desc}</p>
-                </div>
-
-                <div className="HASM_Page_FeatureCard">
-                  <div>
-                    <h3 className="HASM_Page_FeatureTitle">{t.usecase4Title}</h3>
-                    <div className="HASM_Page_FeatureSubtitle">{t.usecase4Subtitle}</div>
-                  </div>
-                  <p className="HASM_Page_FeatureDesc">{t.usecase4Desc}</p>
-                </div>
-
-                <div className="HASM_Page_FeatureCard">
-                  <div>
-                    <h3 className="HASM_Page_FeatureTitle">{t.usecase5Title}</h3>
-                    <div className="HASM_Page_FeatureSubtitle">{t.usecase5Subtitle}</div>
-                  </div>
-                  <p className="HASM_Page_FeatureDesc">{t.usecase5Desc}</p>
                 </div>
               </div>
             </section>

@@ -56,7 +56,7 @@ const hasmPageStyles = `
   }
 
   .HASM_Page_HeroLead {
-    max-width: 760px;
+    max-width: 860px;
     color: var(--theme-muted);
     font-size: 1.15rem;
     margin: 0 auto;
@@ -155,7 +155,6 @@ const hasmPageStyles = `
     align-items: center;
     justify-content: center;
     padding: 16px 0;
-    text-align: center;
     position: relative;
   }
 
@@ -473,6 +472,44 @@ const hasmPageStyles = `
     opacity: 0.9;
   }
 
+  .HASM_Page_UsecaseGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin-top: 24px;
+  }
+
+  .HASM_Page_FeatureCard {
+    padding: 24px;
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-top: 3px solid var(--theme-primary);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .HASM_Page_FeatureTitle {
+    font-family: Georgia, serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 10px;
+  }
+
+  .HASM_Page_FeatureSubtitle {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--theme-accent-readable);
+    margin-bottom: 8px;
+  }
+
+  .HASM_Page_FeatureDesc {
+    margin: 0;
+    color: var(--theme-muted);
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+
   @media (max-width: 760px) {
     .HASM_Page_Ecosystem {
       padding: 24px 18px;
@@ -639,6 +676,12 @@ export const HASM_Page = ({ onNavigateToHasmPhilosophy, onNavigateToHasmApp, onN
               </div>
             </div>
 
+            {/* ENGINEERING METAPHOR */}
+            <div className="HASM_Page_MetaphorBlock">
+              <h3 className="HASM_Page_MetaphorTitle">{t.metaphorTitle}</h3>
+              <p className="HASM_Page_MetaphorDesc">{t.metaphorDesc}</p>
+            </div>
+
             <div className="HASM_Page_SectionHeader">
               <div className="HASM_Page_Kicker">{t.whatIsHasmKicker}</div>
               <h2 className="HASM_Page_SectionTitle">{t.whatIsHasmTitle}</h2>
@@ -676,11 +719,6 @@ export const HASM_Page = ({ onNavigateToHasmPhilosophy, onNavigateToHasmApp, onN
               </div>
             </div>
 
-            {/* ENGINEERING METAPHOR */}
-            <div className="HASM_Page_MetaphorBlock">
-              <h3 className="HASM_Page_MetaphorTitle">{t.metaphorTitle}</h3>
-              <p className="HASM_Page_MetaphorDesc">{t.metaphorDesc}</p>
-            </div>
             {/* ONTOLOGY MATRIX TABLE */}
             <div style={{ marginTop: 32 }}>
               <div className="HASM_Page_Kicker">{t.ontTableTitle}</div>
@@ -708,13 +746,13 @@ export const HASM_Page = ({ onNavigateToHasmPhilosophy, onNavigateToHasmApp, onN
                       <td>{t.ontRowExpDev}</td>
                     </tr>
                     <tr>
-                      <td><strong>FACT / ACHIEVEMENT</strong></td>
+                      <td><strong>FACT</strong></td>
                       <td>Immutable Event / Record</td>
                       <td>{t.ontRowFactConcept}</td>
                       <td>{t.ontRowFactDev}</td>
                     </tr>
                     <tr>
-                      <td><strong>LINK / NEXUS</strong></td>
+                      <td><strong>LINK</strong></td>
                       <td>Omnidirectional Bond & Relation</td>
                       <td>{t.ontRowLinkConcept}</td>
                       <td>{t.ontRowLinkDev}</td>
@@ -752,6 +790,57 @@ export const HASM_Page = ({ onNavigateToHasmPhilosophy, onNavigateToHasmApp, onN
               </div>
             </div>
             */}
+          </section>
+
+          {/* SECTION 4: 5 MAJOR USE CASES */}
+          <section className="HASM_Page_Section" id="usecase">
+            <div className="HASM_Page_SectionHeader">
+              <div className="HASM_Page_Kicker">{t.usecaseKicker}</div>
+              <h2 className="HASM_Page_SectionTitle">{t.usecaseTitle}</h2>
+              <p className="HASM_Page_SectionDesc">{t.usecaseDescription}</p>
+            </div>
+
+            <div className="HASM_Page_UsecaseGrid">
+              <div className="HASM_Page_FeatureCard">
+                <div>
+                  <h3 className="HASM_Page_FeatureTitle">{t.usecase1Title}</h3>
+                  <div className="HASM_Page_FeatureSubtitle">{t.usecase1Subtitle}</div>
+                </div>
+                <p className="HASM_Page_FeatureDesc">{t.usecase1Desc}</p>
+              </div>
+
+              <div className="HASM_Page_FeatureCard">
+                <div>
+                  <h3 className="HASM_Page_FeatureTitle">{t.usecase2Title}</h3>
+                  <div className="HASM_Page_FeatureSubtitle">{t.usecase2Subtitle}</div>
+                </div>
+                <p className="HASM_Page_FeatureDesc">{t.usecase2Desc}</p>
+              </div>
+
+              <div className="HASM_Page_FeatureCard">
+                <div>
+                  <h3 className="HASM_Page_FeatureTitle">{t.usecase3Title}</h3>
+                  <div className="HASM_Page_FeatureSubtitle">{t.usecase3Subtitle}</div>
+                </div>
+                <p className="HASM_Page_FeatureDesc">{t.usecase3Desc}</p>
+              </div>
+
+              <div className="HASM_Page_FeatureCard">
+                <div>
+                  <h3 className="HASM_Page_FeatureTitle">{t.usecase4Title}</h3>
+                  <div className="HASM_Page_FeatureSubtitle">{t.usecase4Subtitle}</div>
+                </div>
+                <p className="HASM_Page_FeatureDesc">{t.usecase4Desc}</p>
+              </div>
+
+              <div className="HASM_Page_FeatureCard">
+                <div>
+                  <h3 className="HASM_Page_FeatureTitle">{t.usecase5Title}</h3>
+                  <div className="HASM_Page_FeatureSubtitle">{t.usecase5Subtitle}</div>
+                </div>
+                <p className="HASM_Page_FeatureDesc">{t.usecase5Desc}</p>
+              </div>
+            </div>
           </section>
 
           {/* ECOSYSTEM: LINKS TO ALL SUB-APPS */}
