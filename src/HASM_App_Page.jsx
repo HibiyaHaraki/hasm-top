@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import hasmLogo from './assets/logo/hasm_logo_transparent.png';
 import { useColorTheme } from './theme/useColorTheme.js';
 import SiteHeader from './SiteHeader.jsx';
@@ -123,6 +124,26 @@ const hasmAppPageStyles = `
     color: var(--theme-muted);
     font-size: 1.05rem;
     line-height: 1.8;
+  }
+
+  .HASM_Page_VisualizerActions {
+    margin-top: 16px;
+  }
+
+  .HASM_Page_VisualizerLink {
+    border: 1px solid var(--theme-border);
+    background: var(--theme-surface);
+    color: var(--theme-accent-readable);
+    font: inherit;
+    font-weight: 700;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .HASM_Page_VisualizerLink:hover {
+    background: var(--theme-soft);
+    border-color: var(--theme-primary);
   }
 
   /* ROADMAP CALLOUT */
@@ -355,7 +376,9 @@ const hasmAppPageStyles = `
 export const HASM_App_Page = ({ onNavigateHome }) => {
   const { colorPattern } = useColorTheme();
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('all');
+  const extendedCommitGraphLinkLabel = t.ecg?.openPage ?? 'Explore Extended Commit Graph';
 
   const handleTabChange = (tabId) => {
     setActiveTab(tabId);
@@ -474,6 +497,15 @@ export const HASM_App_Page = ({ onNavigateHome }) => {
                 <p className="HASM_Page_SectionDesc" style={{ fontSize: '0.95rem' }}>
                   {t.visualizerDescription}
                 </p>
+                <div className="HASM_Page_VisualizerActions">
+                  <button
+                    type="button"
+                    className="HASM_Page_VisualizerLink"
+                    onClick={() => navigate('/extended-commit-graph')}
+                  >
+                    {extendedCommitGraphLinkLabel}
+                  </button>
+                </div>
                 <HasmVisualizerComponent
                   colorPattern={colorPattern}
                   labels={{
@@ -485,6 +517,7 @@ export const HASM_App_Page = ({ onNavigateHome }) => {
               </div>
 
               {/* 3D COORDINATE SPACE BREAKDOWN */}
+              {/*
               <div className="HASM_Page_CoordBox">
                 <div className="HASM_Page_CoordTitle">{t.coordTitle}</div>
                 <ul className="HASM_Page_CoordList">
@@ -493,6 +526,7 @@ export const HASM_App_Page = ({ onNavigateHome }) => {
                   <li className="HASM_Page_CoordItem">{t.coordY}</li>
                 </ul>
               </div>
+              */}
 
               {/* FILE SYSTEM STRUCTURE */}
               <div className="HASM_Page_TreeBox">
