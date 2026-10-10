@@ -434,14 +434,6 @@ export const HASM_App_Page = ({ onNavigateHome }) => {
               >
                 {t.navBenefit}
               </button>
-              <button
-                type="button"
-                className="HASM_Page_TabButton"
-                aria-selected={activeTab === 'usecase'}
-                onClick={() => handleTabChange('usecase')}
-              >
-                {t.navUsecase}
-              </button>
             </nav>
           </section>
 
