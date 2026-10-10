@@ -235,13 +235,10 @@
   border: 1px solid var(--theme-border);
 }
 
-.ECG_CaseExperience_4 {
-  grid-column: 1 / -1;
-}
-
 .ECG_CaseExperience summary {
   padding: 18px 20px 16px;
   cursor: pointer;
+  list-style: none;
 }
 
 .ECG_CaseExperience details[open]>summary {
@@ -335,6 +332,7 @@
 
 .ECG_CaseLinks summary {
   cursor: pointer;
+  list-style: none;
 }
 
 .ECG_CaseLinks summary>span:first-child {
