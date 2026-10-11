@@ -101,7 +101,7 @@ export const SiteHeader = ({ onNavigateHome, activePatternId, onThemeChange }) =
               onChange={handleApplicationChange}
               aria-label={t.pages}
             >
-              <option value="" disabled>{t.selectPage}</option>
+              {/*<option value="" disabled>{t.selectPage}</option>*/}
               {applicationGroups.map(({ id, label, items }) => (
                 <optgroup key={id} label={label}>
                   {items.map((item) => (
