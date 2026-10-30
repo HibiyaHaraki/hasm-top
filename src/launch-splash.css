@@ -1,0 +1,41 @@
+.launch-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: var(--theme-textbackground);
+  color: var(--theme-text);
+  opacity: 1;
+  transition: opacity 400ms ease;
+}
+
+.launch-splash--leaving {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.launch-splash__image {
+  width: min(720px, 100%);
+  max-height: 80vh;
+  height: auto;
+  object-fit: contain;
+}
+
+.launch-splash__status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .launch-splash {
+    transition: none;
+  }
+}
