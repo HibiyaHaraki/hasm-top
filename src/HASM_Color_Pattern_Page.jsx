@@ -70,7 +70,7 @@ const hasmColorPatternStyles = `
     justify-content: center;
     padding: 28px;
     border: 1px solid transparent;
-    background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+    background: var(--theme-primary);
     color: var(--theme-on-accent);
   }
 
@@ -260,7 +260,7 @@ export const HASM_Color_Pattern_Page = ({ onNavigateHome }) => {
             <div
               className="HASM_Color_Pattern_PreviewCard"
               style={{
-                background: `linear-gradient(135deg, ${selectedPattern.colors.mainColor}, ${selectedPattern.colors.textBackgroundColor})`,
+                background: selectedPattern.colors.mainColor,
                 borderColor: selectedPattern.colors.borderColor,
               }}
             >
@@ -270,7 +270,7 @@ export const HASM_Color_Pattern_Page = ({ onNavigateHome }) => {
               <h3 style={{ margin: '10px 0 0', fontSize: '2rem', fontFamily: 'Georgia, serif' }}>
                 {selectedPattern.label}
               </h3>
-              <p style={{ margin: '10px 0 0', opacity: 0.9, color: selectedPattern.colors.textColor }}>
+              <p style={{ margin: '10px 0 0' }}>
                 {selectedPattern.markdownLabel}
               </p>
             </div>
