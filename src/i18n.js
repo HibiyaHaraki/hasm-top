@@ -569,7 +569,9 @@ const TRANSLATIONS = {
     logoColorTitle: 'Muted spectrum',
     logoColorDescription: 'Squared trigonometric channels create a calm gradient that remains legible on light and dark backgrounds.',
     logoUsageTitle: 'Clear space',
-    logoUsageDescription: 'Keep the mark square and preserve at least 10% padding around the geometry.'
+    logoUsageDescription: 'Keep the mark square and preserve at least 10% padding around the geometry.',
+    splashImageAlt: 'HASM - Human Activity Structure Model',
+    splashStatus: 'Starting HASM...'
   },
 
   ja: {
@@ -1129,7 +1131,9 @@ const TRANSLATIONS = {
     logoColorTitle: '穏やかなスペクトラム',
     logoColorDescription: '三角関数を二乗したチャンネルが、明暗どちらの背景でも読みやすいグラデーションを作ります。',
     logoUsageTitle: '余白を守る',
-    logoUsageDescription: '正方形の比率を保ち、形状の周囲に最低10%の余白を残します。'
+    logoUsageDescription: '正方形の比率を保ち、形状の周囲に最低10%の余白を残します。',
+    splashImageAlt: 'HASM - Human Activity Structure Model',
+    splashStatus: 'HASMを起動しています...'
   }
 };
 
